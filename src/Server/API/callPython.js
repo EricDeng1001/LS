@@ -4,10 +4,10 @@ module.exports = ( name , args ) => {
     name = __dirname + "/name";
     exec(`python ${name} ${args}` , function( err , stdout , stderr ){
       if( err ){
-        console.log( err );
+        return [1,err];
       }
       if( stdout ){
-        console.log( stdout );
+        return [0,stdout];
       }
     });
 }
