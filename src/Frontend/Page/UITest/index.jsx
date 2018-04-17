@@ -60,7 +60,8 @@ function2 = () => {
   const {username} = this.props;
   console.log(username)
   this.props.loadButtonContents({
-    url: "http://59.110.23.212/LearningSystem/BackEnd/logic_ceshi.php",
+    url: "/api/logicCeshi",
+    //url: "http://59.110.23.212/LearningSystem/BackEnd/logic_ceshi.php",
     body: {
       username: this.props.username,
       //articleId: 1
@@ -72,7 +73,7 @@ function1 = () => {
   const {username} = this.props;
   console.log(username)
   this.props.loadButtonContents({
-    url: "http://59.110.23.212/LearningSystem/BackEnd/getWriteTest.php",
+    url: "/api/getWriteTest",
     body: {
       username: "lxq",
       articleId: 1

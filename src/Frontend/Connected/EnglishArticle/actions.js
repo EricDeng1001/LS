@@ -110,7 +110,7 @@ export const translateWords = () => ( dispatch , getState ) => {
     }
   }
   dispatch( translateWordsStart() );
-  fetch( 'http://59.110.23.212/LearningSystem/BackEnd/get_word.php' , {
+  fetch( '/api/getWord' , {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -174,7 +174,7 @@ export const loadContent = () => ( dispatch , getState ) => {
     }
   }
   dispatch( loadContentStart() );
-  fetch( 'http://59.110.23.212/LearningSystem/BackEnd/get_sentence.php' , {
+  fetch( '/api/getSentence' , {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

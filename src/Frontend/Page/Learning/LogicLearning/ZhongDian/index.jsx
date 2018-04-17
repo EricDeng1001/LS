@@ -50,13 +50,13 @@ class ZhongDian extends React.PureComponent {
 
   loadQuestions = ( ) => {
     this.props.loadPortContent({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_zhongdian.php",
+      url: "/api/logicZhongdian",
       body: {
         username: this.props.username
       },
     });
     this.props.loadQuestions({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_zhongdian.php",
+      url: "/api/logicZhongdian",
       body: {
         username: this.props.username
       },
@@ -108,7 +108,7 @@ class ZhongDian extends React.PureComponent {
     }
 
     this.props.submitQuestions({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_zhongdian_tongji.php",
+      url: "/api/logicZhongDianTongJi",
       body: {
         username: username,
         dalei: content.chapter_name,

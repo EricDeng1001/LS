@@ -47,13 +47,13 @@ class QiangHua extends React.PureComponent {
 
   loadQuestions = ( ) => {
     this.props.loadPortContent({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_qianghua.php",
+      url: "/api/logicQianghua",
       body: {
         username: this.props.username
       },
     });
     this.props.loadQuestions({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_qianghua.php",
+      url: "/api/logicQianghua.php",
       body: {
         username: this.props.username
       },
@@ -108,7 +108,7 @@ class QiangHua extends React.PureComponent {
 
     console.log(username,content.chapter_name,question_id,RightOrWrong)
     this.props.submitQuestions({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_qianghua_tongji.php",
+      url: "/api/logicQianghuaTongji",
       body: {
         username: username,
         dalei: content.chapter_name,

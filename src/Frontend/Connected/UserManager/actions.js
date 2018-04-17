@@ -36,7 +36,7 @@ export const login = ({ username , password }) => ( dispatch ) => {
     }
   }
 
-  fetch( 'http://59.110.23.212/LearningSystem/BackEnd/new_login.php' , {
+  fetch( '/api/login' , {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },

@@ -31,7 +31,7 @@ class Knowledge extends React.PureComponent {
 
   loadContent = () => {
     this.props.loadPortContent({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_zhishidian.php",
+      url: "/api/logicZhishidian",
       body: {
         username: this.props.username
       },

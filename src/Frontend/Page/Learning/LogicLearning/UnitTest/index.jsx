@@ -47,13 +47,13 @@ class UnitTest extends React.PureComponent {
 
   loadQuestions = ( ) => {
     this.props.loadPortContent({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_ceshi.php",
+      url: "/api/logicCeshi",
       body: {
         username: this.props.username
       },
     });
     this.props.loadQuestions({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_ceshi.php",
+      url: "/api/logicCeshi",
       body: {
         username: this.props.username
       },
@@ -108,7 +108,7 @@ class UnitTest extends React.PureComponent {
 
     console.log(username,content.chapter_name,question_id,RightOrWrong)
     this.props.submitQuestions({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_ceshi_tongji.php",
+      url: "/api/logicCeShiTongJi",
       body: {
         username: username,
         dalei: content.chapter_name,

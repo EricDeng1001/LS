@@ -58,8 +58,7 @@ class YueDu extends React.PureComponent {
 
   loadQuestions = () => {
     this.props.loadQuestions({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/get_question.php",
-      //url: "LSCode/BackEnd/get_question.php",
+      url: "/api/getQuestion",
       body: {
         username: this.props.username,
         lock: 0,
@@ -127,7 +126,7 @@ class YueDu extends React.PureComponent {
       }
     }
     this.props.submitQuestions({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/record_wrong_question.php",
+      url: "/api/recordWrongQuestion",
       body: {
         username: username,
         article_id: articleId,

@@ -86,7 +86,8 @@ class LunZheng extends React.PureComponent {
       zhentiDisplay: false
     });
     this.props.loadButtonContents({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhaocuoxicuo.php"
+      url: "/api/lunzhengZhaoCuoXiCuo"
+      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhaocuoxicuo.php"
     });
   }
 
@@ -101,7 +102,8 @@ class LunZheng extends React.PureComponent {
       zhentiDisplay: false
     });
     this.props.loadButtonContents({
-        url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_template.php"
+      url: "/API/lunzhengTemplate"
+        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_template.php"
       });
   }
 
@@ -117,7 +119,8 @@ class LunZheng extends React.PureComponent {
       zhentiDisplay: false
     });
     this.props.loadButtonContents({
-        url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_gonggu.php"
+      url: "/api/lunzhengGonggu"
+        ///url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_gonggu.php"
       });
   }
 
@@ -133,7 +136,8 @@ class LunZheng extends React.PureComponent {
       zhentiDisplay: !this.state.zhentiDisplay
     });
     this.props.loadButtonContents({
-        url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhenti.php"
+      url: "/api/lunzhengZhenti"
+        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhenti.php"
       });
   }
 
@@ -149,13 +153,15 @@ class LunZheng extends React.PureComponent {
       egArticleContentDisplay: false
    });
     this.props.loadWriteContents({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhenti_content.php",
+      url: "/api/lunZhengZhenTiContent",
+      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhenti_content.php",
       body: {
         requestQuestion: choice
       }
     });
     this.props.loadPortContent({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhenti_error.php",
+      url: "/api/lunZhengZhenTiError",
+      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhenti_error.php",
       body: {
         requestQuestion: choice
       }
@@ -172,7 +178,8 @@ class LunZheng extends React.PureComponent {
       acknowledgeDisplay: false
    });
     this.props.loadWriteContents({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_gonggu_content.php",
+      url: "/api/lunZhengGongGuContent",
+      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_gonggu_content.php",
       body: {
         requestQuestion: choice
       }
@@ -189,7 +196,8 @@ class LunZheng extends React.PureComponent {
       acknowledgeDisplay: true
    });
     this.props.loadWriteKnowledge({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhaocuoxicuo_content.php",
+      url: "/api/lunZhengZhaoCuoXiCuoContent",
+      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhaocuoxicuo_content.php",
       body: {
         requestQuestion: choice
       }
@@ -206,7 +214,8 @@ class LunZheng extends React.PureComponent {
       acknowledgeDisplay: true
    });
     this.props.loadWriteKnowledge({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_template_content.php",
+      url: "/api/lunZhengTemplateContent",
+      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_template_content.php",
       body: {
         requestQuestion: choice
       }

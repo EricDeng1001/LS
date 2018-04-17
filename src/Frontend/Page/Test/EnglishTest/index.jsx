@@ -39,7 +39,7 @@ class EnglishTest extends React.PureComponent {
 
   loadQuestions = () => {
     this.props.loadQuestions({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_test.php",
+      url: "/api/logicTest",
 
       /*parser: response => {
         function getRightKey( char ){
@@ -119,7 +119,7 @@ class EnglishTest extends React.PureComponent {
     //logicTestRightRate(questions);
     //console.log(right_rate);
    this.props.submitQuestions({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_test_right_rate.php",
+      url: "/api/logicTestRightRate",
       body: {
         username: username,
         right_rate0: right_rate0,
