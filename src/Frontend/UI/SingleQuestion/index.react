@@ -6,6 +6,7 @@
 import React from 'react';
 import style from 'style';
 import Info from "UI/Info";
+import TextAndImag from "UI/TextAndImag";
 
 type Props = {
   questionId: number,
@@ -27,6 +28,7 @@ class SingleQuestion extends React.PureComponent<Props> {
 
   render(){
     const {
+      subject,
       questionId,
       options,
       question,
@@ -38,6 +40,7 @@ class SingleQuestion extends React.PureComponent<Props> {
       onSetChoice,
       onTryChange
     } = this.props;
+    //console.log(this.props)
 
     var checked = [];
     var highlighted = [];
@@ -68,7 +71,7 @@ class SingleQuestion extends React.PureComponent<Props> {
     }
     return (
       <div className="container">
-  	   <form
+  	   {/*<form
           id={questionId}
           className={style.questionWrapper}
         >
@@ -97,9 +100,62 @@ class SingleQuestion extends React.PureComponent<Props> {
   	   	 }
 
   	     </form>
-         {
-           show ? <Info info={analysis} /> : null
-         }
+
+           {show ? <Info info={analysis} /> : null}
+         */}
+
+          <form
+             id={questionId}
+             className={style.questionWrapper}
+             style={subject == "logic_test" ? {"width":"60%"} : {"width":"100%"}}
+           >
+         <div className={questionStyle}>{question}</div>
+           {/*subject == "logic_test" ?
+           <div >{question.map((one,key) => <div className={questionStyle} key={key}>{one}</div>)}</div>
+           :
+           <div className={questionStyle}>{question}</div>
+           */}
+     	  	{
+     	  	options.map( ( option , key ) =>
+     	  		<div
+               key={key}
+               className={highlighted[key]}
+               onClick={lock ? () => onTryChange( key ) : () => onSetChoice( key )}
+             >
+     	  			<input
+                 type="radio"
+     	  			  id={`question${questionId}option${key}`}
+     	  			  name={`answerToComponentQuestion${questionId}`}
+     	  			  checked={checked[key]}
+                 readOnly={ lock ? 'readonly' : ''}
+               />
+         			<label
+                 htmlFor={`question${questionId}option${key}`}
+               >
+     	  			  {option}
+         		  </label>
+             </div>
+      	   	  )
+     	   	 }
+
+         </form>
+
+          {show ?
+           <div>
+             {subject == "logic_test" ?
+               <div className = {style.logic_analysis}>
+                 <TextAndImag list={analysis}/>
+               </div> :
+               <Info info={analysis} />
+             }
+           {/*subject == "logic_test" ?
+             <div className = {style.logic_analysis}>
+               <br/><strong>{analysis.map((onePara , key) => <p key = {key}>{onePara}</p> )}</strong>
+             </div> :
+             <Info info={analysis} />
+           */}
+         </div>
+         :null }
 
       </div>
     );

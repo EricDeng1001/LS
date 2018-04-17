@@ -38,7 +38,8 @@ export default ( state = {
             logined: true,
             logining: false,
             validName: true,
-            newTo: payload.response.newTo
+            newTo: payload.response.newto
+            //newTo: payload.response.newTo
           };
         case "none":
           return {

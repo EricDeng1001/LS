@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Prompt } from 'react-router';
 import style from 'style';
 
-import Button from 'direct-core/UI/Button';
+import Button from 'UI/Button';
 
 import Loading from 'Animation/Loading';
 import SlideLR from 'Animation/SlideLR';
@@ -249,6 +249,10 @@ class LunShuo extends React.PureComponent {
 
   liyiDisplay = (example_liyi) => {
     //console.log(example_liyi)
+    this.RightLiyiType = [];
+    this.RightLiyi = [];
+    this.WrongLiyiType = [];
+    this.WrongLiyi = [];
     for(var key in example_liyi.right_liyi){
       this.RightLiyiType.push(key);
       this.RightLiyi.push(example_liyi.right_liyi[key]);

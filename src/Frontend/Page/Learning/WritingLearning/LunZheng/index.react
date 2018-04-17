@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Prompt } from 'react-router';
 import style from 'style';
 
-import Button from 'direct-core/UI/Button';
+import Button from 'UI/Button';
 
 import Loading from 'Animation/Loading';
 import SlideLR from 'Animation/SlideLR';
@@ -95,7 +95,7 @@ class LunZheng extends React.PureComponent {
    */
   loadButtonContents_moban = () => {
     this.setState({
-      //zhaocuoDisplay: false,
+      zhaocuoDisplay: false,
       mobanDisplay: true,
       gongguDisplay: false,
       zhentiDisplay: false
@@ -112,6 +112,7 @@ class LunZheng extends React.PureComponent {
     this.setState({
       jiqiaoDisplay: false,
       zhaocuoDisplay: false,
+      mobanDisplay: false,
       gongguDisplay: !this.state.gongguDisplay,
       zhentiDisplay: false
     });
@@ -127,6 +128,7 @@ class LunZheng extends React.PureComponent {
     this.setState({
       jiqiaoDisplay: false,
       zhaocuoDisplay: false,
+      mobanDisplay: false,
       gongguDisplay: false,
       zhentiDisplay: !this.state.zhentiDisplay
     });
@@ -363,10 +365,9 @@ class LunZheng extends React.PureComponent {
 
           {
              acknowledgeDisplay?
-               <div //className={style.rightPane}
-               >
+               <div>
                  <div className={style.centerbiaoti}>{choice}</div>
-                 <WriteKnowledge className={style.content}  loader={this.loadWriteContents}/>
+                 <WriteKnowledge className={style.rightPane}  loader={this.loadWriteContents}/>
                </div>
             :
              null

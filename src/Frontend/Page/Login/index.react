@@ -4,7 +4,9 @@ import { bindActionCreators } from 'redux';
 import { Prompt } from 'react-router';
 import style from 'style';
 
-import LoginForm from 'UI/LoginForm';
+import {
+  view as UserManager
+} from 'Connected/UserManager';
 
 import protect from 'direct-core/protect';
 import asyncProcessControl from 'direct-core/asyncProcessControl';
@@ -16,61 +18,48 @@ class Login extends React.PureComponent {
   constructor( props ){
     super( props );
 
-    //this.whetherIntroductionShow = [true,false,false,false];//whetherIntroductionShow[0]:english ; whetherIntroductionShow[1]:logic ;
-                                                            //whetherIntroductionShow[2]:write ; whetherIntroductionShow[3]:math ;
-    //this.subject = ["英语科目" , "逻辑科目" , "写作科目" , "数学科目"];
-    //this.introduction = ["英语科目简介" , "逻辑科目简介" , "写作科目简介" , "数学科目简介"];
-    //this.useIntroduction = ["英语学习部分分为测试、学习、复习三个部分" , "逻辑学习部分分为测试、学习、复习三个部分" ,
-                            //"写作学习部分分为测试、学习、复习三个部分" , "数学学习部分分为测试、学习、复习三个部分"];
+    this.state = {
+      login_Show: true,
+      signup_Show: false
+    }
   }
 
-  //showIntroduction = (num) => {
-    //this.whetherIntroductionShow[num] = true;
-  //}
-
-  //hideIntroduction = (num) => {
-  //  this.whetherIntroductionShow[num] = false;
-//  }
 
   render(){
 
-    //var i = 0;
-    //var TextStyle = [];
-    //for (var i = 0 ; i < this.whetherIntroductionShow.length ; i++){
-    //  if(this.whetherIntroductionShow[i]){
-      //  TextStyle[i] = style.chosedText;
-    //  }
-    //  else{
-    //    TextStyle[i] = style.normalText;
-    //  }
-    //}
-
     return (
       <React.Fragment>
+        { /*alert ("您还没有登录，请先登录!")*/}
         <div className = {style.wholePage}>
 
           <div className={style.HUD}>
-            <div className={style.loginOrSignup}>
+            {/*<div className={style.loginOrSignup}>
               <a href = "/login"> 登录 </a> <a>&nbsp;&nbsp;&nbsp;</a>
               <a href = "/login"> 注册 </a>
-            </div>
+            </div>*/}
           </div>
 
+
+          {this.state.login_Show ?
           <div className = {style.login}>
-            <LoginForm/>
+            <UserManager loginOrSignup = "login"
+                         onSuccess = { () => this.setState({ login_Show: false})}
+                         signup = { () => this.setState({ signup_Show: true , login_Show: false })}
+                         onCancel = { () => history.back()}
+            />
           </div>
-
-              {/*this.whetherIntroductionShow.map((whetherShow , key) =>
-                {if(whetherShow){
-                  return(<div key = {key} className = {style.subjectIntroduction}>
-                  <div className = {style.title}>{this.introduction[0]}</div>
-                  <div className = {style.brifIntroduction}>{this.useIntroduction[0]}</div>
-                </div>)
-              }}
-
-              )
-
-        */  }
+          :
+          null
+          }
+          {this.state.signup_Show ?
+          <div className = {style.login}>
+            <UserManager loginOrSignup = "signup"
+                         onCancel = { () => this.setState({ signup_Show: false , login_Show: true })}
+            />
+          </div>
+          :
+          null
+          }
 
 
         </div>
@@ -80,7 +69,7 @@ class Login extends React.PureComponent {
 };
 
 export default applyHOCs([
-  asyncProcessControl({
+/*  asyncProcessControl({
   }),
   protect({
     logined: {
@@ -102,7 +91,7 @@ export default applyHOCs([
         openMask();
       }
     }
-  }),
+  }),*/
   makePage,
   connect(
     state => ({

@@ -24,6 +24,7 @@ class SingleOptionQuestions extends React.PureComponent {
   }
   render(){
     const {
+      subject,
       questions,
       setChoice,
       questionSize,
@@ -37,6 +38,7 @@ class SingleOptionQuestions extends React.PureComponent {
         questions.map( question =>
           <div key={question.questionId} style={questionSize}>
             <Question
+              subject = {subject}
               {...question}
               onSetChoice={( cid ) => setChoice( question.questionId , cid )}
             />

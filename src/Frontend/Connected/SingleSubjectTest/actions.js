@@ -18,9 +18,10 @@ export const forceNext = () => ( dispatch , getState ) => {
   dispatch( next() );
 }
 export const autoNext = ( cid , time = 1000 ) => ( dispatch , getState ) => {
-  const { SingleSubjectTest:{ nowAt: { level , index } , content } } = getState();
-  dispatch(lockAndShow( level , index ));
-  dispatch(setChoice_( content[level][index].question , cid ));
+  const { SingleSubjectTest:{ nowAt: { qtype , level } , content } } = getState();
+  dispatch(setChoice_( qtype , level , cid ));
+  dispatch(lockAndShow( qtype , level ));
+
   let clear = setTimeout(
     () => {
       dispatch(next());
@@ -40,28 +41,33 @@ export const next = () => ({
 });
 
 let lockAndShowCounter = 0;
-export const lockAndShow = ( level , index ) => ({
+export const lockAndShow = ( qtype , level ) => ({
     type: __LOCK_AND_SHOW,
     payload: {
-       level , index
+      qtype,
+      level
+       //level , index
     },
     id: lockAndShowCounter++
 });
 
 let unlockAndHideCounter = 0;
-export const unlockAndHide = ( level , index ) => ({
+export const unlockAndHide = ( qtype , level ) => ({
     type: __UNLOCK_AND_HIDE,
     payload: {
-       level , index
+      qtype , level
+       //level , index
     },
     id: unlockAndHideCounter++
 });
 
 let setChoiceCounter = 0;
-export const setChoice_ = ( question, choice ) => ({
+export const setChoice_ = ( qtype , level , choice ) => ({
     type: __SET_CHOICE,
     payload: {
-      question,
+      qtype,
+      level,
+      //question,
       choice
     },
     id: setChoiceCounter++

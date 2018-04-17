@@ -1,7 +1,7 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Button from 'direct-core/UI/Button';
+import Button from 'UI/Button';
 import * as actionCreators from 'actions';
 import LoginForm from 'UI/LoginForm';
 import SignUpForm from 'UI/SignUpForm'
@@ -13,11 +13,11 @@ class UserManager extends React.PureComponent {
     login: true
   }
 
-  componentWillReceiveProps( nextProps ){
-    if( nextProps.logined && !this.props.logined ){
-      this.props.onSuccess();
-    }
-  }
+  //componentWillReceiveProps( nextProps ){
+    //if( nextProps.logined && !this.props.logined ){
+      //this.props.onSuccess();
+    //}
+  //}
 
   signup = () => {
     this.setState({
@@ -31,28 +31,34 @@ class UserManager extends React.PureComponent {
     });
   }
   render(){
-    const { onCancel , login , signup , logined , logining , usernameExist , name , password , failed } = this.props;
+    //const { onCancel , login , signup , logined , logining , usernameExist , name , password , failed } = this.props;
+    const { loginOrSignup , onCancel , login , signup , logined , logining , usernameExist , name , password , failed } = this.props;
+    console.log(this.props)
     return (
       <React.Fragment>
       {
-        this.state.login ?
+        //this.state.login ?
+        loginOrSignup == "login" ?
           <LoginForm
-            logining={logining}
-            logined={logined}
-            failed={failed}
-            usernameExist={usernameExist}
-            initName={name}
-            initPassword={password}
-            onLogin={login}
-            onCancel={onCancel}
-            goSignUp={this.signup}
+            logining = {logining}
+            logined = {logined}
+            failed = {failed}
+            usernameExist = {usernameExist}
+            initName = {name}
+            initPassword = {password}
+            onLogin = {login}
+            onCancel = {onCancel}
+            goSignUp = {signup}
+            //goSignUp = {this.signup}
           />
           :
           <SignUpForm
-            failed={failed}
-            usernameExist={usernameExist}
-            onSignUp={signup}
-            onCancel={this.goLogin}
+            failed = {failed}
+            usernameExist = {usernameExist}
+            onSignUp = {signup}
+            onCancel = {onCancel}
+            //onSignUp = {signup}
+            //onCancel = {this.goLogin}
           />
       }
       </React.Fragment>

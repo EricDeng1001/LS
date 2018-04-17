@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Prompt } from 'react-router';
 import style from 'style';
 
-import Button from 'direct-core/UI/Button';
+import Button from 'UI/Button';
 import Info from 'direct-core/UI/Info';
 import ButtonControlPane from 'UI/ButtonControlPane';
 
@@ -23,6 +23,14 @@ import {
   view as SingleOptionQuestions,
   actions as SingleOptionQuestionsActions
 } from 'Connected/SingleOptionQuestions';
+import {
+  view as PortTest,
+  actions as PortTestActions
+} from 'Connected/PortTest';
+
+import TextAndImag from 'UI/TextAndImag';
+//import SingleQuestion from 'UI/SingleQuestion';
+import changeAlpToNum from 'Algorithm/changeAlpToNum';
 
 import protect from 'direct-core/protect';
 import asyncProcessControl from 'direct-core/asyncProcessControl';
@@ -34,38 +42,50 @@ class ZhongDian extends React.PureComponent {
   constructor( props ){
     super( props );
 
+    this.questions = [];
     this.state = {
-      //processStep: 0,
-      //displayByWords: true
       end: false
     };
-
   }
 
-
-  loadQuestions = () => {
-    this.props.loadQuestions({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/offer_zhongdian_question.php",
+  loadQuestions = ( ) => {
+    this.props.loadPortContent({
+      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_zhongdian.php",
       body: {
-        username: "lxq"
-        //username: this.props.username
+        username: this.props.username
       },
-      parser: questions => questions.map( q => ({
-        type: q.type,
-        questionId: q.id,
-        options: q.option,
-        rightKey: q.answer,
-        question: q.question,
-        analysis: q.analysis
-      }))
     });
+    this.props.loadQuestions({
+      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_zhongdian.php",
+      body: {
+        username: this.props.username
+      },
+
+      parser: response => {
+        var all = [];
+        for( var i = 0 ; i < response.timu.length ; i++ ){
+          response.timu[i].map ( one => all.push(one) )
+        }
+        //console.log(all)
+        return all.map(one => ({
+           questionId: one.id,
+           options: [one.op_one , one.op_two , one.op_three , one.op_four , one.op_five],
+           rightKey: changeAlpToNum( one.answer ),
+           question: one.question,
+           analysis: one.analysis,
+         }) )
+
+      }
+    })
   }
+
+
 
   submitQuestions = () => {
     const {
       username,
+      content,
       questions,
-      articleId,
       submitQuestionState,
       submiting,
       lockAndShow
@@ -74,19 +94,27 @@ class ZhongDian extends React.PureComponent {
     if( submiting ){
       return;
     }
-    var wrongList = "";
-    for( var i = 0 ; i < questions.length ; i++ ){
+
+    var question_id = "";
+    var RightOrWrong = "";
+    for ( var i = 0 ; i < questions.length ; i++ ){
+      question_id += `${questions[i].questionId}*`;
       if( questions[i].choosed !== questions[i].rightKey ){
-        wrongList += `${questions[i].questionId} `;
+        RightOrWrong += `${1}*`;
+      }
+      if( questions[i].choosed == questions[i].rightKey ){
+        RightOrWrong += `${0}*`;
       }
     }
+
     this.props.submitQuestions({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/record_wrong_question.php",
+      url: "http://59.110.23.212/LearningSystem/BackEnd/logic_zhongdian_tongji.php",
       body: {
         username: username,
-        article_id: articleId,
-        wrong_question_ids: wrongList,
-        time: submitTime + 1
+        dalei: content.chapter_name,
+        question_id: question_id,
+        RightOrWrong: RightOrWrong
+        //time: submitTime + 1
       }
     });
     //if( ( ( submitTime + 1 ) & 1 ) === 0 ){
@@ -96,9 +124,9 @@ class ZhongDian extends React.PureComponent {
     //}
   }
 
-  componentDidMount(){
-    this.loadQuestions();
-  }
+ componentDidMount(){
+   this.loadQuestions();
+ }
 
 
   render(){
@@ -107,38 +135,45 @@ class ZhongDian extends React.PureComponent {
       submitQuestionState,
       loadQuestionState,
       loadContent,
-      ined
+      loadContentState,
+      ined,
+      questions,
+      content,
+      setChoice
     } = this.props;
+    console.log(this.props)
+    //console.log(questions)
 
     return (
       <React.Fragment>
         <Prompt
-          when={end==false}
-          message="you need to do it again, are you sure to quit?"
+          when = {end==false}
+          message = "you need to do it again, are you sure to quit?"
         />
+        {content.flag == 1 ?
+        <div>
 
-        <div className={style.HUD}>
-          重点题型
-        </div>
+        <div className = {style.pageTitle}> 重点题型 </div>
 
-        <div className = {style.question}>
+        <div className = {style.logic_knowledge}>
           <Loading
-            loading={loadQuestionState.pending}
-            wasLoaded={loadQuestionState.resolved}
-            lastFailed={loadQuestionState.lastFailed}
-            reloader={this.loadQuestions}
+            loading = {loadQuestionState.pending}
+            wasLoaded = {loadQuestionState.resolved}
+            lastFailed = {loadQuestionState.lastFailed}
+            reloader = {this.loadQuestions}
             center
           >
             <SlideRL play={ined}>
-              <SingleOptionQuestions
-                submiter={this.submitQuestions}
-                loader={this.loadQuestions}
-              />
+              <h4 className = {style.dalei}> {content.chapter_name} </h4>
+              <p>{content.shuxu}</p>
+              <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
+              <Button className = {style.button} text = {"确认提交"} onClick={this.submitQuestions}/>
             </SlideRL>
           </Loading>
-
-          <Button className = {style.button} text = {"确认提交"} onClick={this.submitQuestions}/>
         </div>
+      </div>:
+      <Info info = "您还没有完成入口测试，请先完成入口测试！"/>
+    }
 
       </React.Fragment>
     );
@@ -186,9 +221,12 @@ export default applyHOCs([
       questions: state.SingleOptionQuestions.content,
       loadQuestionState: state.SingleOptionQuestions.loadState,
       submitQuestionState: state.SingleOptionQuestions.submitState,
+      content: state.PortTest.content,
+      loadContentState: state.PortTest.loadState,
     }),
     dispatch => ({
       ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
+      ...bindActionCreators( PortTestActions , dispatch )
     })
   )],
   ZhongDian

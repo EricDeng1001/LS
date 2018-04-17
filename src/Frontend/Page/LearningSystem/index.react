@@ -1,28 +1,162 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Prompt } from 'react-router';
 import style from 'style';
 
-import EnglishLearning from 'Page/Learning/EnglishLearning';
-import LogicLearning from 'Page/Learning/LogicLearning';
-
-import LoginForm from 'UI/LoginForm';
-import SignUpForm from 'UI/SignUpForm';
+import {
+  view as UserManager
+} from 'Connected/UserManager';
+import  {
+  view as SubjectSelect
+} from 'Connected/SubjectSelect';
 
 import protect from 'direct-core/protect';
 import asyncProcessControl from 'direct-core/asyncProcessControl';
 import makePage from 'direct-core/makePage';
 import applyHOCs from 'direct-core/applyHOCs';
 
-import UserManagerWindow from "Windows/UserManager";
+class IndexPage extends React.PureComponent {
+  constructor( props ){
+    super( props );
 
-class LearningSystem extends React.PureComponent {
+    this.subject = ["英语科目" , "逻辑科目" , "写作科目" , "数学科目"];
+    this.introduction = ["英语科目简介" , "逻辑科目简介" , "写作科目简介" , "数学科目简介"];
+    this.useIntroduction = ["英语学习部分分为测试、学习、复习三个部分" , "逻辑学习部分分为测试、知识点精要、学习、复习四个部分" ,
+                            "写作学习部分分为论证有效性分析和论说文两个部分,涵盖了做题技巧、巩固练习和真题演练" , "数学学习部分分为测试、学习、复习三个部分"];
+
+    this.state = {
+      loginShow: false,
+      signupShow: false
+    }
+
+  }
+
+  log = () => {
+    const { logined } = this.props;
+    if( logined ){ alert("您已经登录!") ; this.setState({loginShow: false}) }
+    else { this.setState({loginShow: true , signupShow: false}) }
+  }
+
+  sign = () => {
+    this.setState({ signupShow: true , loginShow: false })
+    console.log(this.state.signupShow)
+    console.log(this.state.loginShow)
+  //  const { logined } = this.props;
+    //if( logined ){ alert("您已经登录!") ; this.setState({loginShow: false , signupShow: false}) }
+    //else { this.setState({ loginShow: false , signupShow: true}) }
+  }
+
+  render(){
+    const {
+      logined,
+      choice,
+      username
+     } = this.props;
+
+    if(logined){this.setState({loginShow: false})}
+     //if(logined) { //var customerId = username.attr.customerInfo.id;
+       //sessionStorage.customerId = customerId;
+       //console.log(username)
+       //sessionStorage.setItem("user",username);  //保存 用户名
+       //this.setState({loginShow: false , signupShow: false}) }
+       //else {sessionStorage.setItem("user",undefined);}
+
+    return (
+      <React.Fragment>
+        <div className = {style.wholePage}>
+
+          <div className = {style.HUD}>
+            <div className = {style.sysTitle}> 学习系统 </div>
+            <div className = {style.loginOrSignup}>
+              <a onClick = {() => this.log()} ><u> 登录 </u></a> <a>&nbsp;&nbsp;&nbsp;</a>
+              <a onClick = {() => this.sign()}><u> 注册 </u></a>
+            </div>
+          </div>
+
+          <div className = {style.subjectText} background-color="orange">
+            <SubjectSelect text = {this.subject} normalStyle = {style.normalText} choosedStyle = {style.chosedText}/>
+          </div>
+
+          <div className = {style.subjectIntroduction}>
+            <div className = {style.title}>{this.introduction[choice]}</div><br/>
+            <div className = {style.brifIntroduction}>{this.useIntroduction[choice]}</div><br/>
+            {choice == 0 ? <a href = "/learning/english"> 开始英语学习 </a> :
+            choice == 1 ? <a href = "/learning/logic"> 开始逻辑学习 </a> :
+             choice == 2 ? <a href = "/learning/writing"> 开始写作学习 </a> :
+             choice == 3 ? <a href = "/learning/math"> 开始数学学习 </a> : null
+            }
+          </div>
+
+          {this.state.loginShow ?
+          <div className = {style.login}>
+            <UserManager loginOrSignup = "login"
+                         onSuccess = { () => this.setState({ loginShow: false})}
+                         signup = { () => this.setState({ signupShow: true , loginShow: false })}
+                         onCancel = { () => this.setState({ loginShow: false , signupShow: false })}
+            />
+          </div>
+          :
+          null
+          }
+          {this.state.signupShow ?
+          <div className = {style.login}>
+            <UserManager loginOrSignup = "signup"
+                         onCancel = { () => this.setState({ signupShow: false , loginShow: false })}
+            />
+          </div>
+          :
+          null
+          }
+
+
+        </div>
+      </React.Fragment>
+    );
+  }
+};
+
+export default applyHOCs([
+  makePage,
+  connect(
+    state => ({
+      logined: state.UserManager.logined,
+      username: state.UserManager.name,
+      choice: state.SubjectSelect.choice
+    }),
+    //dispatch => ({
+      //...bindActionCreators( ButtonExpandActions , dispatch),
+    //})
+  )],
+  IndexPage
+);
+
+
+
+
+
+
+/*import React from 'react';
+import { connect } from 'react-redux';
+//import { Prompt } from 'react-router';
+import style from 'style';
+
+//import LoginForm from 'UI/LoginForm';
+//import SignUpForm from 'UI/SignUpForm';
+import {
+  view as UserManager
+} from 'Connected/UserManager';
+
+//import protect from 'HOC/protect';
+import asyncProcessControl from 'HOC/asyncProcessControl';
+import makePage from 'HOC/makePage';
+import applyHOCs from 'HOC/applyHOCs';
+
+//import UserManagerWindow from "Windows/UserManager";
+
+class IndexPage extends React.PureComponent {
 
   constructor( props ){
     super( props );
 
-    //this.whetherIntroductionShow = [true,false,false,false];//whetherIntroductionShow[0]:english ; whetherIntroductionShow[1]:logic ;
-                                                            //whetherIntroductionShow[2]:write ; whetherIntroductionShow[3]:math ;
     this.subject = ["英语科目" , "逻辑科目" , "写作科目" , "数学科目"];
     this.introduction = ["英语科目简介" , "逻辑科目简介" , "写作科目简介" , "数学科目简介"];
     this.useIntroduction = ["英语学习部分分为测试、学习、复习三个部分" , "逻辑学习部分分为测试、知识点精要、学习、复习四个部分" ,
@@ -40,7 +174,6 @@ class LearningSystem extends React.PureComponent {
   }
 
   showIntroduction = (num) => {
-    //this.whetherIntroductionShow[num] = true;
     num == 0 ? this.setState({englishIntroShow: true , logicIntroShow: false , writeIntroShow: false , mathIntroShow: false }) :
     num == 1 ? this.setState({englishIntroShow:false , logicIntroShow: true , writeIntroShow: false , mathIntroShow: false }) :
     num == 2 ? this.setState({englishIntroShow:false , logicIntroShow: false , writeIntroShow: true , mathIntroShow: false }) :
@@ -48,16 +181,11 @@ class LearningSystem extends React.PureComponent {
   }
 
   render(){
-    //var i = 0;
-    //var TextStyle = [];
-    //for (var i = 0 ; i < this.whetherIntroductionShow.length ; i++){
-    //  if(this.whetherIntroductionShow[i]){
-      //  TextStyle[i] = style.chosedText;
-      //}
-      //else{
-      //  TextStyle[i] = style.normalText;
-    //}
-  //  }
+    const { logined } = this.props;
+    //console.log(logined)
+    //if(logined) { alert("您已经登录!") ;this.setState({ loginShow: false }) };
+    if(logined) { this.setState({ loginShow: false }) };
+
    var TextStyle = [];
    this.state.englishIntroShow ? TextStyle[0] = style.chosedText : TextStyle[0] = style.normalText;
    this.state.logicIntroShow ? TextStyle[1] = style.chosedText : TextStyle[1] = style.normalText;
@@ -68,15 +196,12 @@ class LearningSystem extends React.PureComponent {
       <React.Fragment>
         <div className = {style.wholePage}>
 
-          <div className={style.HUD}>
-            <div className={style.sysTitle}> 学习系统 </div>
-            <div className={style.loginOrSignup}
-              >
+          <div className = {style.HUD}>
+            <div className = {style.sysTitle}> 学习系统 </div>
+            <div className = {style.loginOrSignup}>
               <a onClick = {() => this.setState({loginShow: true , signupShow: false})}
-              //href = "/learningsystem"
               ><u> 登录 </u></a> <a>&nbsp;&nbsp;&nbsp;</a>
-              <a //href = "/login"
-              onClick = {() => this.setState({loginShow: false , signupShow: true})}
+              <a onClick = {() => this.setState({loginShow: false , signupShow: true})}
               ><u> 注册 </u></a>
             </div>
           </div>
@@ -92,14 +217,6 @@ class LearningSystem extends React.PureComponent {
             </ul>
           </div>
 
-              {/*this.whetherIntroductionShow.map((whetherShow , key) =>
-                {if(whetherShow){
-                  return(<div key = {key} className = {style.subjectIntroduction}>
-                  <div className = {style.title}>{this.introduction[0]}</div>
-                  <div className = {style.brifIntroduction}>{this.useIntroduction[0]}</div>
-                  </div>)
-                }} )
-              */}
           {
             this.state.englishIntroShow ?
             <div className = {style.subjectIntroduction}>
@@ -119,25 +236,45 @@ class LearningSystem extends React.PureComponent {
           <div className = {style.subjectIntroduction}>
             <div className = {style.title}>{this.introduction[2]}</div><br/>
             <div className = {style.brifIntroduction}>{this.useIntroduction[2]}</div><br/>
-            <a href = "/learning/write">开始写作学习</a>
-         </div>
-         :
-         <div className = {style.subjectIntroduction}>
-           <div className = {style.title}>{this.introduction[3]}</div><br/>
-           <div className = {style.brifIntroduction}>{this.useIntroduction[3]}</div><br/>
-           <a href = "/learning/math">开始数学学习</a>
-        </div>
+            <a href = "/learning/writing">开始写作学习</a>
+          </div>
+          :
+          <div className = {style.subjectIntroduction}>
+            <div className = {style.title}>{this.introduction[3]}</div><br/>
+            <div className = {style.brifIntroduction}>{this.useIntroduction[3]}</div><br/>
+            <a href = "/learning/math">开始数学学习</a>
+          </div>
           }
 
 
-       {this.state.loginShow?
+       {/*this.state.loginShow?
          <div className = {style.login}><LoginForm/></div>:
          null
        }
        {this.state.signupShow?
          <div className = {style.login}><SignUpForm/></div>:
          null
+       *}
+       {this.state.loginShow?
+         <div className = {style.login}>
+           <UserManager loginOrSignup = "login"
+                        signup = { () => this.setState({ signupShow: true })}
+                        onCancel = { () => this.setState({ loginShow: false })}
+           />
+         </div>
+         :
+         null
        }
+       {this.state.signupShow?
+         <div className = {style.login}>
+           <UserManager loginOrSignup = "signup"
+                        onCancel = { () => this.setState({ signupShow: false })}
+           />
+         </div>
+         :
+         null
+       }
+
 
 
         </div>
@@ -149,11 +286,10 @@ class LearningSystem extends React.PureComponent {
 export default applyHOCs([
   asyncProcessControl({
   }),
-  protect({
+  /*protect({
     logined: {
       satisfy: l => l === true,
-      block(){
-        const { openWindow , history, closeMask , openMask } = this.props;
+      block: ({ openWindow , history, closeMask , openMask }) => {
         openWindow( UserManagerWindow,
           {
             width: '380px',
@@ -169,8 +305,8 @@ export default applyHOCs([
         openMask();
       }
     }
-  }),
-  makePage,
+  }),*/
+  /*makePage,
   connect(
     state => ({
       logined: state.UserManager.logined,
@@ -180,5 +316,5 @@ export default applyHOCs([
       //...bindActionCreators( ButtonExpandActions , dispatch),
     })
   )],
-  LearningSystem
-);
+  IndexPage
+);*/

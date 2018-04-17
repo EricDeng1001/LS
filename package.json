@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "react-highcharts": "^16.0.2",
     "simple-direct": "^1.1.3"
   }
 }

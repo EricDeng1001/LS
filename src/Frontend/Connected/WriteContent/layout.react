@@ -32,12 +32,16 @@ class WriteContent extends React.PureComponent {
             <div key = {key}> &nbsp;&nbsp;&nbsp;{onePara}</div>
           )
         })  <p className = {style.content}> &nbsp;&nbsp;&nbsp;{mainContent.title_article}</p>*/}
-        {title_article.map((onePara , key) => {
-            return (
-              <p className = {style.content} key = {key}>  &nbsp;&nbsp;&nbsp; {onePara} </p>
-            )
-          })}
-
+        {title_article == undefined ? null:
+        <div>
+          {title_article.map((onePara , key) => {
+              return (
+                <p className = {style.content} key = {key}>  &nbsp;&nbsp;&nbsp; {onePara} </p>
+              )
+            })}
+        </div>
+        }
+        
       </div>
     );
   }

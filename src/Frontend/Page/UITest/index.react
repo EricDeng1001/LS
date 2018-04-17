@@ -32,30 +32,53 @@ class UITest extends React.PureComponent {
       processStep: 0,
     };
   }
+/*function = () => {
+  this.props.loadButtonContents({
+    //module.exports = ({ req , res }) => {
+      //const { name,password } = req.body;
+      //const [ errCode , res ] = callPython("login.py",`${name} $password`);
+      //const[errCode , res ] = callPython("offer_lunzheng_zhenti_mingcheng.py");
+      //if(errCode){
+        //res.status(500).end();
+      //} else {
+        //res.send(res);
+      //}
+    url: "http://59.110.23.212/LearningSystem/BackEnd/logic_test_new1.php",
+    //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhenti.php",
+    //body: {
+      //username: "lxq"
+    //}
+  })
+}*/
 
-/*function = () => {
+// function = () => {
+//   this.props.loadButtonContents({
+//     url: "http://59.110.23.212/LearningSystem/BackEnd/word_test.php",
+//   })
+// }
+function2 = () => {
+  const {username} = this.props;
+  console.log(username)
   this.props.loadButtonContents({
-    url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_jiqiao_xiaolei_name.php",
+    url: "http://59.110.23.212/LearningSystem/BackEnd/logic_ceshi.php",
     body: {
+      username: this.props.username,
+      //articleId: 1
     }
   })
-}*/
-/*function = () => {
+}
+
+function1 = () => {
+  const {username} = this.props;
+  console.log(username)
   this.props.loadButtonContents({
-    url: "http://59.110.23.212/LearningSystem/BackEnd/offer_logic_course.php",
+    url: "http://59.110.23.212/LearningSystem/BackEnd/getWriteTest.php",
     body: {
-      username: "lxq"
+      username: "lxq",
+      articleId: 1
     }
   })
-}*/
-/*function = () => {
-  this.props.loadButtonContents({
-    url: "http://59.110.23.212/LearningSystem/BackEnd/get_logic_title.php",
-    body: {
-      username: "lxq"
-    }
-  })
-}*/
+}
 
   render(){
     const { processStep } = this.state;
@@ -71,13 +94,8 @@ class UITest extends React.PureComponent {
           message="you need to do it again, are you sure to quit?"
         />
 
-        {/*<p>hi</p>
-        <Button text="示例" onClick={this.function} />*/}
-
-        <a className = {style.english} href = "/learning/english"> 英语 </a>
-        <a className = {style.logic} href = "/learning/logic"> 逻辑 </a>
-        <a className = {style.write} href = "/learning/writing"> 写作 </a>
-        <a className = {style.math} > 数学 </a>
+        <p>hi</p>
+        <Button text="测试" onClick={this.function} />
 
       </React.Fragment>
     );
@@ -87,7 +105,7 @@ class UITest extends React.PureComponent {
 export default applyHOCs([
   asyncProcessControl({
   }),
-  protect({
+/*  protect({
     logined: {
       satisfy: l => l === true,
       block: ({ openWindow , history, closeMask , openMask }) => {
@@ -106,7 +124,7 @@ export default applyHOCs([
         openMask();
       }
     }
-  }),
+  }),*/
   makePage,
   connect(
     state => ({
