@@ -8,6 +8,7 @@ import { reducer as WriteContent } from 'Connected/WriteContent';
 import { reducer as Navigation } from 'Connected/Navigation';
 import { reducer as WriteKnowledge } from 'Connected/WriteKnowledge';
 import { reducer as PortTest } from 'Connected/PortTest';
+import { reducer as SubjectSelect } from 'Connected/SubjectSelect';
 
 //import { reducer as ... } from 'Connected/...';
 
@@ -21,6 +22,7 @@ export default {
   WriteContent: WriteContent,
   WriteKnowledge: WriteKnowledge,
   PortTest: PortTest,
+  SubjectSelect: SubjectSelect,
 
   //others
 };
