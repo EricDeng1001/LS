@@ -1,17 +1,17 @@
-const callPython = require("API/callPython");
+const callPython = require("./callPython");
 
 const pythonFilename = "offer_lunzheng_zhenti_content.py";
 
 module.exports = ( req, res ) => {
   const { requestQuestion } = req.body;
-  const [ errCode, res ] = callPython(
+  const [ errCode, result ] = callPython(
     pythonFilename,
     `${requestQuestion}`
   );
   if( errCode ){
-    res.status(500).end():
+    res.status(500).end();
   }
   else {
-    res.send( res );
+    res.send( result );
   }
 }

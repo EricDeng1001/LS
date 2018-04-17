@@ -1,17 +1,17 @@
-const callPython = require("API/callPython");
+const callPython = require("./callPython");
 
 const pythonFilename = "login.py";
 
 module.exports = ( req, res ) => {
   const { password , username } = req.body;
-  const [ errCode, res ] = callPython(
+  const [ errCode, result ] = callPython(
     pythonFilename,
     `${username} ${password}`
   );
   if( errCode ){
-    res.status(500).end():
+    res.status(500).end();
   }
   else {
-    res.send( res );
+    res.send( result );
   }
 }
