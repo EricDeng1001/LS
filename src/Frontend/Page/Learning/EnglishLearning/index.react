@@ -58,7 +58,7 @@ class EnglishLearning extends React.PureComponent {
 
   loadQuestions = () => {
     this.props.loadQuestions({
-      url: "http://59.110.23.212/LearningSystem/BackEnd/get_question.php",
+      url: "/api/getQuestion",
       //url: "LSCode/BackEnd/get_question.php",
       body: {
         username: this.props.username,
