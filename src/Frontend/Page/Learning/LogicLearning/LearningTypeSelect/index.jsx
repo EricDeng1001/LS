@@ -42,7 +42,7 @@ class LearningTypeSelect extends React.PureComponent {
         <div className = {style.whole}>
         {this.state.typeselect ? <div>
           <div className = {style.fangkuang1}>
-            <div className = {style.tupianPosition}><img className = {style.tupian} src = "http://59.110.23.212/LearningSystem/admin.jpg"/></div>
+            <div className = {style.tupianPosition}><img className = {style.tupian} src = "/static/images/admin.jpg"/></div>
             <div className = {TextStyle[0]}
                  onMouseOver = {() => this.setState({changeColor1: true})} onMouseLeave = {() => this.setState({changeColor1: false})}
                  onClick = {() => this.setState({typeselect: false , zhishidian: true , zhongdian: false , qianghua: false , ceshi: false})}>
@@ -51,7 +51,7 @@ class LearningTypeSelect extends React.PureComponent {
           </div>
 
           <div className = {style.fangkuang2}>
-            <div className = {style.tupianPosition}><img className = {style.tupian} src = "http://59.110.23.212/LearningSystem/admin.jpg"/></div>
+            <div className = {style.tupianPosition}><img className = {style.tupian} src = "/static/images/admin.jpg"/></div>
             <div  className = {TextStyle[1]}
                   onMouseOver = {() => this.setState({changeColor2: true})} onMouseLeave = {() => this.setState({changeColor2: false})}
                   onClick = {() => this.setState({typeselect: false , zhishidian: false , zhongdian: true , qianghua: false , ceshi: false})}>
@@ -60,7 +60,7 @@ class LearningTypeSelect extends React.PureComponent {
           </div>
 
           <div className = {style.fangkuang3}>
-            <div className = {style.tupianPosition}><img className = {style.tupian} src = "http://59.110.23.212/LearningSystem/admin.jpg"/></div>
+            <div className = {style.tupianPosition}><img className = {style.tupian} src = "/static/images/admin.jpg"/></div>
             <div  className = {TextStyle[2]}
                   onMouseOver = {() => this.setState({changeColor3: true})} onMouseLeave = {() => this.setState({changeColor3: false})}
                   onClick = {() => this.setState({typeselect: false , zhishidian: false , zhongdian: false , qianghua: true , ceshi: false})}>
@@ -69,7 +69,7 @@ class LearningTypeSelect extends React.PureComponent {
           </div>
 
           <div className = {style.fangkuang4}>
-            <div className = {style.tupianPosition}><img className = {style.tupian} src = "http://59.110.23.212/LearningSystem/admin.jpg"/></div>
+            <div className = {style.tupianPosition}><img className = {style.tupian} src = "/static/images/admin.jpg"/></div>
             <div className = {TextStyle[3]}
                  onMouseOver = {() => this.setState({changeColor4: true})} onMouseLeave = {() => this.setState({changeColor4: false})}
                  onClick = {() => this.setState({typeselect: false , zhishidian: false , zhongdian: false , qianghua: false , ceshi: true})}>

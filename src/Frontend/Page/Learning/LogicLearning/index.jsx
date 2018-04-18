@@ -51,7 +51,7 @@ class LogicLearning extends React.PureComponent {
           </div>
 
           <div className = {style.subjectText}>
-            <br/><img className = {style.picture} src = "http://59.110.23.212/LearningSystem/admin.jpg"/>
+            <br/><img className = {style.picture} src = "/static/images/admin.jpg"/>
             <br/><div className = {style.username}> {username} </div><br/>
             <SubjectSelect text = {this.type} normalStyle = {style.normalText} choosedStyle = {style.chosedText} />
           </div>
@@ -178,7 +178,7 @@ export default applyHOCs([
           </div>
 
           <div className = {style.subjectText}>
-            <br/><img className = {style.picture} src = "http://59.110.23.212/LearningSystem/admin.jpg"/>
+            <br/><img className = {style.picture} src = "/static/images/admin.jpg"/>
             <br/><div className = {style.username}> 用户名 </div><br/>
             <div>
               {this.subject.map((sub , key) =>

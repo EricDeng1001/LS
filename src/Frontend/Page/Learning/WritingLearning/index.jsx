@@ -62,7 +62,7 @@ class WritingPage extends React.PureComponent {
           </div>
 
           <div className = {style.subjectText}>
-            <br/><img className = {style.picture} src = "http://59.110.23.212/LearningSystem/admin.jpg"/>
+            <br/><img className = {style.picture} src = "/static/images/admin.jpg"/>
             <br/><div className = {style.username}> {username } </div><br/>
             <div>
               {this.subject.map((sub , key) =>

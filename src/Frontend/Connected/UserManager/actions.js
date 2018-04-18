@@ -1,7 +1,6 @@
 import {
   LOGIN
 } from 'actionTypes';
-import jsonToUrlencoded from 'direct-core/Algorithm/jsonToUrlencoded';
 
 
 const startLogin = ({ username , password }) => ({
@@ -38,10 +37,10 @@ export const login = ({ username , password }) => ( dispatch ) => {
 
   fetch( '/api/login' , {
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
     },
     method: 'POST',
-    body: jsonToUrlencoded({
+    body: JSON.stringify({
       username,
       password
     })

@@ -113,7 +113,8 @@ export const translateWords = () => ( dispatch , getState ) => {
   fetch( '/api/getWord' , {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
+        //'Content-Type': 'application/x-www-form-urlencoded',
 
       },
       body: 'query_words=' + oldState.EnglishArticle.choosedWords.toArray().join(' ')
@@ -177,7 +178,7 @@ export const loadContent = () => ( dispatch , getState ) => {
   fetch( '/api/getSentence' , {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
       body: `username=${oldState.UserManager.name}&lock=0&articleId=0`
   })
