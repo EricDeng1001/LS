@@ -1,12 +1,12 @@
 const callPython = require("./callPython");
 
-const pythonFilename = "new_login.py";
+const pythonFilename = "offer_hard_word.py";
 
 module.exports = ( req, res ) => {
-  const { password , username } = req.body;
+  const { username , ariticleId  } = req.body;
   const [ errCode, result ] = callPython(
     pythonFilename,
-    `${username} ${password}`
+    `${username} ${ariticleId}`
   );
   if( errCode ){
     res.status(500).end();
