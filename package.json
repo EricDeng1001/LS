@@ -3,6 +3,7 @@
     "dev": "direct dev",
     "build": "direct build",
     "server": "direct server",
+    "cleanCache": "direct cleanCache",
     "flow": "flow"
   },
   "name": "lscode",
@@ -17,6 +18,6 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
-    "simple-direct": "^2.1.4"
+    "simple-direct": "^2.2.4--blueberry"
   }
 }

@@ -9,27 +9,29 @@ const Learning = asyncLoad( () => import('Page/Learning') );
 const UITest = asyncLoad( () => import('Page/UITest') );
 const NotFound = asyncLoad( () => import('Page/NotFound') );
 
-const exact = true;
+const nested = true;
 export default {
   "/": {
     page: Index,
-    exact
   },
   "/learning": {
-    page: Learning
+    page: Learning,
+    nested
   },
   "/learningsystem": {
-    page: LearningSystem
+    page: LearningSystem,
+    nested
   },
   "/loginOrSignup": {
     page: Login,
-    exact
   },
   "/ui": {
-    page: UITest,
-    exact
+    page: UITest
+  },
+  "/404": {
+    page: NotFound
   },
   "*": {
-    page: NotFound
+    redirect: "/404"
   }
 }

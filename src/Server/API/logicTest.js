@@ -1,13 +1,13 @@
-const callPython = require("API/callPython");
+const callPython = require("./callPython");
 
 const pythonFilename = "logic_test_new1.py";
 
 module.exports = ( req, res ) => {
-  const [ errCode, res ] = callPython( pythonFilename );
+  const [ errCode, result ] = callPython( pythonFilename );
   if( errCode ){
-    res.status(500).end():
+    res.status(500).end();
   }
   else {
-    res.send( res );
+    res.send( result );
   }
 }
