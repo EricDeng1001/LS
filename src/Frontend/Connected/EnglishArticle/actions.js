@@ -117,7 +117,10 @@ export const translateWords = () => ( dispatch , getState ) => {
         //'Content-Type': 'application/x-www-form-urlencoded',
 
       },
-      body: 'query_words=' + oldState.EnglishArticle.choosedWords.toArray().join(' ')
+      // body: 'query_words=' + oldState.EnglishArticle.choosedWords.toArray().join(' ')
+      body: JSON.stringify({
+         query_words: oldState.EnglishArticle.choosedWords.toArray().join(' ')
+      })
   })
   .then( response => {
     if( !response.ok ){
@@ -180,7 +183,10 @@ export const loadContent = () => ( dispatch , getState ) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: `username=${oldState.UserManager.name}&lock=0&articleId=0`
+      // body: `username=${oldState.UserManager.name}&lock=0&articleId=0`
+      body: JSON.stringify({
+         username: ${oldState.UserManager.name}&lock=0&articleId=0
+      })
   })
   .then( response => {
     if( !response.ok ){
