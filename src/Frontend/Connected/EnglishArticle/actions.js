@@ -185,7 +185,9 @@ export const loadContent = () => ( dispatch , getState ) => {
       },
       // body: `username=${oldState.UserManager.name}&lock=0&articleId=0`
       body: JSON.stringify({
-         username: ${oldState.UserManager.name}&lock=0&articleId=0
+         username: oldState.UserManager.name,
+         lock:0,
+         articleId:0
       })
   })
   .then( response => {
