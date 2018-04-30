@@ -143,6 +143,7 @@ class EnglishLearning extends React.PureComponent {
   }
 
   componentDidMount(){
+    console.log("mount");
     this.props.loadContent();
     this.loadQuestions();
   }
