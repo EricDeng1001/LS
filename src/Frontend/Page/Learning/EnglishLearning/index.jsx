@@ -346,8 +346,8 @@ export default applyHOCs([
       loadQuestionState: state.SingleOptionQuestions.loadState,
       submitQuestionState: state.SingleOptionQuestions.submitState,
       loadArticleState: state.EnglishArticle.loadState,
-      translateWordsState: state.EnglishArticle.translateWordsState
-      //articleId: state.EnglishArticle.articleId
+      translateWordsState: state.EnglishArticle.translateWordsState,
+      articleId: state.EnglishArticle.articleId
     }),
     dispatch => ({
       ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
