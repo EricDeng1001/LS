@@ -7,7 +7,8 @@ module.exports = ( name , args = "" ) => {
     try {
       stdout = execSync( `python ${name} ${args}` );
     } catch ( err ){
+      console.log( err );
       return [ 1 , err ];
     }
-    return [ 0 , stdout ];
+    return [ 0 , stdout.toString() ];
 }
