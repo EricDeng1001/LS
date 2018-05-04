@@ -1,6 +1,6 @@
 const callPython = require("./callPython");
 
-const pythonFilename = "query_words.py";
+const pythonFilename = "query_word.py";
 
 module.exports = ( req, res ) => {
   var { query_words } = req.body;
