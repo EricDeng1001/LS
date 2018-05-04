@@ -53,7 +53,7 @@ class QiangHua extends React.PureComponent {
       },
     });
     this.props.loadQuestions({
-      url: "/api/logicQianghua.php",
+      url: "/api/logicQianghua",
       body: {
         username: this.props.username
       },
