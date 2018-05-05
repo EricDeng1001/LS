@@ -102,7 +102,7 @@ class LunZheng extends React.PureComponent {
       zhentiDisplay: false
     });
     this.props.loadButtonContents({
-      url: "/API/lunzhengTemplate"
+      url: "/api/lunzhengTemplate"
         //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_template.php"
       });
   }
