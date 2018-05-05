@@ -43,9 +43,9 @@ class LogicLearning extends React.PureComponent {
       <React.Fragment>
       { logined == false ?  <Login/> :
 
-        <div className = {style.wholePage}>
+        <div className = {style.wholeLogicPage}>
 
-          <div className = {style.HUD}>
+          <div className = {style.logicPageTitle}>
             <div className = {style.title}> 学习系统 </div>
             <div className = {style.goback} onClick = {() => history.back()}> 返回 </div>
           </div>
