@@ -165,7 +165,7 @@ class LunShuo extends React.PureComponent {
       acknowledgeDisplay: false
    });
     this.props.loadWriteContents({
-      url: "/api/lunSuoZhenTiContent",
+      url: "/api/lunShuoZhenTiContent",
       //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_zhenti_content.php",
       body: {
         requestQuestion: choice
@@ -232,7 +232,7 @@ class LunShuo extends React.PureComponent {
     }
     else if ( this.jiqiao == 3) {
       this.props.loadWriteKnowledge({
-        url: "/api/lunShuo/HuaLongDianJingContent",
+        url: "/api/lunShuoHuaLongDianJingContent",
         //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_hualongdianjing_content.php",
         body: {
           requestQuestion: choice
