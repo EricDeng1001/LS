@@ -164,10 +164,12 @@ class ZhongDian extends React.PureComponent {
             center
           >
             <SlideRL play={ined}>
-              <h4 className = {style.dalei}> {content.chapter_name} </h4>
-              <p>{content.shuxu}</p>
-              <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
-              <Button className = {style.button} text = {"确认提交"} onClick={this.submitQuestions}/>
+              <div>
+                <h4 className = {style.dalei}> {content.chapter_name} </h4>
+                <p>{content.shuxu}</p>
+                <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
+                <Button className = {style.button} text = {"确认提交"} onClick={this.submitQuestions}/>
+              </div>
             </SlideRL>
           </Loading>
         </div>

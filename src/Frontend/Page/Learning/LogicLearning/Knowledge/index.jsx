@@ -49,14 +49,14 @@ class Knowledge extends React.PureComponent {
       loadQuestionState,
       loadContent,
       loadContentState,
-      content,
+      total_content,
       ined
     } = this.props;
-    //console.log(this.props)
+    console.log(total_content.content)
 
     return (
       <React.Fragment>
-        {content.flag == 1 ?
+        {total_content.flag == 1 ?
         <div>
           <div className={style.pageTitle}> 知识点精要 </div>
 
@@ -69,16 +69,18 @@ class Knowledge extends React.PureComponent {
               center
             >
               <SlideRL play={ined}>
-                <h4 className = {style.dalei}> {content.chapter_name} </h4>
-                <TextAndImag list = {content.content}/>
+                <div>
+                <h4 className = {style.dalei}> {total_content.chapter_name} </h4>
+                <TextAndImag list = {total_content.content}/>
                 {
-                  content.shunxu == undefined ? null :
-                  <div>{content.shunxu.map((onetype , key) =>
+                  total_content.shunxu == undefined ? null :
+                  <div>{total_content.shunxu.map((onetype , key) =>
                   <div key = {key}>
                     <div className = {style.logic_knowledge_title}> {onetype} </div>
-                    {content.xiaolei == undefined ? null:  <TextAndImag list = {content.xiaolei[key]} />}
+                    {total_content.xiaolei == undefined ? null:  <TextAndImag list = {total_content.xiaolei[key]} />}
                   </div>)}</div>
                 }
+              </div>
               </SlideRL>
             </Loading>
           </div>
@@ -98,7 +100,7 @@ export default applyHOCs([
     state => ({
       logined: state.UserManager.logined,
       username: state.UserManager.name,
-      content: state.PortTest.content,
+      total_content: state.PortTest.content,
       loadContentState: state.PortTest.loadState,
     }),
     dispatch => ({

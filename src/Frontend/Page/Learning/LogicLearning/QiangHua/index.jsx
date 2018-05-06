@@ -164,9 +164,11 @@ class QiangHua extends React.PureComponent {
             center
           >
             <SlideRL play={ined}>
-              <h4 className = {style.dalei}> {content.chapter_name} </h4>
-              <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
-              <Button className = {style.button} text = {"确认提交"} onClick={this.submitQuestions}/>
+              <div>
+                <h4 className = {style.dalei}> {content.chapter_name} </h4>
+                <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
+                <Button className = {style.button} text = {"确认提交"} onClick={this.submitQuestions}/>
+              </div>
             </SlideRL>
           </Loading>
         </div>

@@ -162,8 +162,10 @@ class UnitTest extends React.PureComponent {
               center
             >
               <SlideRL play={ined}>
-                <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
-                <Button className = {style.button} text = {"确认提交"} onClick={this.submitQuestions}/>
+                <div>
+                  <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
+                  <Button className = {style.button} text = {"确认提交"} onClick={this.submitQuestions}/>
+                </div>
               </SlideRL>
             </Loading>
           </div>

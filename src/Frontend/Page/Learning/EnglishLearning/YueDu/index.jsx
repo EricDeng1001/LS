@@ -57,12 +57,14 @@ class YueDu extends React.PureComponent {
 
 
   loadQuestions = () => {
+    console.log(typeof(this.props.articleId))
     this.props.loadQuestions({
       url: "/api/getQuestion",
       body: {
         username: this.props.username,
         lock: 0,
-        articleId: 0
+        article_id: this.props.articleId,
+        //articleId: 0
       },
       parser: questions => questions.map( q => ({
         questionId: q.questionid,
@@ -129,7 +131,7 @@ class YueDu extends React.PureComponent {
       url: "/api/recordWrongQuestion",
       body: {
         username: username,
-        article_id: articleId,
+        article_id: articleId.toString(),
         wrong_question_ids: wrongList,
         time: submitTime + 1
       }
@@ -210,7 +212,7 @@ class YueDu extends React.PureComponent {
               </SlideLR>
             </Loading>
             </div>
-            
+
             <div className={style.rightPane}>
             {
               /*
@@ -348,8 +350,8 @@ export default applyHOCs([
       loadQuestionState: state.SingleOptionQuestions.loadState,
       submitQuestionState: state.SingleOptionQuestions.submitState,
       loadArticleState: state.EnglishArticle.loadState,
-      translateWordsState: state.EnglishArticle.translateWordsState
-      //articleId: state.EnglishArticle.articleId
+      translateWordsState: state.EnglishArticle.translateWordsState,
+      articleId: state.EnglishArticle.articleId
     }),
     dispatch => ({
       ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
