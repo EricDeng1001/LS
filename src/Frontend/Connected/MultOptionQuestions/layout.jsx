@@ -63,7 +63,7 @@ class MultOptionQuestions extends React.PureComponent {
 
         <div className = {style.leftOption}>
         {this.left_options.map( (oneOption , key) =>
-          <div key = {key} style={{"background":"red"}}>
+          <div key = {key}>
             <input className = {style.checkbox} type="checkbox" readOnly = {this.state.lock ? 'readonly' : ''}/>
             <label className = {TextStyle1[key]}> {oneOption} </label><br/>
           </div>
