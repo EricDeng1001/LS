@@ -59,7 +59,8 @@ class LunShuo extends React.PureComponent {
       acknowledgeDisplay: false,
       gongguEgArticle: false,
       zhentiEgarticle: false,
-      zhentiEgComment: false
+      zhentiEgComment: false,
+      userFileDisplay: false
     };
 
   }
@@ -252,7 +253,7 @@ class LunShuo extends React.PureComponent {
   }
 
   cankaoliyi = ( choice ) => {
-    this.setState({zhentiEgComment: !this.state.zhentiEgComment});
+    this.setState({zhentiEgComment: !this.state.zhentiEgComment , userFileDisplay: false});
     this.props.loadPortContent({
       url: "/api/lunshuoLiyi",
       //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_liyi.php",
@@ -387,6 +388,8 @@ class LunShuo extends React.PureComponent {
            {
              gongguShow?
              <div className={style.option}>
+               <input type="file" /><br/>
+               <div className = {style.egArticleText}>点击查看上传文件内容</div>
                <div className = {style.egArticleText} onClick = {() => this.setState({gongguEgArticle: !this.state.gongguEgArticle})}> 参考范文 </div>
                {this.state.gongguEgArticle ?
                  <div className = {style.egArticle}>
@@ -425,6 +428,8 @@ class LunShuo extends React.PureComponent {
               </div>
 
               <div className={style.option}>
+                <input type="file" /><br/>
+                <div style = {{"color":"red"}} onClick = {() => this.setState({userFileDisplay: !this.state.userFileDisplay})}>点击查看已上传的文件</div>
                 <div className = {style.egArticleText}
                   onClick = {() => this.cankaoliyi( choice )}
                  > 参考立意 </div>
@@ -450,6 +455,11 @@ class LunShuo extends React.PureComponent {
                   </div>
                   :
                   null
+                }
+
+                {
+                  this.state.userFileDisplay ?
+                  <div className = {style.userFile}>此处应该为用户上传的文件的内容</div>:null
                 }
 
               </div>

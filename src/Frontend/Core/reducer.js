@@ -9,7 +9,8 @@ import { reducer as Navigation } from 'Connected/Navigation';
 import { reducer as WriteKnowledge } from 'Connected/WriteKnowledge';
 import { reducer as PortTest } from 'Connected/PortTest';
 import { reducer as SubjectSelect } from 'Connected/SubjectSelect';
-
+import { reducer as ZhentiPerYearTongji } from 'Connected/ZhentiPerYearTongji';
+import { reducer as ZhentiAllYearTongji } from 'Connected/ZhentiAllYearTongji';
 //import { reducer as ... } from 'Connected/...';
 
 export default {
@@ -23,6 +24,8 @@ export default {
   WriteKnowledge: WriteKnowledge,
   PortTest: PortTest,
   SubjectSelect: SubjectSelect,
+  ZhentiPerYearTongji: ZhentiPerYearTongji,
+  ZhentiAllYearTongji: ZhentiAllYearTongji,
 
   //others
 };

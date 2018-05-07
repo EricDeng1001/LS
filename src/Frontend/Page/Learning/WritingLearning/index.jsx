@@ -17,28 +17,18 @@ class WritingPage extends React.PureComponent {
   constructor( props ){
     super( props );
 
-    this.subject = ["入口测试" , "进入学习" , "数据统计" , "查看帮助","上传文件"];
+    this.subject = ["入口测试" , "进入学习"  , "查看帮助"];
     this.state = {
       test : true,
       learning : false,
-      //review : false,
-      statistics : false,
-      help : false,
-      upload: false
+      help : false
     }
   }
 
   showIntroduction = (num) => {
-    num == 0 ? this.setState({test: true , learning: false , statistics: false , help: false, upload: false }) :
-    num == 1 ? this.setState({test: false , learning: true ,  statistics: false , help : false, upload: false }) :
-    num == 2 ? this.setState({test: false , learning: false , statistics: true , help : false, upload: false }) :
-    num == 3 ? this.setState({test: false , learning: false , statistics: false , help : true, upload: false}) :
-    this.setState({test: false, learning: false, statistics: false, help: false, upload: true})
-    //num == 0 ? this.setState({test: true , learning: false , review: false , statistics: false , help: false }) :
-    //num == 1 ? this.setState({test: false , learning: true , review: false , statistics: false , help : false }) :
-    //num == 2 ? this.setState({test: false , learning: false , review: true , statistics: false , help : false }) :
-    //num == 2 ? this.setState({test: false , learning: false , review: false , statistics: true , help : false}) :
-    //this.setState({test: false , learning: false , review: false , statistics: false , help : true})
+    num == 0 ? this.setState({test: true , learning: false , help : false }) :
+    num == 1 ? this.setState({test: false , learning: true , help : false }) :
+    this.setState({test: false , learning: false , help : true})
   }
 
   render(){
@@ -47,10 +37,7 @@ class WritingPage extends React.PureComponent {
     var TextStyle = [];
     this.state.test ? TextStyle[0] = style.chosedText : TextStyle[0] = style.normalText;
     this.state.learning ? TextStyle[1] = style.chosedText : TextStyle[1] = style.normalText;
-    //this.state.review ? TextStyle[2] = style.chosedText : TextStyle[2] = style.normalText;
-    this.state.statistics ? TextStyle[2] = style.chosedText : TextStyle[2] = style.normalText;
-    this.state.help ? TextStyle[3] = style.chosedText : TextStyle[3] = style.normalText;
-    this.state.upload ? TextStyle[4] = style.chosedText: TextStyle[4] = style.normalText;
+    this.state.help ? TextStyle[2] = style.chosedText : TextStyle[2] = style.normalText;
 
     return (
       <React.Fragment>
@@ -82,10 +69,7 @@ class WritingPage extends React.PureComponent {
                 <a href = "/learning/writing/lunshuo"> 论说文 </a>
               </div>
             :
-            //this.state.review ? <div>复习</div> :
-            this.state.statistics ? <WriteGraph /> :
-            this.state.help ? <WriteHelp /> :
-            <input type="file" />
+            <WriteHelp />
           }
           </div>
 
