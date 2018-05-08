@@ -62,7 +62,8 @@ class LunZheng extends React.PureComponent {
       acknowledgeDisplay: false,
       egArticleContentDisplay: false,
       gongguEgArticle: false,
-      tongjiDisplay: false
+      tongjiDisplay: false,
+      yichuanwenjian: false
     };
 
   }
@@ -369,9 +370,18 @@ class LunZheng extends React.PureComponent {
             {
               egArticleContentDisplay?
               <div className={style.option}>
-                <input type="file" /><br/>
-                <div className = {style.egArticleText}>点击查看上传文件内容</div>
-                <div className = {style.egArticleText} onClick = {() => this.setState({gongguEgArticle: !this.state.gongguEgArticle})}> 点击查看参考范文 </div>
+                <div className={style.juzhong}>
+                  <input type="file" accept =".doc,.pdf"/><br/><span style = {{"color":"red"}}>请选择一个word或pdf文件</span><br/>
+                  <label className = {style.egArticleText} onClick={() => this.setState({gongguEgArticle: false , yichuanwenjian: !this.state.yichuanwenjian})}> 已传文件 </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <label className = {style.egArticleText} onClick = {() => this.setState({yichuanwenjian: false , gongguEgArticle: !this.state.gongguEgArticle})}> 参考范文 </label>
+                </div>
+                {this.state.yichuanwenjian ?
+                  <div className = {style.egArticle}>
+                    此处应该显示用户上传的文件内容
+                  </div>
+                  :
+                  null
+                }
                 {this.state.gongguEgArticle ?
                   <div className = {style.egArticle}>
                     <p className = {style.article_title}>{name}</p>

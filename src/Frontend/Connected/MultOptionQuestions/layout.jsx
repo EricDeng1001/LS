@@ -197,7 +197,7 @@ class MultOptionQuestions extends React.PureComponent {
      {
        this.state.uploadShow ?
        <div className = {style.egArticle}>
-         <input type = "file"/>
+         <br/><input type = "file" accept =".doc,.pdf"/><span style={{"color":"red"}}>请上传一个word或pdf文件</span>
        </div>
        :null
      }
