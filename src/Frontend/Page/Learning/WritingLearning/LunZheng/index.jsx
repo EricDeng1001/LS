@@ -180,6 +180,7 @@ class LunZheng extends React.PureComponent {
       gongguDisplay: false,
       titleContentDisplay: true ,
       gongguEgArticle: false,
+      yichuanwenjian: false,
       egArticleContentDisplay: true,
       optionContentDisplay: false,
       acknowledgeDisplay: false,
