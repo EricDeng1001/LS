@@ -34,6 +34,10 @@ import {
   view as PortTest,
   actions as PortTestActions
 } from 'Connected/PortTest';
+import {
+  view as ZhentiAllYearTongji,
+  actions as ZhentiAllYearTongjiActions
+} from 'Connected/ZhentiAllYearTongji';
 
 import protect from 'direct-core/protect';
 import asyncProcessControl from 'direct-core/asyncProcessControl';
@@ -57,7 +61,9 @@ class LunZheng extends React.PureComponent {
       optionContentDisplay: false,
       acknowledgeDisplay: false,
       egArticleContentDisplay: false,
-      gongguEgArticle: false
+      gongguEgArticle: false,
+      tongjiDisplay: false,
+      yichuanwenjian: false
     };
 
   }
@@ -150,7 +156,8 @@ class LunZheng extends React.PureComponent {
       titleContentDisplay: true ,
       optionContentDisplay: true,
       acknowledgeDisplay: false,
-      egArticleContentDisplay: false
+      egArticleContentDisplay: false,
+      tongjiDisplay: false
    });
     this.props.loadWriteContents({
       url: "/api/lunZhengZhenTiContent",
@@ -173,9 +180,11 @@ class LunZheng extends React.PureComponent {
       gongguDisplay: false,
       titleContentDisplay: true ,
       gongguEgArticle: false,
+      yichuanwenjian: false,
       egArticleContentDisplay: true,
       optionContentDisplay: false,
-      acknowledgeDisplay: false
+      acknowledgeDisplay: false,
+      tongjiDisplay: false
    });
     this.props.loadWriteContents({
       url: "/api/lunZhengGongGuContent",
@@ -193,7 +202,8 @@ class LunZheng extends React.PureComponent {
       titleContentDisplay: false ,
       optionContentDisplay: false,
       egArticleContentDisplay: false,
-      acknowledgeDisplay: true
+      acknowledgeDisplay: true,
+      tongjiDisplay: false
    });
     this.props.loadWriteKnowledge({
       url: "/api/lunZhengZhaoCuoXiCuoContent",
@@ -211,7 +221,8 @@ class LunZheng extends React.PureComponent {
       titleContentDisplay: false ,
       optionContentDisplay: false,
       egArticleContentDisplay: false,
-      acknowledgeDisplay: true
+      acknowledgeDisplay: true,
+      tongjiDisplay: false
    });
     this.props.loadWriteKnowledge({
       url: "/api/lunZhengTemplateContent",
@@ -220,6 +231,24 @@ class LunZheng extends React.PureComponent {
         requestQuestion: choice
       }
     });
+  }
+
+  loadAllZhentiTongji = () => {
+    this.setState({
+      tongjiDisplay: true,
+      titleContentDisplay: false,
+      contentDisplay: false,
+      optionContentDisplay: false,
+      acknowledgeDisplay: false,
+      egArticleContentDisplay: false
+    })
+    this.props.loadAllZhentiTongji({
+      url: "/api/lunZhengAllYearTongji",
+      body: {
+        username: this.props.username
+      }
+    })
+
   }
 
 
@@ -234,7 +263,8 @@ class LunZheng extends React.PureComponent {
       titleContentDisplay,
       optionContentDisplay,
       acknowledgeDisplay,
-      egArticleContentDisplay
+      egArticleContentDisplay,
+      tongjiDisplay
      } = this.state;
 
     const {
@@ -268,7 +298,7 @@ class LunZheng extends React.PureComponent {
             <Button className={style.button1} text={"写作技巧精讲"} onClick={this.jiqiao} /><br/>
             <Button className={style.button2} text={"巩固强化练习"} onClick={this.loadButtonContents_gonggu}/><br/>
             <Button className={style.button3} text={"近年真题演练"} onClick={this.loadButtonContents_zhenti} />
-            <Button className={style.button4} text={"数据统计"} />
+            <Button className={style.button4} text={"数据统计"} onClick = {this.loadAllZhentiTongji} />
           </div>
 
           <div className={style.rightPane}>
@@ -341,7 +371,18 @@ class LunZheng extends React.PureComponent {
             {
               egArticleContentDisplay?
               <div className={style.option}>
-                <div className = {style.egArticleText} onClick = {() => this.setState({gongguEgArticle: !this.state.gongguEgArticle})}> 参考范文 </div>
+                <div className={style.juzhong}>
+                  <input type="file" accept =".doc,.pdf"/><br/><span style = {{"color":"red"}}>请选择一个word或pdf文件</span><br/>
+                  <label className = {style.egArticleText} onClick={() => this.setState({gongguEgArticle: false , yichuanwenjian: !this.state.yichuanwenjian})}> 已传文件 </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <label className = {style.egArticleText} onClick = {() => this.setState({yichuanwenjian: false , gongguEgArticle: !this.state.gongguEgArticle})}> 参考范文 </label>
+                </div>
+                {this.state.yichuanwenjian ?
+                  <div className = {style.egArticle}>
+                    此处应该显示用户上传的文件内容
+                  </div>
+                  :
+                  null
+                }
                 {this.state.gongguEgArticle ?
                   <div className = {style.egArticle}>
                     <p className = {style.article_title}>{name}</p>
@@ -380,6 +421,11 @@ class LunZheng extends React.PureComponent {
                </div>
             :
              null
+          }
+
+          {
+            tongjiDisplay ?
+            <ZhentiAllYearTongji/>:null
           }
 
 
@@ -441,6 +487,7 @@ export default applyHOCs([
       ...bindActionCreators( WriteContentActions , dispatch ),
       ...bindActionCreators( WriteKnowledgeActions , dispatch ),
       ...bindActionCreators( PortTestActions , dispatch ),
+      ...bindActionCreators( ZhentiAllYearTongjiActions , dispatch ),
     })
 
   )],
