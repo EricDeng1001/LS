@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "direct dev",
+    "dev": "direct openDev",
     "build": "direct build",
     "server": "direct server",
     "cleanCache": "direct cleanCache",
@@ -19,6 +19,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
-    "simple-direct": "^2.3.8"
+    "simple-direct": "^2.3.8",
+    "webpack-dev-server": "^3.1.4"
   }
 }
