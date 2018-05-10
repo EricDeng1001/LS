@@ -96,25 +96,21 @@ class LunShuo extends React.PureComponent {
     else if ( num == 1) {
       this.props.loadButtonContents({
         url: "/api/lunshuoShentiliyi",
-        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_shentiliyi.php",
       });
     }
     else if ( num == 2) {
       this.props.loadButtonContents({
         url: "/api/lunshuoJingdianmuban",
-        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_jingdianmuban.php",
       });
     }
     else if ( num == 3) {
       this.props.loadButtonContents({
         url: "/api/lunshuoHualongdianjing",
-        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_hualongdianjing.php",
       });
     }
     else if ( num == 4) {
       this.props.loadButtonContents({
         url: "/api/lunshuoSucaibaodian",
-        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_sucaibaodian.php",
       });
     }
 
@@ -132,7 +128,6 @@ class LunShuo extends React.PureComponent {
     });
     this.props.loadButtonContents({
       url: "/api/lunshuoGonggu"
-        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_gonggu.php"
       });
   }
 
@@ -148,7 +143,6 @@ class LunShuo extends React.PureComponent {
     });
     this.props.loadButtonContents({
       url: "/api/lunshuoZhenti"
-        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_zhenti.php"
       });
   }
 
@@ -168,7 +162,6 @@ class LunShuo extends React.PureComponent {
    });
     this.props.loadWriteContents({
       url: "/api/lunShuoZhenTiContent",
-      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_zhenti_content.php",
       body: {
         requestQuestion: choice
       }
@@ -188,7 +181,6 @@ class LunShuo extends React.PureComponent {
    });
     this.props.loadWriteContents({
       url: "/api/lunShuoGongGuContent",
-      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_gonggu_content.php",
       body: {
         requestQuestion: choice
       }
@@ -208,7 +200,6 @@ class LunShuo extends React.PureComponent {
     if ( this.jiqiao == 0 ) {
       this.props.loadWriteKnowledge({
         url: "/api/lunShuoTiXingTuPoContent",
-        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_tixingtupo_content.php",
         body: {
           requestQuestion: choice
         }
@@ -217,7 +208,6 @@ class LunShuo extends React.PureComponent {
     else if ( this.jiqiao == 1) {
       this.props.loadWriteKnowledge({
         url: "/api/lunShuoShenTiLiYiContent",
-        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_shentiliyi_content.php",
         body: {
           requestQuestion: choice
         }
@@ -226,7 +216,6 @@ class LunShuo extends React.PureComponent {
     else if ( this.jiqiao == 2) {
       this.props.loadWriteKnowledge({
         url: "/api/lunShuoJingDianMuBanContent",
-        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_jingdianmuban_content.php",
         body: {
           requestQuestion: choice
         }
@@ -235,7 +224,6 @@ class LunShuo extends React.PureComponent {
     else if ( this.jiqiao == 3) {
       this.props.loadWriteKnowledge({
         url: "/api/lunShuoHuaLongDianJingContent",
-        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_hualongdianjing_content.php",
         body: {
           requestQuestion: choice
         }
@@ -244,7 +232,6 @@ class LunShuo extends React.PureComponent {
     else if ( this.jiqiao == 4) {
       this.props.loadWriteKnowledge({
         url: "/api/lunShuoSuCaiBaoDianContent",
-        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_sucaibaodian_content.php",
         body: {
           requestQuestion: choice
         }
@@ -257,7 +244,6 @@ class LunShuo extends React.PureComponent {
     this.setState({zhentiEgComment: !this.state.zhentiEgComment , userFileDisplay: false});
     this.props.loadPortContent({
       url: "/api/lunshuoLiyi",
-      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunshuo_liyi.php",
       body: {
         requestQuestion: choice
       }

@@ -64,7 +64,7 @@ class YueDu extends React.PureComponent {
         username: this.props.username,
         lock: 0,
         article_id: this.props.articleId,
-        //articleId: 0
+        articleId: articleId+1
       },
       parser: questions => questions.map( q => ({
         questionId: q.questionid,

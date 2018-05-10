@@ -93,7 +93,6 @@ class LunZheng extends React.PureComponent {
     });
     this.props.loadButtonContents({
       url: "/api/lunzhengZhaoCuoXiCuo"
-      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhaocuoxicuo.php"
     });
   }
 
@@ -109,7 +108,6 @@ class LunZheng extends React.PureComponent {
     });
     this.props.loadButtonContents({
       url: "/api/lunzhengTemplate"
-        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_template.php"
       });
   }
 
@@ -126,7 +124,6 @@ class LunZheng extends React.PureComponent {
     });
     this.props.loadButtonContents({
       url: "/api/lunzhengGonggu"
-        ///url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_gonggu.php"
       });
   }
 
@@ -143,7 +140,6 @@ class LunZheng extends React.PureComponent {
     });
     this.props.loadButtonContents({
       url: "/api/lunzhengZhenti"
-        //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhenti.php"
       });
   }
 
@@ -161,14 +157,12 @@ class LunZheng extends React.PureComponent {
    });
     this.props.loadWriteContents({
       url: "/api/lunZhengZhenTiContent",
-      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhenti_content.php",
       body: {
         requestQuestion: choice
       }
     });
     this.props.loadPortContent({
       url: "/api/lunZhengZhenTiError",
-      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhenti_error.php",
       body: {
         requestQuestion: choice
       }
@@ -188,7 +182,6 @@ class LunZheng extends React.PureComponent {
    });
     this.props.loadWriteContents({
       url: "/api/lunZhengGongGuContent",
-      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_gonggu_content.php",
       body: {
         requestQuestion: choice
       }
@@ -207,7 +200,6 @@ class LunZheng extends React.PureComponent {
    });
     this.props.loadWriteKnowledge({
       url: "/api/lunZhengZhaoCuoXiCuoContent",
-      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhaocuoxicuo_content.php",
       body: {
         requestQuestion: choice
       }
@@ -226,7 +218,6 @@ class LunZheng extends React.PureComponent {
    });
     this.props.loadWriteKnowledge({
       url: "/api/lunZhengTemplateContent",
-      //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_template_content.php",
       body: {
         requestQuestion: choice
       }
@@ -355,9 +346,6 @@ class LunZheng extends React.PureComponent {
                :
                null
            }
-
-
-
             {
               titleContentDisplay?
                 <div className={style.title}>
@@ -407,7 +395,6 @@ class LunZheng extends React.PureComponent {
                 </div>
                 :
                 null
-
               }
 
 
@@ -427,12 +414,6 @@ class LunZheng extends React.PureComponent {
             tongjiDisplay ?
             <ZhentiAllYearTongji/>:null
           }
-
-
-
-
-
-
 
           </div>
 

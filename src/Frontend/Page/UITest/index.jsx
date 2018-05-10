@@ -21,9 +21,9 @@ import makePage from 'direct-core/makePage';
 import applyHOCs from 'direct-core/applyHOCs';
 
 import {
-  view as ButtonExpand,
-  actions as ButtonExpandActions
-} from 'Connected/ButtonExpand';
+  view as PortTest,
+  actions as PortTestActions
+} from 'Connected/PortTest';
 
 class UITest extends React.PureComponent {
 
@@ -31,134 +31,111 @@ class UITest extends React.PureComponent {
     super( props );
     this.state = {
       processStep: 0,
+      buttonClick: false
     };
   }
-/*function = () => {
-  this.props.loadButtonContents({
-    //module.exports = ({ req , res }) => {
-      //const { name,password } = req.body;
-      //const [ errCode , res ] = callPython("login.py",`${name} $password`);
-      //const[errCode , res ] = callPython("offer_lunzheng_zhenti_mingcheng.py");
-      //if(errCode){
-        //res.status(500).end();
-      //} else {
-        //res.send(res);
-      //}
-    url: "http://59.110.23.212/LearningSystem/BackEnd/logic_test_new1.php",
-    //url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhenti.php",
-    //body: {
-      //username: "lxq"
-    //}
-  })
-}*/
 
 // function = () => {
 //   this.props.loadButtonContents({
-//     url: "http://59.110.23.212/LearningSystem/BackEnd/word_test.php",
+//     module.exports = ({ req , res }) => {
+//       const { name,password } = req.body;
+//       const [ errCode , res ] = callPython("login.py",`${name} $password`);
+//       const[errCode , res ] = callPython("offer_lunzheng_zhenti_mingcheng.py");
+//       if(errCode){
+//         res.status(500).end();
+//       } else {
+//         res.send(res);
+//       }
+//     url: "http://59.110.23.212/LearningSystem/BackEnd/logic_test_new1.php",
+//     url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhenti.php",
+//     body: {
+//       username: "lxq"
+//     }
 //   })
 // }
-function2 = () => {
-  const {username} = this.props;
-  console.log(username)
-  this.props.loadButtonContents({
-    url: "/api/logicCeshi",
-    //url: "http://59.110.23.212/LearningSystem/BackEnd/logic_ceshi.php",
-    body: {
-      username: this.props.username,
-      //articleId: 1
-    }
-  })
-}
 
-function1 = () => {
-  const {username} = this.props;
-  console.log(username)
-  this.props.loadButtonContents({
-    url: "/api/getWriteTest",
+
+// function = () => {
+//   const {username} = this.props;
+//   console.log(username)
+//   this.props.loadButtonContents({
+//     url: "/api/logicCeshi",
+//     body: {
+//       username: this.props.username,
+//       //articleId: 1
+//     }
+//   })
+// }
+
+function = () => {
+  this.setState({
+    buttonClick: true
+  });
+  this.props.loadPortContent({
+    url: "/api/eng_getWriteTest",
     body: {
       username: "lxq",
       articleId: 1
     }
   })
+  // parser: questions => questions.map( q => ({
+  //   type: q.type,
+  //   id: q.id,
+  //   chinese: q.chinese,
+  //   english: q.english,
+  // }))
 }
 
-function_tijiao = () => {
-  var form = document.getElementById("form2");
-  var field = form.elements["test2"];
-  var result = [];
-  var option = null;
-  for (var i = 0; i < field.length; i++) {
-    option = field[i];
-    if (option.checked) {
-      result.push(option);
-   }
- }
- console.log(result)
-  var message = "";
-  for (var i = 0, len = option.length; i < len; i++) {
-  message += "Select id:" + option[i].id + "\nSelected name:" + option[i].name + "\nSelected value:" + option[i].value + "\n\n";
-  }
- alert(message);
-  /*鑾峰彇閫変腑鐨勯€夐」*/
-  //function getSelectedOption(selectform, selectionfield) {
+// loadButtonContents_zhenti = () => {
+//   this.setState({
+//     jiqiaoDisplay: false,
+//     zhaocuoDisplay: false,
+//     mobanDisplay: false,
+//     gongguDisplay: false,
+//     zhentiDisplay: !this.state.zhentiDisplay
+//   });
+//   this.props.loadButtonContents({
+//     url: "/api/lunzhengZhenti"
+//     });
+// }
 
-  //return result;
-
-//  }
-}
-/*function_tijiao = () => {
-  var form = document.getElementById("form2");
-  var field = form.elements["test2"];
-  var option = getSelectedOption(form, field);
-  var message = "";
-  for (var i = 0, len = option.length; i < len; i++) {
-  message += "Select id:" + option[i].id + "\nSelected name:" + option[i].name + "\nSelected value:" + option[i].value + "\n\n";
-  }
- alert(message);
-  /*鑾峰彇閫変腑鐨勯€夐」*/
-/*  function getSelectedOption(selectform, selectionfield) {
-  var result = [];
-  var option = null;
-  for (var i = 0; i < selectionfield.length; i++) {
- option = selectionfield[i];
- if (option.checked) {
-  result.push(option);
-  }
- }
-  return result;
-
-  }
-}*/
 
 
   render(){
     const { processStep } = this.state;
 
     const {
-      ined
+      ined,
+      content
     } = this.props;
+    console.log(content);
 
     return (
       <React.Fragment>
-        <Prompt
-          when={processStep !== 0 && processStep !== this.actions.length - 1}
-          message="you need to do it again, are you sure to quit?"
-        />
 
-        <p>hi</p>
         <Button text="测试" onClick={this.function} />
+        {
+          this.state.buttonClick?
+            <div>
+              { content[0] == undefined?null:<p>{content[0].english}</p> }
+              {
+                content.map((chtoeng, key)=>
+                <p key = {key}>{chtoeng.chinese}</p>
 
-        <form id='form2'>
-          <label>彩电</label><input id='aaaaa' type='checkbox' name='test2' value='1'/>
-          <label htmlFor='aaaaa'>冰箱</label><input id='bbbbb' type='checkbox' name='test2' value='2'/>
-          <label htmlFor='bbbbb'>洗衣机</label><input id='ccccc' type='checkbox' name='test2' value='3'/>
-          <label htmlFor='ccccc'>电话</label><input id='ddddd' type='checkbox' name='test2' value='4'/>
-          <label htmlFor='ddddd'>手边</label><input id='eeeee' type='checkbox' name='test2' value='5'/>
-          <label htmlFor='eeeee'>方法</label><input id='fffff' type='checkbox' name='test2' value='6'/>
-        </form>
-        <Button text="提交" onClick={this.function_tijiao} />
-        <WriteGraph/>
-
+                )
+              }
+            </div>
+          :
+          null
+        }
+        {/* {buttonTexts.map(( oneway , key ) =>
+          <div key = {key}>
+            <Button className = {style.buttonSize} text={oneway}
+                    onClick = {() => {setButtonChoice(oneway);requestData( oneway )} }
+            /><br/>
+          </div>
+          )
+        } */}
 
       </React.Fragment>
     );
@@ -193,9 +170,10 @@ export default applyHOCs([
     state => ({
       logined: state.UserManager.logined,
       username: state.UserManager.name,
+      content: state.PortTest.content,
     }),
     dispatch => ({
-      ...bindActionCreators( ButtonExpandActions , dispatch),
+      ...bindActionCreators( PortTestActions , dispatch),
     })
   )],
   UITest
