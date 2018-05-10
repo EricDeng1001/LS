@@ -60,7 +60,7 @@ class EnterLearning extends React.PureComponent {
           {
             this.state.typeSelectShow ?
             <div>
-              <Info info = "请选择您要学习的类型："/>
+              <Info info = "请点击选择您要学习的类型："/>
               <div className = {style.typeSelect}><br/>
                 <span style = {learningType == "形式逻辑" ? {"color":"orange"} : null}
                       onMouseOver = {() => setLearningType("形式逻辑")}
@@ -142,7 +142,7 @@ export default applyHOCs([
   connect(
     state => ({
       //logined: state.UserManager.logined,
-      ///username: state.UserManager.name,
+      username: state.UserManager.name,
       learningType: state.LearningTypeSelect.learningType
     }),
     dispatch => ({
