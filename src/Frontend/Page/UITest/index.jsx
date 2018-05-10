@@ -103,11 +103,17 @@ function = () => {
         {
           this.state.buttonClick?
             <div>
-              { content[0] == undefined?null:<p>{content[0].english}</p> }
               {
+                content[0] == undefined?null:<p>{content[0].chinese}</p>
                 content.map((chtoeng, key)=>
-                <p key = {key}>{chtoeng.chinese}<br/> {chtoeng.english}</p>
+                <p key = {key}>
+                  { chtoeng.chinese }
+                  <br/>
+                  <input type="text"></input>
+                  {/* { chtoeng.english } */}
+                </p>
                 )
+
               }
             </div>
           :
