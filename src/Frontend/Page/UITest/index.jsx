@@ -86,20 +86,6 @@ function = () => {
   // }))
 }
 
-// loadButtonContents_zhenti = () => {
-//   this.setState({
-//     jiqiaoDisplay: false,
-//     zhaocuoDisplay: false,
-//     mobanDisplay: false,
-//     gongguDisplay: false,
-//     zhentiDisplay: !this.state.zhentiDisplay
-//   });
-//   this.props.loadButtonContents({
-//     url: "/api/lunzhengZhenti"
-//     });
-// }
-
-
 
   render(){
     const { processStep } = this.state;
@@ -120,8 +106,7 @@ function = () => {
               { content[0] == undefined?null:<p>{content[0].english}</p> }
               {
                 content.map((chtoeng, key)=>
-                <p key = {key}>{chtoeng.chinese}</p>
-
+                <p key = {key}>{chtoeng.chinese}<br/> {chtoeng.english}</p>
                 )
               }
             </div>
