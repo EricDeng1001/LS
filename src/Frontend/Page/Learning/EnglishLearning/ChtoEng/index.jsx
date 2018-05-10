@@ -1,24 +1,106 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Prompt } from 'react-router';
 import style from 'style';
 
+import Button from 'UI/Button';
+import WriteGraph from 'UI/WriteGraph';
+
+import Loading from 'Animation/Loading';
+import SlideLR from 'Animation/SlideLR';
+import SlideRL from 'Animation/SlideRL';
+import SlideDU from 'Animation/SlideDU';
+import SlideUD from 'Animation/SlideUD';
+
+import UserManagerWindow from "Windows/UserManager";
+
+import protect from 'direct-core/protect';
+import asyncProcessControl from 'direct-core/asyncProcessControl';
+import makePage from 'direct-core/makePage';
+import applyHOCs from 'direct-core/applyHOCs';
+
+import {
+  view as PortTest,
+  actions as PortTestActions
+} from 'Connected/PortTest';
+
 class ChtoEng extends React.PureComponent {
+
   constructor( props ){
     super( props );
+    this.state = {
+      submit: false
+    };
   }
 
-  render(){
-    return(
-      <React.Fragment>
-        <div> ChtoEng </div>
-
-      </React.Fragment>
-    )
+  componentDidMount(){
+    this.loadChtoEng();
   }
 
-
-
-
+loadChtoEng = () => {
+  this.props.loadPortContent({
+    url: "/api/eng_getWriteTest",
+    body: {
+      username: "lxq",
+      articleId: 1
+    }
+  })
 }
 
 
-export default ChtoEng
+  render(){
+
+    const {
+      content
+    } = this.props;
+    console.log(content);
+
+    return (
+      <React.Fragment>
+
+        {
+            <div>
+              {
+                // content[0] == undefined?null:<p>{content[0].chinese}</p>
+                content.map((chtoeng, key)=>
+                <div key = {key}>
+                  { chtoeng.chinese }
+                  <br/>
+                  <input type="text"></input>
+                  {
+                    this.state.submit?
+                    <p> { chtoeng.english }</p>
+                    :
+                    null
+                  }
+                </div>
+                )
+              }
+              {
+                <Button text="测试" onClick={() => this.setState({submit: true}) }/>
+              }
+            </div>
+        }
+
+      </React.Fragment>
+    );
+  }
+};
+
+export default applyHOCs([
+  asyncProcessControl({
+  }),
+  makePage,
+  connect(
+    state => ({
+      logined: state.UserManager.logined,
+      username: state.UserManager.name,
+      content: state.PortTest.content,
+    }),
+    dispatch => ({
+      ...bindActionCreators( PortTestActions , dispatch),
+    })
+  )],
+  ChtoEng
+);
