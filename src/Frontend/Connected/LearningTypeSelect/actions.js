@@ -1,6 +1,6 @@
 import {
   __SET_LEARNING_TYPE,
-  __ASYNC_LOAD_PORT_CONTENT
+  __ASYNC_LOAD_CHAPTER_NAME
 } from 'actionTypes';
 
 let setLearningTypeCounter = 0;
@@ -15,14 +15,14 @@ export const setLearningType = ( learningType ) => ({
 
 let getChapterNameCounter = 0;
 const getChapterNameStart = () => ({
-    type: __ASYNC_LOAD_PORT_CONTENT.pending,
+    type: __ASYNC_LOAD_CHAPTER_NAME.pending,
     payload: {
 
     },
     id: getChapterNameCounter
 });
 const getChapterNameResolved = ( response , initState ) => ({
-    type: __ASYNC_LOAD_PORT_CONTENT.resolved,
+    type: __ASYNC_LOAD_CHAPTER_NAME.resolved,
     payload: {
       response,
       initState
@@ -30,7 +30,7 @@ const getChapterNameResolved = ( response , initState ) => ({
     id: getChapterNameCounter
 });
 const getChapterNameRejected = ( reason , detail ) => ({
-    type: __ASYNC_LOAD_PORT_CONTENT.rejected,
+    type: __ASYNC_LOAD_CHAPTER_NAME.rejected,
     payload: {
       reason,
       detail
@@ -40,7 +40,7 @@ const getChapterNameRejected = ( reason , detail ) => ({
 
 
 export const getChapterName = ({ url , body , parser , headers  , initState }) => ( dispatch , getState ) => {
-//export const loadButtonContents = ({ url , body ,headers  , initState }) => ( dispatch , getState ) => {
+//exCHAPTER const loadButtonNAMEs = ({ url , body ,headers  , initState }) => ( dispatch , getState ) => {
     const reqId = ++getChapterNameCounter;
     const dispatchLastest = action => {
       if( reqId === getChapterNameCounter ){

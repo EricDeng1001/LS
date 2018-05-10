@@ -49,13 +49,15 @@ class UnitTest extends React.PureComponent {
     this.props.loadPortContent({
       url: "/api/logicCeshi",
       body: {
-        username: this.props.username
+        username: this.props.username,
+        chapter_name: this.props.chapter_name
       },
     });
     this.props.loadQuestions({
       url: "/api/logicCeshi",
       body: {
-        username: this.props.username
+        username: this.props.username,
+        chapter_name: this.props.chapter_name
       },
 
       parser: response => {
@@ -163,6 +165,7 @@ class UnitTest extends React.PureComponent {
             >
               <SlideRL play={ined}>
                 <div>
+                  <h4 className = {style.dalei}> {content.chapter_name} </h4>
                   <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
                   <Button className = {style.submitButton} text = {"确认提交"} onClick={this.submitQuestions}/>
                   <Button className = {style.viewStatistics} text = {"查看本章数据统计"}/>
@@ -227,6 +230,7 @@ export default applyHOCs([
       submitQuestionState: state.SingleOptionQuestions.submitState,
       content: state.PortTest.content,
       loadContentState: state.PortTest.loadState,
+      chapter_name: state.LearningTypeSelect.chapter_name
     }),
     dispatch => ({
       ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),

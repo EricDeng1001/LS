@@ -24,11 +24,14 @@ class EnterLearning extends React.PureComponent {
   constructor( props ){
     super( props );
     this.state = {
+      type1Selected: false,
+      type2Selected: false,
       typeSelectShow: true
     }
   }
 
   getLogicChapterName = ( num ) => {
+    console.log(this.props.username,num)
     this.props.getChapterName({
       url: "/api/logicGetChapterName",
       body: {
@@ -38,13 +41,25 @@ class EnterLearning extends React.PureComponent {
     })
   }
 
+  TypeSelectNote = () =>{
+    alert("您还没有选择要学习的类型，请选择您要学习的类型!");
+    this.setState({typeSelectShow: true})
+  }
+
+  FinishTestNote = () =>{
+    alert("您还没有完成入口测试，请先完成入口测试!");
+    this.setState({typeSelectShow: true})
+  }
+
+
 
   render(){
     const {
       setLearningType,
-      learningType
+      learningType,
+      finished_level_test
     } = this.props;
-    console.log(learningType)
+    //console.log(learningType)
 
     var TextStyle = [];
     for( var i = 0 ; i < 4 ; i++ ){
@@ -54,6 +69,7 @@ class EnterLearning extends React.PureComponent {
       learningType == "测试" ? TextStyle[3] = style.choosed_type : TextStyle[3] = style.normal_type ;
     }
 
+
     return(
       <React.Fragment>
         <div className = {style.whole}>
@@ -62,13 +78,13 @@ class EnterLearning extends React.PureComponent {
             <div>
               <Info info = "请点击选择您要学习的类型："/>
               <div className = {style.typeSelect}><br/>
-                <span style = {learningType == "形式逻辑" ? {"color":"orange"} : null}
-                      onMouseOver = {() => setLearningType("形式逻辑")}
-                      onClick = {() => this.getLogicChapterName(1)}> 形式逻辑
+                <span style = {this.state.type1Selected ? {"color":"orange"} : null}
+                      //onMouseOver = {() => setLearningType("形式逻辑")}
+                      onClick = {() => {this.setState({type1Selected: true,type2Selected: false});this.getLogicChapterName(1)}}> 形式逻辑
                 </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span style = {learningType == "论证逻辑" ? {"color":"orange"} : null}
-                      onMouseOver = {() => setLearningType("论证逻辑")}
-                      onClick = {() => this.getLogicChapterName(0)}> 论证逻辑
+                <span style = {this.state.type2Selected ? {"color":"orange"} : null}
+                      //onMouseOver = {() => setLearningType("论证逻辑")}
+                      onClick = {() => {this.setState({type2Selected: true,type1Selected: false});this.getLogicChapterName(0)}}> 论证逻辑
                 </span>
               </div>
 
@@ -109,23 +125,15 @@ class EnterLearning extends React.PureComponent {
               </div>
             </div>
             :
+            this.state.type1Selected == false && this.state.type2Selected == false && (learningType == "知识点精要" || learningType == "重点习题" || learningType == "强化练习" || learningType == "单元测试") ?
+            <div>{this.TypeSelectNote()}</div>
+            :
+            finished_level_test == 0 ? <div>{this.FinishTestNote()}</div>:
             learningType == "知识点精要" ? <Knowledge/> :
             learningType == "重点习题" ? <ZhongDian/> :
             learningType == "强化练习" ? <QiangHua/> :
             learningType == "单元测试" ? <UnitTest/> : null
-
           }
-
-
-
-
-        {/*
-        this.state.zhishidian ? <KnowLedge/>:
-        this.state.zhongdian ? <ZhongDian/>:
-        this.state.qianghua ? <QiangHua/>:
-        this.state.ceshi ? <UnitTest/> : null
-    */  }
-
 
         </div>
       </React.Fragment>
@@ -143,7 +151,8 @@ export default applyHOCs([
     state => ({
       //logined: state.UserManager.logined,
       username: state.UserManager.name,
-      learningType: state.LearningTypeSelect.learningType
+      learningType: state.LearningTypeSelect.learningType,
+      finished_level_test: state.LearningTypeSelect.finished_level_test
     }),
     dispatch => ({
       ...bindActionCreators( LearningTypeSelectActions , dispatch ),

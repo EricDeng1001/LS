@@ -55,13 +55,15 @@ class ZhongDian extends React.PureComponent {
     this.props.loadPortContent({
       url: "/api/logicZhongdian",
       body: {
-        username: this.props.username
+        username: this.props.username,
+        chapter_name: this.props.chapter_name
       },
     });
     this.props.loadQuestions({
       url: "/api/logicZhongdian",
       body: {
-        username: this.props.username
+        username: this.props.username,
+        chapter_name: this.props.chapter_name
       },
 
       parser: response => {
@@ -230,6 +232,7 @@ export default applyHOCs([
       submitQuestionState: state.SingleOptionQuestions.submitState,
       content: state.PortTest.content,
       loadContentState: state.PortTest.loadState,
+      chapter_name: state.LearningTypeSelect.chapter_name
     }),
     dispatch => ({
       ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
