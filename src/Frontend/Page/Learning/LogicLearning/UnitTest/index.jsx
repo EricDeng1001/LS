@@ -152,6 +152,17 @@ class UnitTest extends React.PureComponent {
     })
   }
 
+  finishedChapter = (num) => {
+    this.props.loadAllZhentiTongji({
+      url: "/api/logicFinishedChapter",
+      body: {
+        username: this.props.username,
+        chapter_name: this.props.chapter_name,
+        whetherEnterNextChapter: num
+      },
+    })
+  }
+
  componentDidMount(){
    this.loadQuestions();
  }
@@ -206,7 +217,9 @@ class UnitTest extends React.PureComponent {
            content.flag == 2 ? <Info info = "您还没有完成入口测试，请先完成入口测试！"/> :
            content.flag == 3 ? <Info info = "您还没有完成重点习题，请先完成重点习题！"/> :
            <Info info = "您还没有完成强化练习，请先完成强化练习！"/>:
-           <LogicChapterError chapter_name = {this.props.chapter_name} ceshiData = {this.props.ceshiData} chapterData = {this.props.chapterData}/>
+           <LogicChapterError chapter_name = {this.props.chapter_name} ceshiData = {this.props.ceshiData} chapterData = {this.props.chapterData}
+             stayThisChapter = {() => this.finishedChapter(0)} enterNextChapter = {() => this.finishedChapter(1)} // 1 进入下一章 ， 0 不进入
+           />
         }
 
 
