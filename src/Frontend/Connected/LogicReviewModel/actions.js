@@ -1,14 +1,16 @@
 import {
-  __ASYNC_LOAD_REVIEW_CHAPTER
+  __ASYNC_LOAD_REVIEW_CHAPTER,
+  __SET_CHAPTER
 } from 'actionTypes';
+//import jsonToUrlencoded from 'direct-core/Algorithm/jsonToUrlencoded';
 
-let loadLogicReviewChapterNameCounter = 0;
+let getLogicReviewChapterNameCounter = 0;
 const getLogicReviewChapterNameStart = () => ({
     type: __ASYNC_LOAD_REVIEW_CHAPTER.pending,
     payload: {
 
     },
-    id: loadLogicReviewChapterNameCounter
+    id: getLogicReviewChapterNameCounter
 });
 const getLogicReviewChapterNameResolved = ( response , initState ) => ({
     type: __ASYNC_LOAD_REVIEW_CHAPTER.resolved,
@@ -16,7 +18,7 @@ const getLogicReviewChapterNameResolved = ( response , initState ) => ({
       response,
       initState
     },
-    id: loadLogicReviewChapterNameCounter
+    id: getLogicReviewChapterNameCounter
 });
 const getLogicReviewChapterNameRejected = ( reason , detail ) => ({
     type: __ASYNC_LOAD_REVIEW_CHAPTER.rejected,
@@ -24,14 +26,15 @@ const getLogicReviewChapterNameRejected = ( reason , detail ) => ({
       reason,
       detail
     },
-    id: loadLogicReviewChapterNameCounter
+    id: getLogicReviewChapterNameCounter
 });
 
 
 export const getLogicReviewChapterName = ({ url , body , parser , headers  , initState }) => ( dispatch , getState ) => {
-    const reqId = ++loadLogicReviewChapterNameCounter;
+//export const loadButtonContents = ({ url , body ,headers  , initState }) => ( dispatch , getState ) => {
+    const reqId = ++getLogicReviewChapterNameCounter;
     const dispatchLastest = action => {
-      if( reqId === loadLogicReviewChapterNameCounter ){
+      if( reqId === getLogicReviewChapterNameCounter ){
         dispatch( action );
       }
     }
@@ -56,9 +59,19 @@ export const getLogicReviewChapterName = ({ url , body , parser , headers  , ini
     .then( json => dispatchLastest( getLogicReviewChapterNameResolved(  json  , initState ) ) )
     .catch( err => {
       dispatchLastest( getLogicReviewChapterNameRejected( "json" , err ) )
+    //console.log(response)
   });
   })
   .catch( err => {
       dispatchLastest( getLogicReviewChapterNameRejected( "network" , err ) );
  });
 };
+
+let setChapterCounter = 0;
+export const setChapter = ( choice ) => ({
+  type: __SET_CHAPTER,
+  payload: {
+    choice
+  },
+  id: setChapterCounter++
+});
