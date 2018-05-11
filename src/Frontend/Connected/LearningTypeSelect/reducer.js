@@ -1,12 +1,14 @@
 import {
   __SET_LEARNING_TYPE,
-  __ASYNC_LOAD_CHAPTER_NAME
+  __ASYNC_LOAD_CHAPTER_NAME,
+  __ASYNC_SUBMIT_WHETHER_NEXT
 } from 'actionTypes';
 
 export default( state = {
   learningType: "",
   chapter_name: "",
   finished_level_test: "", // 0 表示未完成水平测试 ， 1 完成了水平测试
+  enterNextChapter: false,
   loadState: {
     pending: 0,
     resolved: 0,
@@ -47,18 +49,43 @@ export default( state = {
           loadState,
           chapter_name: response.chapter_name_ch,
           finished_level_test: response.flag
-          //name2: response.section_name2,
-          //name3: response.section_name3,
-          //NAME: response
-          //NAME: {
-            //title: response.title,
-            //title_article: response.title_article,
-            //name: response.name,
-            //example_article: response.NAME
-          //}
         };
       }
       case __ASYNC_LOAD_CHAPTER_NAME.rejected: {
+        let { reason , detail } = payload;
+        let loadState = {...state.loadState };
+        loadState.rejected++;
+        loadState.pending--;
+        loadState.lastFailed = true;
+        loadState.failedReason = reason;
+        loadState.failedDetail = detail;
+        return {
+          ...state,
+          loadState
+        };
+      }
+
+      case __ASYNC_SUBMIT_WHETHER_NEXT.pending: {
+        let loadState = {...state.loadState };
+        loadState.lastFailed = false;
+        loadState.pending++;
+        return {
+          ...state,
+          loadState
+        };
+      }
+      case __ASYNC_SUBMIT_WHETHER_NEXT.resolved: {
+        let { response , initState } = payload;
+        let loadState = {...state.loadState };
+        loadState.resolved++;
+        loadState.pending--;
+        return {
+          ...state,
+          loadState,
+          enterNextChapter: response.update == 1 ? true : false
+        };
+      }
+      case __ASYNC_SUBMIT_WHETHER_NEXT.rejected: {
         let { reason , detail } = payload;
         let loadState = {...state.loadState };
         loadState.rejected++;

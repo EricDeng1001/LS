@@ -15,6 +15,8 @@ import SlideDU from 'Animation/SlideDU';
 import SlideUD from 'Animation/SlideUD';
 
 import UserManagerWindow from "Windows/UserManager";
+import StayThisOrEnterNext from 'Page/Learning/LogicLearning/StayThisOrEnterNext';
+import EnterLearning from 'Page/Learning/LogicLearning/EnterLearning';
 
 import {
   view as SingleOptionQuestions,
@@ -30,6 +32,9 @@ import {
 import {
   actions as ZhentiAllYearTongjiActions
 } from 'Connected/ZhentiAllYearTongji';
+import {
+  actions as LearningTypeSelectActions
+} from 'Connected/LearningTypeSelect';
 
 import TextAndImag from 'UI/TextAndImag';
 import SingleQuestion from 'UI/SingleQuestion';
@@ -49,7 +54,8 @@ class UnitTest extends React.PureComponent {
     this.questions = [];
     this.state = {
       end: false,
-      unitTongjiShow: false
+      unitTongjiShow: false,
+      thisOrNext: false
     };
   }
 
@@ -135,7 +141,7 @@ class UnitTest extends React.PureComponent {
   }
 
   loadChapterError = () => {
-    this.setState({unitTongjiShow: true});
+    this.setState({unitTongjiShow: true , thisOrNext: false});
     this.props.loadZhentiTongji({
       url: "/api/logicCeshiResult",
       body: {
@@ -153,7 +159,8 @@ class UnitTest extends React.PureComponent {
   }
 
   finishedChapter = (num) => {
-    this.props.loadAllZhentiTongji({
+    this.setState({thisOrNext: true , unitTongjiShow: false});
+    this.props.getRecordWhetherNext({
       url: "/api/logicFinishedChapter",
       body: {
         username: this.props.username,
@@ -178,7 +185,7 @@ class UnitTest extends React.PureComponent {
       ined,
       questions,
       content,
-      setChoice
+      setChoice,
     } = this.props;
     console.log(questions)
 
@@ -188,8 +195,18 @@ class UnitTest extends React.PureComponent {
           when={end==false}
           message="you need to do it again, are you sure to quit?"
         />
-        { this.state.unitTongjiShow == false ?
-            content.flag == 1 ?
+        { this.state.unitTongjiShow ?
+          <div>
+          <LogicChapterError chapter_name = {this.props.chapter_name} ceshiData = {this.props.ceshiData} chapterData = {this.props.chapterData}
+                             //stayThisChapter = {() => this.finishedChapter(0)} enterNextChapter = {() => this.finishedChapter(1)} // 1 进入下一章 ， 0 不进入
+          />
+          <br/><span>请选择留在本章学习还是进入下一章节的学习：</span>
+          <span><Button text = "留在本章" onClick = {() => this.finishedChapter(0)}></Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Button text = "进入下一章" onClick = { () => this.finishedChapter(1)}></Button></span>
+        </div>
+          :
+          this.state.thisOrNext ? <EnterLearning/> :
+          content.flag == 1 ?
             <div>
               <div className = {style.pageTitle}> 单元测试 </div>
 
@@ -216,10 +233,8 @@ class UnitTest extends React.PureComponent {
            :
            content.flag == 2 ? <Info info = "您还没有完成入口测试，请先完成入口测试！"/> :
            content.flag == 3 ? <Info info = "您还没有完成重点习题，请先完成重点习题！"/> :
-           <Info info = "您还没有完成强化练习，请先完成强化练习！"/>:
-           <LogicChapterError chapter_name = {this.props.chapter_name} ceshiData = {this.props.ceshiData} chapterData = {this.props.chapterData}
-             stayThisChapter = {() => this.finishedChapter(0)} enterNextChapter = {() => this.finishedChapter(1)} // 1 进入下一章 ， 0 不进入
-           />
+           <Info info = "您还没有完成强化练习，请先完成强化练习！"/>
+
         }
 
 
@@ -280,7 +295,8 @@ export default applyHOCs([
       ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
       ...bindActionCreators( PortTestActions , dispatch ),
       ...bindActionCreators( ZhentiPerYearTongjiActions , dispatch ),
-      ...bindActionCreators( ZhentiAllYearTongjiActions , dispatch )
+      ...bindActionCreators( ZhentiAllYearTongjiActions , dispatch ),
+      ...bindActionCreators( LearningTypeSelectActions , dispatch )
     })
   )],
   UnitTest

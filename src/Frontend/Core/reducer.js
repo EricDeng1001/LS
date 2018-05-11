@@ -13,6 +13,7 @@ import { reducer as ZhentiPerYearTongji } from 'Connected/ZhentiPerYearTongji';
 import { reducer as ZhentiAllYearTongji } from 'Connected/ZhentiAllYearTongji';
 import { reducer as PageDesign } from 'Connected/PageDesign';
 import { reducer as LearningTypeSelect } from 'Connected/LearningTypeSelect';
+import { reducer as LogicReviewModel } from 'Connected/LogicReviewModel';
 //import { reducer as ... } from 'Connected/...';
 
 export default {
@@ -29,7 +30,8 @@ export default {
   ZhentiPerYearTongji: ZhentiPerYearTongji,
   ZhentiAllYearTongji: ZhentiAllYearTongji,
   PageDesign: PageDesign,
-  LearningTypeSelect: LearningTypeSelect
+  LearningTypeSelect: LearningTypeSelect,
+  LogicReviewModel: LogicReviewModel
 
   //others
 };
