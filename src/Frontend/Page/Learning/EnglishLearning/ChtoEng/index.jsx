@@ -69,7 +69,6 @@ loadChtoEng = () => {
                 <div key = {key} className={style.chtoengall}>
                   { chtoeng.chinese }
                   <br/>
-                  {/* <input type="text" className={style.eng_input} /> */}
                   <textarea  aria-label="With textarea" className = {style.textarea}></textarea>
                   {
                     this.state.submit?
