@@ -194,6 +194,7 @@ class UnitTest extends React.PureComponent {
                     <div>
                       <h4 className = {style.dalei}> {content.chapter_name} </h4>
                       <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
+                      <strong align = "center"><div style = {{"color":"red"}}>请先确认提交，再查看章节数据统计，否则，统计数据将会是上次测试的统计结果</div></strong>
                       <Button className = {style.submitButton} text = {"确认提交"} onClick = {this.submitQuestions}/>
                       <Button className = {style.viewStatistics} text = {"查看本章数据统计"} onClick = {() => this.loadChapterError()}/>
                    </div>

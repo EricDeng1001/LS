@@ -8,7 +8,9 @@ class LogicChapterError extends React.PureComponent{
     const {
       chapter_name,
       ceshiData,
-      chapterData
+      chapterData,
+      stayThisChapter,
+      enterNextChapter
     } = this.props;
     console.log(this.props)
     return(
@@ -60,8 +62,8 @@ class LogicChapterError extends React.PureComponent{
           ceshiData.flag == 2 ? <strong align = "center"><div style = {{"color":"red"}}>根据您的做题情况，系统建议您留在本章的学习</div></strong> : null
         }
         <br/><span>请选择留在本章学习还是进入下一章节的学习：</span>
-        <span><Button text = "留在本章"></Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <Button text = "进入下一章"></Button></span>
+        <span><Button text = "留在本章" onClick = {stayThisChapter}></Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <Button text = "进入下一章" onClick = {enterNextChapter}></Button></span>
 
       </div>
     )
