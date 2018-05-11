@@ -24,9 +24,16 @@ import {
   view as PortTest,
   actions as PortTestActions
 } from 'Connected/PortTest';
+import {
+  actions as ZhentiPerYearTongjiActions
+} from 'Connected/ZhentiPerYearTongji';
+import {
+  actions as ZhentiAllYearTongjiActions
+} from 'Connected/ZhentiAllYearTongji';
 
 import TextAndImag from 'UI/TextAndImag';
 import SingleQuestion from 'UI/SingleQuestion';
+import LogicChapterError from 'UI/LogicChapterError';
 import changeAlpToNum from 'Algorithm/changeAlpToNum';
 
 import protect from 'direct-core/protect';
@@ -41,7 +48,8 @@ class UnitTest extends React.PureComponent {
 
     this.questions = [];
     this.state = {
-      end: false
+      end: false,
+      unitTongjiShow: false
     };
   }
 
@@ -126,6 +134,24 @@ class UnitTest extends React.PureComponent {
     //}
   }
 
+  loadChapterError = () => {
+    this.setState({unitTongjiShow: true});
+    this.props.loadZhentiTongji({
+      url: "/api/logicCeshiResult",
+      body: {
+        username: this.props.username,
+        chapter_name: this.props.chapter_name
+      },
+    });
+    this.props.loadAllZhentiTongji({
+      url: "/api/logicResult",
+      body: {
+        username: this.props.username,
+        chapter_name: this.props.chapter_name
+      },
+    })
+  }
+
  componentDidMount(){
    this.loadQuestions();
  }
@@ -151,34 +177,36 @@ class UnitTest extends React.PureComponent {
           when={end==false}
           message="you need to do it again, are you sure to quit?"
         />
-        {content.flag == 1 ?
-        <div>
-          <div className = {style.pageTitle}> 单元测试 </div>
+        { this.state.unitTongjiShow == false ?
+            content.flag == 1 ?
+            <div>
+              <div className = {style.pageTitle}> 单元测试 </div>
 
-          <div className = {style.logic_knowledge}>
-            <Loading
-              loading = {loadQuestionState.pending}
-              wasLoaded = {loadQuestionState.resolved}
-              lastFailed = {loadQuestionState.lastFailed}
-              reloader = {this.loadQuestions}
-              center
-            >
-              <SlideRL play={ined}>
-                <div>
-                  <h4 className = {style.dalei}> {content.chapter_name} </h4>
-                  <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
-                  <Button className = {style.submitButton} text = {"确认提交"} onClick={this.submitQuestions}/>
-                  <Button className = {style.viewStatistics} text = {"查看本章数据统计"}/>
-                </div>
-              </SlideRL>
-            </Loading>
-          </div>
-        </div>
-        :
-        content.flag == 2 ? <Info info = "您还没有完成入口测试，请先完成入口测试！"/> :
-        content.flag == 3 ? <Info info = "您还没有完成重点习题，请先完成重点习题！"/> :
-        <Info info = "您还没有完成强化练习，请先完成强化练习！"/>
-         }
+              <div className = {style.logic_knowledge}>
+                <Loading
+                  loading = {loadQuestionState.pending}
+                  wasLoaded = {loadQuestionState.resolved}
+                  lastFailed = {loadQuestionState.lastFailed}
+                  reloader = {this.loadQuestions}
+                  center
+                >
+                  <SlideRL play={ined}>
+                    <div>
+                      <h4 className = {style.dalei}> {content.chapter_name} </h4>
+                      <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
+                      <Button className = {style.submitButton} text = {"确认提交"} onClick = {this.submitQuestions}/>
+                      <Button className = {style.viewStatistics} text = {"查看本章数据统计"} onClick = {() => this.loadChapterError()}/>
+                   </div>
+                 </SlideRL>
+               </Loading>
+             </div>
+           </div>
+           :
+           content.flag == 2 ? <Info info = "您还没有完成入口测试，请先完成入口测试！"/> :
+           content.flag == 3 ? <Info info = "您还没有完成重点习题，请先完成重点习题！"/> :
+           <Info info = "您还没有完成强化练习，请先完成强化练习！"/>:
+           <LogicChapterError chapter_name = {this.props.chapter_name} ceshiData = {this.props.ceshiData} chapterData = {this.props.chapterData}/>
+        }
 
 
 
@@ -230,11 +258,15 @@ export default applyHOCs([
       submitQuestionState: state.SingleOptionQuestions.submitState,
       content: state.PortTest.content,
       loadContentState: state.PortTest.loadState,
-      chapter_name: state.LearningTypeSelect.chapter_name
+      chapter_name: state.LearningTypeSelect.chapter_name,
+      ceshiData: state.ZhentiPerYearTongji.tongji,
+      chapterData: state.ZhentiAllYearTongji.tongji
     }),
     dispatch => ({
       ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
-      ...bindActionCreators( PortTestActions , dispatch )
+      ...bindActionCreators( PortTestActions , dispatch ),
+      ...bindActionCreators( ZhentiPerYearTongjiActions , dispatch ),
+      ...bindActionCreators( ZhentiAllYearTongjiActions , dispatch )
     })
   )],
   UnitTest
