@@ -61,13 +61,16 @@ loadChtoEng = () => {
 
         {
             <div>
+              <div className={style.pageTitle}> 汉译英 </div>
+              <br/>
               {
                 // content[0] == undefined?null:<p>{content[0].chinese}</p>
                 content.map((chtoeng, key)=>
-                <div key = {key}>
+                <div key = {key} className={style.chtoengall}>
                   { chtoeng.chinese }
                   <br/>
-                  <input type="text"></input>
+                  {/* <input type="text" className={style.eng_input} /> */}
+                  <textarea  aria-label="With textarea" className = {style.textarea}></textarea>
                   {
                     this.state.submit?
                     <p> { chtoeng.english }</p>
@@ -78,7 +81,7 @@ loadChtoEng = () => {
                 )
               }
               {
-                <Button text="测试" onClick={() => this.setState({submit: true}) }/>
+                <Button text="显示答案" className={style.buttonShowEng} onClick={() => this.setState({submit: true}) }/>
               }
             </div>
         }
