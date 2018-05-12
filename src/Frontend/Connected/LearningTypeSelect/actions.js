@@ -1,8 +1,18 @@
 import {
+  __RECORD_XINGSHI_OR_LUNZHENG,
   __SET_LEARNING_TYPE,
   __ASYNC_LOAD_CHAPTER_NAME,
   __ASYNC_SUBMIT_WHETHER_NEXT
 } from 'actionTypes';
+
+let recodXingshiOrLunzhengCounter = 0;
+export const recordXingshiOrLunzheng = ( learningType ) => ({
+  type: __RECORD_XINGSHI_OR_LUNZHENG,
+  payload: {
+    learningType
+  },
+  id: recodXingshiOrLunzhengCounter++
+});
 
 let setLearningTypeCounter = 0;
 export const setLearningType = ( learningType ) => ({

@@ -15,7 +15,6 @@ import SlideDU from 'Animation/SlideDU';
 import SlideUD from 'Animation/SlideUD';
 
 import UserManagerWindow from "Windows/UserManager";
-import StayThisOrEnterNext from 'Page/Learning/LogicLearning/StayThisOrEnterNext';
 import EnterLearning from 'Page/Learning/LogicLearning/EnterLearning';
 
 import {
@@ -196,14 +195,9 @@ class UnitTest extends React.PureComponent {
           message="you need to do it again, are you sure to quit?"
         />
         { this.state.unitTongjiShow ?
-          <div>
           <LogicChapterError chapter_name = {this.props.chapter_name} ceshiData = {this.props.ceshiData} chapterData = {this.props.chapterData}
-                             //stayThisChapter = {() => this.finishedChapter(0)} enterNextChapter = {() => this.finishedChapter(1)} // 1 进入下一章 ， 0 不进入
+                             stayThisChapter = {() => this.finishedChapter(0)} enterNextChapter = {() => this.finishedChapter(1)} // 1 进入下一章 ， 0 不进入
           />
-          <br/><span>请选择留在本章学习还是进入下一章节的学习：</span>
-          <span><Button text = "留在本章" onClick = {() => this.finishedChapter(0)}></Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Button text = "进入下一章" onClick = { () => this.finishedChapter(1)}></Button></span>
-        </div>
           :
           this.state.thisOrNext ? <EnterLearning/> :
           content.flag == 1 ?

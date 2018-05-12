@@ -1,10 +1,12 @@
 import {
+  __RECORD_XINGSHI_OR_LUNZHENG,
   __SET_LEARNING_TYPE,
   __ASYNC_LOAD_CHAPTER_NAME,
   __ASYNC_SUBMIT_WHETHER_NEXT
 } from 'actionTypes';
 
 export default( state = {
+  xingshiOrLunzheng: "",
   learningType: "",
   chapter_name: "",
   finished_level_test: "", // 0 表示未完成水平测试 ， 1 完成了水平测试
@@ -19,6 +21,12 @@ export default( state = {
   },
 } , { type , payload , id }) => {
   switch( type ){
+    case __RECORD_XINGSHI_OR_LUNZHENG:
+      return{
+        ...state,
+        xingshiOrLunzheng: payload.learningType
+      }
+
     case __SET_LEARNING_TYPE:
       return{
         ...state,
