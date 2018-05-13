@@ -6,10 +6,10 @@ import {
 } from 'actionTypes';
 
 let recodXingshiOrLunzhengCounter = 0;
-export const recordXingshiOrLunzheng = ( learningType ) => ({
+export const recordXingshiOrLunzheng = ( learningAllType ) => ({
   type: __RECORD_XINGSHI_OR_LUNZHENG,
   payload: {
-    learningType
+    learningAllType
   },
   id: recodXingshiOrLunzhengCounter++
 });

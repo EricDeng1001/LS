@@ -24,7 +24,7 @@ export default( state = {
     case __RECORD_XINGSHI_OR_LUNZHENG:
       return{
         ...state,
-        xingshiOrLunzheng: payload.learningType
+        xingshiOrLunzheng: payload.learningAllType
       }
 
     case __SET_LEARNING_TYPE:

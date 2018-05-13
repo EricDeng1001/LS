@@ -16,6 +16,8 @@ import {
 
 import TextAndImag from 'UI/TextAndImag';
 import Button from 'UI/Button';
+import Info from 'UI/Info';
+import changeAlpToNum from 'Algorithm/changeAlpToNum';
 
 import protect from 'direct-core/protect';
 import asyncProcessControl from 'direct-core/asyncProcessControl';
@@ -45,13 +47,14 @@ class LogicReviewContent extends React.PureComponent {
 
       parser: response => {
         var all = [];
-        for( var i = 0 ; i < response.timu.length ; i++ ){
-          response.timu[i].map ( one => all.push(one) )
+        for( var i = 0 ; i < response.content.length ; i++ ){
+          response.content.map ( one => all.push(one) )
         }
         //console.log(all)
         return all.map(one => ({
            questionId: one.id,
-           options: [one.op_one , one.op_two , one.op_three , one.op_four , one.op_five],
+           options: one.options,
+           //options: [one.op_one , one.op_two , one.op_three , one.op_four , one.op_five],
            rightKey: changeAlpToNum( one.answer ),
            question: one.question,
            analysis: one.analysis,
@@ -120,7 +123,8 @@ class LogicReviewContent extends React.PureComponent {
       total_content,
       ined,
       setLearningType,
-      chapter_name
+      chapter_name,
+      questions
     } = this.props;
     //console.log(total_content.content)
 
@@ -142,8 +146,14 @@ class LogicReviewContent extends React.PureComponent {
 
         <div className = {style.cuoti}>
           <h4 className = {style.fuxibiaoti}>错题集锦</h4>
-          <SingleOptionQuestions loader = {this.requestChapterContent} subject = "logic_review"/>
-          <Button className = {style.submitButton} text = {"确认提交"} onClick={this.submitQuestions}/>
+          {
+            questions.length == 0 ? <Info info = "您在本章没有错题！"/> :
+            <div>
+              <SingleOptionQuestions loader = {this.requestChapterContent} subject = "logic_review"/>
+              <Button className = {style.submitButton} text = {"确认提交"} onClick={this.submitQuestions}/>
+            </div>
+          }
+
         </div>
 
       </React.Fragment>
