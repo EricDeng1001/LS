@@ -6,7 +6,7 @@ import style from 'style';
 
 import LogicTest from 'Page/Learning/LogicLearning/LogicTest';
 import LearningTypeSelect from 'Page/Learning/EnglishLearning/LearningTypeSelect';
-import LogicReview from 'Page/Learning/LogicLearning/LogicReview';
+import EngReview from 'Page/Learning/EnglishLearning/EngReview';
 import EngChart from 'Page/Learning/EnglishLearning/EngChart';
 import EnglishHelp from 'UI/Help/EnglishHelp';
 import Button from 'UI/Button';
@@ -62,7 +62,7 @@ class EnglishLearning extends React.PureComponent {
               newTo[0] == 1 ?
               <LogicTest/> : <Info info = {"您已经完成测试!"} /> :
              choice == 1 ? <LearningTypeSelect/> :
-             choice == 2 ? <LogicReview/> :
+             choice == 2 ? <EngReview/> :
              choice == 3 ? <EngChart/>:
              <EnglishHelp/>
             }

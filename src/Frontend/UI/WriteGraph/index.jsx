@@ -16,7 +16,7 @@ class WriteGraph extends React.Component{
            plotShadow: false
        },
        title: {
-           text: '2014 某网站各浏览器浏览量占比'
+           text: '累计生词类型分析'
        },
        tooltip: {
            headerFormat: '{series.name}<br>',
@@ -37,19 +37,19 @@ class WriteGraph extends React.Component{
        },
        series: [{
            type: 'pie',
-           name: '浏览器访问量占比',
+           name: '生词类型占比',
            data: [
-               ['Firefox',   45.0],
-               ['IE',       26.8],
+               ['中考',   45.0],
+               ['高考',       26.8],
                {
-                   name: 'Chrome',
+                   name: '四级',
                    y: 12.8,
                    sliced: true,
                    selected: true
                },
-               ['Safari',    8.5],
-               ['Opera',     6.2],
-               ['其他',   0.7]
+               ['六级',    8.5],
+               ['考研',     6.2],
+               ['超纲',   0.7]
            ]
        }]
             }

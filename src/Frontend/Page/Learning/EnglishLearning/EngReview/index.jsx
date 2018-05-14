@@ -1,7 +1,8 @@
 import React from 'react';
 import style from 'style';
+import WriteGraph from 'UI/WriteGraph';
 
-class Benkexuexi extends React.PureComponent {
+class EngReview extends React.PureComponent {
   constructor( props ){
     super( props );
   }
@@ -9,7 +10,9 @@ class Benkexuexi extends React.PureComponent {
   render(){
     return(
       <React.Fragment>
-        <div><div> 本课学习 </div></div>
+        {
+          <div className={style.pageTitle}>复习</div>
+        }
 
       </React.Fragment>
     )
@@ -21,4 +24,4 @@ class Benkexuexi extends React.PureComponent {
 }
 
 
-export default Benkexuexi
+export default EngReview
