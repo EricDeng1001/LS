@@ -47,10 +47,8 @@ class LogicReviewContent extends React.PureComponent {
 
       parser: response => {
         var all = [];
-        for( var i = 0 ; i < response.content.length ; i++ ){
-          response.content.map ( one => all.push(one) )
-        }
-        //console.log(all)
+        response.content.map ( one => all.push(one) )
+        //console.log(response.content.length)
         return all.map(one => ({
            questionId: one.id,
            options: one.options,
@@ -87,7 +85,7 @@ class LogicReviewContent extends React.PureComponent {
       if( questions[i].choosed !== questions[i].rightKey ){
         RightOrWrong += `${1}*`;
       }
-      if( questions[i].choosed == questions[i].rightKey ){
+      else if( questions[i].choosed == questions[i].rightKey ){
         RightOrWrong += `${0}*`;
       }
 

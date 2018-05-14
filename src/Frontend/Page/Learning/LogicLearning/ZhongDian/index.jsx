@@ -95,6 +95,7 @@ class ZhongDian extends React.PureComponent {
       submiting,
       lockAndShow
     } = this.props;
+    console.log(questions)
     var submitTime = submitQuestionState.resolved;
     if( submiting ){
       return;
@@ -107,10 +108,11 @@ class ZhongDian extends React.PureComponent {
       if( questions[i].choosed !== questions[i].rightKey ){
         RightOrWrong += `${1}*`;
       }
-      if( questions[i].choosed == questions[i].rightKey ){
+      else if( questions[i].choosed == questions[i].rightKey ){
         RightOrWrong += `${0}*`;
       }
     }
+    console.log(question_id,RightOrWrong)
 
     this.props.submitQuestions({
       url: "/api/logicZhongDianTongJi",

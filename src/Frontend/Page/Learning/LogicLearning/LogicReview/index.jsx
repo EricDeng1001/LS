@@ -84,7 +84,9 @@ class LogicReview extends React.PureComponent {
                 <strong align = "center"><div style = {{"color":"red"}}>请点击选择要复习的章节</div></strong>
                 {importantChapterName.map((oneChapter , key) =>
                 <div key = {key}><br/><li style = {oneChapter == choice ? {"color":"blue"} : null}
-                  onClick = {() => {setChapter(oneChapter);this.requestChapterContent(oneChapter)}}>{oneChapter}</li></div>)}
+                  onClick = {() => {this.setState({reviewContent: true , tongjiShow: false});setChapter(oneChapter)}}
+                  //onClick = {() => {setChapter(oneChapter);this.requestChapterContent(oneChapter)}}
+                  >{oneChapter}</li></div>)}
               </div>
             }
           </div>
@@ -97,7 +99,9 @@ class LogicReview extends React.PureComponent {
                 <strong align = "center"><div style = {{"color":"red"}}>请点击选择要复习的章节</div></strong>
                 {ordinaryChapterName.map((oneChapter , key) =>
                 <div key = {key}><br/><li style = {oneChapter == choice ? {"color":"blue"} : null}
-                  onClick = {() => {setChapter(oneChapter);this.requestChapterContent(oneChapter)}}>{oneChapter}</li></div>)}
+                  onClick = {() => {this.setState({reviewContent: true , tongjiShow: false});setChapter(oneChapter)}}
+                //  onClick = {() => {setChapter(oneChapter);this.requestChapterContent(oneChapter)}}
+                  >{oneChapter}</li></div>)}
               </div>
             }
           </div>
