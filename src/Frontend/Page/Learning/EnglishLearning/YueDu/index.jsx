@@ -30,6 +30,10 @@ import {
 import {
   view as TranslatedWords
 } from 'Connected/TranslatedWords';
+import {
+  view as PortTest,
+  actions as PortTestActions
+} from 'Connected/PortTest';
 
 import mergeArraysIntoOne from 'direct-core/Algorithm/mergeArraysIntoOne';
 
@@ -38,7 +42,7 @@ import asyncProcessControl from 'direct-core/asyncProcessControl';
 import makePage from 'direct-core/makePage';
 import applyHOCs from 'direct-core/applyHOCs';
 
-class YueDu extends React.PureComponent {
+class UITest extends React.PureComponent {
 
   constructor( props ){
     super( props );
@@ -143,9 +147,19 @@ class YueDu extends React.PureComponent {
     }
   }
 
+  function = () => {
+    this.props.loadPortContent({
+      url: "/api/eng_getUnit",
+      body:{
+        username: "lxq"
+      }
+    });
+  }
+
   componentDidMount(){
     this.props.loadContent();
     this.loadQuestions();
+    this.function();
   }
 
 
@@ -159,6 +173,7 @@ class YueDu extends React.PureComponent {
       translateSentences,
       loadArticleState,
       loadContent,
+      UnitAndCourse,
       ined
     } = this.props;
     var { displayByWords } = this.state;
@@ -194,7 +209,7 @@ class YueDu extends React.PureComponent {
         />
 
         <div className={style.HUD}>
-          Step {processStep + 1}: {this.describes[processStep]}
+          [Unit {UnitAndCourse.unit} Course {UnitAndCourse.course}] Step {processStep + 1}: {this.describes[processStep]}
         </div>
         <div className={style.wrapper}>
           <div className={style.leftPane}>
@@ -351,12 +366,14 @@ export default applyHOCs([
       submitQuestionState: state.SingleOptionQuestions.submitState,
       loadArticleState: state.EnglishArticle.loadState,
       translateWordsState: state.EnglishArticle.translateWordsState,
-      articleId: state.EnglishArticle.articleId
+      articleId: state.EnglishArticle.articleId,
+      UnitAndCourse: state.PortTest.content,
     }),
     dispatch => ({
       ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
-      ...bindActionCreators( EnglishArticleActions , dispatch )
+      ...bindActionCreators( EnglishArticleActions , dispatch ),
+      ...bindActionCreators( PortTestActions , dispatch),
     })
   )],
-  YueDu
+  UITest
 );
