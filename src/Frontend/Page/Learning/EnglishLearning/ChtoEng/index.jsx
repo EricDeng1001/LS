@@ -54,7 +54,7 @@ loadChtoEng = () => {
     const {
       content
     } = this.props;
-    console.log(content);
+    // console.log(content);
 
     return (
       <React.Fragment>

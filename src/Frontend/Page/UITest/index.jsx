@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Prompt } from 'react-router';
 import style from 'style';
-//import $ from 'jquery';
 
 import Button from 'UI/Button';
-import WriteGraph from 'UI/WriteGraph';
+import Info from 'UI/Info';
+import ButtonControlPane from 'UI/ButtonControlPane';
 
 import Loading from 'Animation/Loading';
 import SlideLR from 'Animation/SlideLR';
@@ -16,221 +16,298 @@ import SlideUD from 'Animation/SlideUD';
 
 import UserManagerWindow from "Windows/UserManager";
 
-import protect from 'direct-core/protect';
-import asyncProcessControl from 'direct-core/asyncProcessControl';
-import makePage from 'direct-core/makePage';
-import applyHOCs from 'direct-core/applyHOCs';
-
+import {
+  view as EnglishLearningSummary
+} from 'Connected/EnglishLearningSummary';
+import {
+  view as SingleOptionQuestions,
+  actions as SingleOptionQuestionsActions
+} from 'Connected/SingleOptionQuestions';
+import {
+  view as EnglishArticle,
+  actions as EnglishArticleActions
+} from 'Connected/EnglishArticle';
+import {
+  view as TranslatedWords
+} from 'Connected/TranslatedWords';
 import {
   view as PortTest,
   actions as PortTestActions
 } from 'Connected/PortTest';
 
+import mergeArraysIntoOne from 'direct-core/Algorithm/mergeArraysIntoOne';
+
+import protect from 'direct-core/protect';
+import asyncProcessControl from 'direct-core/asyncProcessControl';
+import makePage from 'direct-core/makePage';
+import applyHOCs from 'direct-core/applyHOCs';
+
 class UITest extends React.PureComponent {
 
   constructor( props ){
     super( props );
+    this.actions =
+    [ this.submitQuestions , props.translateWords , () => { this.confirm(); this.setState({displayByWords:false})} , () => { props.translateSentences(); this.confirm() } , () => { props.hideTranslate();this.confirm() }, this.submitQuestions , [ this.confirm , props.translateAll ] ,  [ this.quit , this.doMore ]];
+    this.texts =
+    [ "submit" , "translate words" , "confirm" , "translate sentences" , "confirm" , "submit" , [ "confirm" , "translate all" ] ,  [ "end" , "do more" ] ];
+    this.describes =
+    ["read this page, and try to answer the questions in right, and then submit.","choose your unknown words","read the explaination", "choose the sentences you do not understand well" , "check all translates again" , "do these questions again" , "check your answers and see analysises" , "want to do more?"];
     this.state = {
       processStep: 0,
-      buttonClick: false
+      displayByWords: true
     };
+
   }
 
-// function = () => {
-//   this.props.loadButtonContents({
-//     module.exports = ({ req , res }) => {
-//       const { name,password } = req.body;
-//       const [ errCode , res ] = callPython("login.py",`${name} $password`);
-//       const[errCode , res ] = callPython("offer_lunzheng_zhenti_mingcheng.py");
-//       if(errCode){
-//         res.status(500).end();
-//       } else {
-//         res.send(res);
-//       }
-//     url: "http://59.110.23.212/LearningSystem/BackEnd/logic_test_new1.php",
-//     url: "http://59.110.23.212/LearningSystem/BackEnd/lunzheng_zhenti.php",
-//     body: {
-//       username: "lxq"
-//     }
-//   })
-// }
 
+  loadQuestions = () => {
+    console.log(typeof(this.props.articleId))
+    this.props.loadQuestions({
+      url: "/api/eng_getQuestion",
+      body: {
+        username: this.props.username,
+        lock: 0,
+        article_id: this.props.articleId,
+        //articleId: articleId+1
+      },
+      parser: questions => questions.map( q => ({
+        questionId: q.questionid,
+        options: q.choice,
+        rightKey: q.key,
+        question: q.question,
+        analysis: q.analysis
+      }))
+    });
+  }
 
-// function = () => {
-//   const {username} = this.props;
-//   console.log(username)
-//   this.props.loadButtonContents({
-//     url: "/api/logicCeshi",
-//     body: {
-//       username: this.props.username,
-//       //articleId: 1
-//     }
-//   })
-// }
+  nextStep = () => {
+    this.setState({
+      processStep: this.state.processStep + 1
+    });
+  }
 
-function = () => {
-  this.setState({
-    buttonClick: true
-  });
-  this.props.loadPortContent({
-    url: "/api/eng_getWriteTest",
-    body: {
-      username: "lxq",
-      articleId: 1
+  confirm = () => {
+    this.nextStep();
+  }
+
+  quit = () => {
+    for( var i = 0; i < questions.length ; i++ ){
+      unlockAndHide( questions[i].questionId );
     }
-  })
-  // parser: questions => questions.map( q => ({
-  //   type: q.type,
-  //   id: q.id,
-  //   chinese: q.chinese,
-  //   english: q.english,
-  // }))
-}
+    hideAllTranslate();
+    this.props.history.goBack();
+  }
 
+  doMore = () => {
+    const { unlockAndHide , loadContent , questions , hideAllTranslate } = this.props;
+    loadContent();
+    this.loadQuestions();
+    for( var i = 0; i < questions.length ; i++ ){
+      unlockAndHide( questions[i].questionId );
+    }
+    hideAllTranslate();
+    this.setState({
+      processStep: 0, // 0 ->
+      displayByWords: true
+    });
+  }
 
+  submitQuestions = () => {
+    const {
+      username,
+      questions,
+      articleId,
+      submitQuestionState,
+      submiting,
+      lockAndShow
+    } = this.props;
+    var submitTime = submitQuestionState.resolved;
+    if( submiting ){
+      return;
+    }
+    var wrongList = "";
+    for( var i = 0 ; i < questions.length ; i++ ){
+      if( questions[i].choosed !== questions[i].rightKey ){
+        wrongList += `${questions[i].questionId} `;
+      }
+    }
+    this.props.submitQuestions({
+      url: "/api/eng_recordWrongQuestion",
+      body: {
+        username: username,
+        article_id: articleId.toString(),
+        wrong_question_ids: wrongList,
+        time: submitTime + 1
+      }
+    });
+    if( ( ( submitTime + 1 ) & 1 ) === 0 ){
+      for( var i = 0; i < questions.length ; i++ ){
+        lockAndShow( questions[i].questionId );
+      }
+    }
+  }
+
+  function = () => {
+    this.props.loadPortContent({
+      url: "/api/eng_getUnit",
+      body:{
+        username: "lxq"
+      }
+    });
+  }
+
+  componentDidMount(){
+    this.props.loadContent();
+    this.loadQuestions();
+    this.function();
+  }
 
 
   render(){
     const { processStep } = this.state;
-
     const {
-      ined,
-      content
+      translateWordsState,
+      submitQuestionState,
+      loadQuestionState,
+      translateWords,
+      translateSentences,
+      loadArticleState,
+      loadContent,
+      content,
+      ined
     } = this.props;
-    console.log(content);
-    function uploadFile(){
-      var objFile = document.getElementById("FileSelect");
-      if (objFile.value == ""){
-        alert("未选择文件")
-      }
-      console.log(objFile.files[0].size);
-      console.log(objFile.files[0])
-      var files = document.getElementById("FileSelect");
-      console.log(files.length)
-      //var files = document.getElementById("FileSelect").prop('files');
-      //var files = $('#fileId').prop('files');//获取到文件列表
-        if(files.length == 0){
-            alert('请选择文件');
-        }else{
-            var reader = new FileReader();//新建一个FileReader
-          //console.log(reader.readAsText(objFile.files[0], "UTF-8"))  ;
-            reader.readAsText(objFile.files[0], "UTF-8");//读取文件
-            reader.onload = function(){ //读取完文件之后会回来这里
-                var fileString = this.result; // 读取文件内容
-                console.log(fileString)
-            }
+    var { displayByWords } = this.state;
+    var text = "";
+    var mainAction;
 
-            //reader.onload = function(evt){ //读取完文件之后会回来这里
-              //  var fileString = evt.target.result; // 读取文件内容
-                //console.log(fileString)
-
-        //}
-      }
-
-      //document.getElementById("FileSelect").change(function(){
-    //var fileSelector = $("FileSelect")[0].files;
-    var fileSelector = document.getElementById("FileSelect").files;
-    var file = fileSelector[0];
-    console.log(file);
-
-    //document.getElementById('fileNameDes').text(fileSelector[0].name);
-
-    var reader = new FileReader();
-    reader.onload = function()
-    {
-        document.getElementById("showFile").innerHTML = this.result;
-    };
-    console.log(reader.readAsText(file,"UTF-8"));
-
-//});
-
-
-      //  var fileObj = document.getElementById("upload-file").files[0]; // 获取文件对象
-        //var FileController = "entityServlet1"; // 接收上传文件的后台地址
-
-        //if(fileObj){
-            //alert(fileObj);
-             // FormData 对象
-                 //var form = new FormData();
-                // form.append("file", fileObj);// 文件对象
-
-                 // XMLHttpRequest 对象
-                 //var xhr = new XMLHttpRequest();
-                // xhr.open("post", FileController, true);
-                 //xhr.onload = function () {
-                     //alert(xhr.responseText);
-                // };
-                // xhr.send(form);
-
-      //  }else{
-          //  alert("未选择文件");
-        //}
+    var additionalActions = [];
+    var additionalTexts = [];
+    if( Array.isArray( this.texts[processStep] ) ){
+      [ mainAction , ...additionalActions ] = this.actions[processStep];
+      [ text , ...additionalTexts ] = this.texts[processStep];
+      mainAction = {
+        action: mainAction,
+        text: text
+      };
+      additionalActions = mergeArraysIntoOne({
+        action: additionalActions,
+        text: additionalTexts
+      });
     }
-    function jsReadFiles(file) {
-      var fileObj = document.getElementById("FileSelect");
-    var file = fileSelector[0];
+    else {
+      mainAction = {
+        action: this.actions[processStep],
+        text: this.texts[processStep]
+      };
     }
-    function SwapTxt(){
-     var txt = document.getElementById("eml").value;  //获取文本框里的值
-     console.log(txt)
-         //document.getElementById("lyny").innerHTML=txt;  //在#lyny显示文本框的值
-      }
-
 
     return (
       <React.Fragment>
+        <Prompt
+          when={processStep !== 0 && processStep !== this.actions.length - 1}
+          message="you need to do it again, are you sure to quit?"
+        />
 
-        <Button text="测试" onClick={this.function} />
-        <textarea  id = "eml" onKeyUp={()=>SwapTxt()}></textarea>
-       <p id="lyny"></p>
-
-        <div>
-          <label style = {{"color":"red"}}>请选择一个word或pdf文件:<br/>
-            <a href="javascript:;" className="btn red" id="file">
-              <span className="glyphicon glyphicon-download-alt"></span> 打开
-            </a>
-            <span id="fileNameDes"></span>
-         </label>
-         <input type="file" //style={{"display": "none"}}
-            id="FileSelect" name="userfile" //accept =".doc,.pdf"
-            multiple/>
-      </div>
-
-      <div>
-        <textarea id="showFile" name="showFile" className="form-control" maxLength="10000"  //style={{'width':'500px','resize': 'none'}}
-        placeholder="文本输入"></textarea>
-      </div>
-
-  <button onClick = {()=>uploadFile()}>上传文件</button>
-
-        {
-          this.state.buttonClick?
-            <div>
-              {
-                // content[0] == undefined?null:<p>{content[0].chinese}</p>
-                content.map((chtoeng, key)=>
-                <p key = {key}>
-                  { chtoeng.chinese }
-                  <br/>
-                  <input type="text"></input>
-                  {/* { chtoeng.english } */}
-                </p>
-                )
-
-              }
+        <div className={style.HUD}>
+          Unit {content.unit} Course {content.course} Step {processStep + 1}: {this.describes[processStep]}
+        </div>
+        <div className={style.wrapper}>
+          <div className={style.leftPane}>
+            <Loading
+              loading={loadArticleState.pending}
+              wasLoaded={loadArticleState.resolved}
+              lastFailed={loadArticleState.lastFailed}
+              reloader={loadContent}
+              center
+            >
+              <SlideLR play={ined} >
+                <EnglishArticle
+                  displayByWords={displayByWords}
+                />
+              </SlideLR>
+            </Loading>
             </div>
-          :
-          null
-        }
-        {/* {buttonTexts.map(( oneway , key ) =>
-          <div key = {key}>
-            <Button className = {style.buttonSize} text={oneway}
-                    onClick = {() => {setButtonChoice(oneway);requestData( oneway )} }
-            /><br/>
-          </div>
-          )
-        } */}
 
+            <div className={style.rightPane}>
+            {
+              /*
+              processStep:
+              0 ->submit first
+              1 -> choose words and submit
+              2 -> confirm
+              3 -> choose sentence and submit
+              4 -> confirm
+              5 -> submit second time
+              6( no leading )  -> translateAll ( optional )
+              6 -> go writing
+              7 -> write english and confirm
+              8 -> write chinese and confirm
+              8( no leading ) -> check review ( optional )
+              9 -> do more
+
+              */
+                (() => {
+                  switch( processStep ){
+                    case 0:
+                    case 5:
+                    case 6:
+                      return (
+                        <Loading
+                          loading={loadQuestionState.pending}
+                          wasLoaded={loadQuestionState.resolved}
+                          lastFailed={loadQuestionState.lastFailed}
+                          reloader={this.loadQuestions}
+                          center
+                        >
+                          <SlideRL play={ined}>
+                            <SingleOptionQuestions
+                              submiter={this.submitQuestions}
+                              loader={this.loadQuestions}
+                            />
+                          </SlideRL>
+                        </Loading>
+                      );
+                    case 1:
+                      return (
+                        <div className="container">
+                          <div className="makeLoadingCenter">
+                            <Loading
+                              center
+                              loading={translateWordsState.pending}
+                              lastFailed={translateWordsState.lastFailed}
+                              wasLoaded={translateWordsState.resolved}
+                              reloader={translateWords}
+                              info="Click on the word you don't know"
+                            />
+                          </div>
+                        </div>
+                      );
+                    case 2:
+                    case 4:
+                      return (
+                        <TranslatedWords />
+                      );
+                    case 3:
+                      return (
+                        <Info info="Click on the sentence you don't know"/>
+                      );
+                    case 7:
+                      return (
+                          <EnglishLearningSummary />
+                      );
+                  }
+                })()
+            }
+          </div>
+        </div>
+        <div className={style.controlPane}>
+          <SlideDU play={ined}>
+            <ButtonControlPane
+              mainAction={mainAction}
+              additionalActions={additionalActions}
+            />
+          </SlideDU>
+        </div>
       </React.Fragment>
     );
   }
@@ -238,35 +315,63 @@ function = () => {
 
 export default applyHOCs([
   asyncProcessControl({
-  }),
-/*  protect({
-    logined: {
-      satisfy: l => l === true,
-      block: ({ openWindow , history, closeMask , openMask }) => {
-        openWindow( UserManagerWindow,
-          {
-            width: '380px',
-            height: '300px',
-            position: {
-              top: 'calc( 50% - 190px)',
-              left: 'calc( 50% - 150px)'
-            },
-            onCancel: () => history.goBack() || closeMask(),
-            onSuccess: closeMask,
-          }
-        );
-        openMask();
+    submitQuestionState: {
+      onResolved: function(){
+        this.nextStep()
+      },
+      onRejected: function(){
+        this.props.alert( "失败" )
+      }
+    },
+    translateWordsState: {
+      onResolved: function(){
+        this.nextStep()
+      },
+      onRejected: function(){
+        this.props.alert("失败")
       }
     }
-  }),*/
+  }),
+  // protect({
+  //   logined: {
+  //     satisfy: l => l === true,
+  //     block(){
+  //       const { openWindow , history, closeMask , openMask } = this.props;
+  //       openWindow( UserManagerWindow,
+  //         {
+  //           width: '380px',
+  //           height: '300px',
+  //           position: {
+  //             top: 'calc( 50% - 190px)',
+  //             left: 'calc( 50% - 150px)'
+  //           },
+  //           onCancel: () => history.goBack() || closeMask(),
+  //           onSuccess: closeMask,
+  //         }
+  //       );
+  //       openMask();
+  //     }
+  //   }
+  // }),
   makePage,
   connect(
     state => ({
       logined: state.UserManager.logined,
       username: state.UserManager.name,
+      // logined: true,
+      // username: "lxq",
+      questions: state.SingleOptionQuestions.content,
+      showSentencesTranslates: state.EnglishArticle.showSentencesTranslates,
+      loadQuestionState: state.SingleOptionQuestions.loadState,
+      submitQuestionState: state.SingleOptionQuestions.submitState,
+      loadArticleState: state.EnglishArticle.loadState,
+      translateWordsState: state.EnglishArticle.translateWordsState,
+      articleId: state.EnglishArticle.articleId,
       content: state.PortTest.content,
     }),
     dispatch => ({
+      ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
+      ...bindActionCreators( EnglishArticleActions , dispatch ),
       ...bindActionCreators( PortTestActions , dispatch),
     })
   )],
