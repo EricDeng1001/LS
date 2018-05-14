@@ -7,7 +7,8 @@ import asyncLoad from 'direct-core/asyncLoad';
 const EnglishLearning = asyncLoad( () => import( 'EnglishLearning' ) );
 const YueDu = asyncLoad( () => import( 'EnglishLearning/YueDu' ) );
 const ChtoEng = asyncLoad( () => import( 'EnglishLearning/ChtoEng' ) );
-const Benkexuexi = asyncLoad( () => import( 'EnglishLearning/Benkexuexi' ) );
+const Shengcinanju = asyncLoad( () => import( 'EnglishLearning/Shengcinanju' ) );
+const EngReview = asyncLoad( () => import( 'EnglishLearning/EngReview' ) );
 const EngChart = asyncLoad( () => import( 'EnglishLearning/EngChart' ) );
 const LogicLearning = asyncLoad( () => import( 'LogicLearning' ) );
 const Knowledge = asyncLoad( () => import( 'LogicLearning/Knowledge' ) );
@@ -26,8 +27,9 @@ class Learning extends React.PureComponent {
             <Route exact path={`${match.url}/english`} component={EnglishLearning} />
             <Route exact path={`${match.url}/english/yuedu`} component={YueDu} />
             <Route exact path={`${match.url}/english/chtoeng`} component={ChtoEng} />
-            <Route exact path={`${match.url}/english/benkexuexi`} component={Benkexuexi} />
-            <Route exact path={`${match.url}/english/EngChart`} component={EngChart} />
+            <Route exact path={`${match.url}/english/shengcinanju`} component={Shengcinanju} />
+            <Route exact path={`${match.url}/english/engreview`} component={Shengcinanju} />
+            <Route exact path={`${match.url}/english/engchart`} component={EngReview} />
             <Route exact path={`${match.url}/logic`} component={LogicLearning} />
             <Route exact path={`${match.url}/logic/knowledge`} component={Knowledge} />
             <Route exact path={`${match.url}/logic/zhongdian`} component={ZhongDian} />
