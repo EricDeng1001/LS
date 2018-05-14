@@ -105,7 +105,7 @@ class QiangHua extends React.PureComponent {
       if( questions[i].choosed !== questions[i].rightKey ){
         RightOrWrong += `${1}*`;
       }
-      if( questions[i].choosed == questions[i].rightKey ){
+      else if( questions[i].choosed == questions[i].rightKey ){
         RightOrWrong += `${0}*`;
       }
 
