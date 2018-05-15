@@ -81,7 +81,8 @@ class UnitTest extends React.PureComponent {
         //console.log(all)
         return all.map(one => ({
            questionId: one.id,
-           options: [one.op_one , one.op_two , one.op_three , one.op_four , one.op_five],
+           options: one.xuanxiang,
+           //options: [one.op_one , one.op_two , one.op_three , one.op_four , one.op_five],
            rightKey: changeAlpToNum( one.answer ),
            question: one.question,
            analysis: one.analysis,
