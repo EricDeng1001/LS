@@ -25,6 +25,9 @@ import {
   view as PortTest,
   actions as PortTestActions
 } from 'Connected/PortTest';
+import {
+  actions as SingleOptionQuestionsActions
+} from 'Connected/SingleOptionQuestions';
 
 class UITest extends React.PureComponent {
 
@@ -77,6 +80,34 @@ class UITest extends React.PureComponent {
     });
   }
 
+  SwapTxt = () => {
+  var txt = document.getElementById("eml").value;
+  //txt=txt.replace(/\s/g,'_*');
+  txt=txt.replace(/\n/g, '_@').replace(/\s/g, '_#');
+ this.text = txt;
+ console.log(txt)
+     //document.getElementById("lyny").innerHTML=txt;  //在#lyny显示文本框的值
+  }
+
+submitFile = () => {
+  const{
+    username,
+    choice
+  } = this.props;
+  console.log(username,choice,this.text)
+  this.props.submitQuestions({
+    url: "/api/lunZhengFileUpload",
+    body: {
+      username: username,
+      choice: "管理类联考2010年真题",
+      text: this.text
+    }
+  })
+ //var txt = document.getElementById("eml").value;  //获取文本框里的值
+ //console.log(txt)
+     //document.getElementById("lyny").innerHTML=txt;  //在#lyny显示文本框的值
+  }
+
   render(){
 
     const {
@@ -87,11 +118,15 @@ class UITest extends React.PureComponent {
 
     return (
       <React.Fragment>
+        <textarea id = "eml" className = {style.shuru} onKeyUp={()=>this.SwapTxt()} onChange = {() => this.SwapTxt()} //onPaste = {()=>this.SwapTxt()}
+          ></textarea>
+           <p id="lyny"></p>
+        <button onClick = {()=>this.submitFile()}>确定上传</button>
 
-        <Button text="显示答案" onClick={() => this.setState({buttonClick: true}) }/>
-        {/* <Button text="显示答案" onClick={ () => this.fuction }/> */}
+        {/*<Button text="显示答案" onClick={() => this.setState({buttonClick: true}) }/>
+         <Button text="显示答案" onClick={ () => this.fuction }/> */}
 
-            {this.state.buttonClick?
+            {/*this.state.buttonClick?
               <div>
                 {content.course}
                 <br/>
@@ -99,7 +134,7 @@ class UITest extends React.PureComponent {
               </div>
               :
               <h5>hello</h5>
-            }
+          */  }
 
 
 
@@ -126,6 +161,7 @@ export default applyHOCs([
     }),
     dispatch => ({
       ...bindActionCreators( PortTestActions , dispatch),
+      ...bindActionCreators( SingleOptionQuestionsActions , dispatch)
     })
   )],
   UITest

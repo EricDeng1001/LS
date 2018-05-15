@@ -112,11 +112,11 @@ class UnitTest extends React.PureComponent {
     var RightOrWrong = "";
     for ( var i = 0 ; i < questions.length ; i++ ){
       question_id += `${questions[i].questionId}*`;
-      if( questions[i].choosed !== questions[i].rightKey ){
-        RightOrWrong += `${1}*`;
-      }
-      else if( questions[i].choosed == questions[i].rightKey ){
+      if( questions[i].choosed.toString() === questions[i].rightKey ){
         RightOrWrong += `${0}*`;
+      }
+      else {
+        RightOrWrong += `${1}*`;
       }
 
     }
