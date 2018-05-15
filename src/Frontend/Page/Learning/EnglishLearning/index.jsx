@@ -5,7 +5,7 @@ import { Prompt } from 'react-router';
 import style from 'style';
 
 import LogicTest from 'Page/Learning/LogicLearning/LogicTest';
-import LearningTypeSelect from 'Page/Learning/EnglishLearning/LearningTypeSelect';
+import EngLearningTypeSelect from 'Page/Learning/EnglishLearning/EngLearningTypeSelect';
 import EngReview from 'Page/Learning/EnglishLearning/EngReview';
 import EngChart from 'Page/Learning/EnglishLearning/EngChart';
 import EnglishHelp from 'UI/Help/EnglishHelp';
@@ -61,7 +61,7 @@ class EnglishLearning extends React.PureComponent {
             {choice == 0 ?
               newTo[0] == 1 ?
               <LogicTest/> : <Info info = {"您已经完成测试!"} /> :
-             choice == 1 ? <LearningTypeSelect/> :
+             choice == 1 ? <EngLearningTypeSelect/> :
              choice == 2 ? <EngReview/> :
              choice == 3 ? <EngChart/>:
              <EnglishHelp/>
