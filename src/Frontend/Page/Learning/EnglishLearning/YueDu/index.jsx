@@ -34,6 +34,10 @@ import {
   view as PortTest,
   actions as PortTestActions
 } from 'Connected/PortTest';
+import {
+  view as LearningTypeSelect,
+  actions as LearningTypeSelectActions
+} from 'Connected/LearningTypeSelect';
 
 import mergeArraysIntoOne from 'direct-core/Algorithm/mergeArraysIntoOne';
 
@@ -111,18 +115,22 @@ class YueDu extends React.PureComponent {
     this.props.history.goBack();
   }
 
+  // doMore = () => {
+  //   const { unlockAndHide , loadContent , questions , hideAllTranslate } = this.props;
+  //   loadContent();
+  //   this.loadQuestions();
+  //   for( var i = 0; i < questions.length ; i++ ){
+  //     unlockAndHide( questions[i].questionId );
+  //   }
+  //   hideAllTranslate();
+  //   this.setState({
+  //     processStep: 0, // 0 ->
+  //     displayByWords: true
+  //   });
+  // }
+
   doMore = () => {
-    const { unlockAndHide , loadContent , questions , hideAllTranslate } = this.props;
-    loadContent();
-    this.loadQuestions();
-    for( var i = 0; i < questions.length ; i++ ){
-      unlockAndHide( questions[i].questionId );
-    }
-    hideAllTranslate();
-    this.setState({
-      processStep: 0, // 0 ->
-      displayByWords: true
-    });
+    this.props.setLearningType("英语生词难句");
   }
 
   submitQuestions = () => {
@@ -187,6 +195,8 @@ class YueDu extends React.PureComponent {
       loadArticleState,
       loadContent,
       UnitAndCourse,
+      setLearningType,
+      learningType,
       ined
     } = this.props;
     var { displayByWords } = this.state;
@@ -381,11 +391,13 @@ export default applyHOCs([
       translateWordsState: state.EnglishArticle.translateWordsState,
       articleId: state.EnglishArticle.articleId,
       UnitAndCourse: state.PortTest.content,
+      learningType: state.LearningTypeSelect.learningType,
     }),
     dispatch => ({
       ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
       ...bindActionCreators( EnglishArticleActions , dispatch ),
       ...bindActionCreators( PortTestActions , dispatch),
+      ...bindActionCreators( LearningTypeSelectActions , dispatch ),
     })
   )],
   YueDu

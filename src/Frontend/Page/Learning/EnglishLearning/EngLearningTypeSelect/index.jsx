@@ -40,7 +40,7 @@ class EngLearningTypeSelect extends React.PureComponent {
       learningType,
     } = this.props;
 
-    console.log(learningType);
+    // console.log(learningType);
 
     var TextStyle = [];
     this.state.changeColor1 ? TextStyle[0] = style.choosed_type : TextStyle[0] = style.normal_type ;
