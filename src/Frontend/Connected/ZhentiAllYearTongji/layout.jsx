@@ -8,10 +8,22 @@ import style from 'style';
 
 class ZhentiAllYearTongji extends React.PureComponent {
 
+  requestZhishidianContent = ( name ) => {
+    this.props.loadTuijianZhishidianContent({
+      url: "/api/lunZhengTuijianZhishidianContent",
+      body: {
+        zhishidianName: name
+      }
+    })
+  }
+
   render(){
     const {
       tongji,
+      tuijianZhishidian,
+      TuijianArticle
     } = this.props;
+    console.log(this.props)
     var options = ["概念混淆" , "条件缺失" , "推断不出" , "以偏概全" , "非黑即白" , "因果无关" , "目的达不到" ,
                      "论据不成立" , "条件不必要" , "类比不当" , "不当假设" , "自相矛盾" , "存在他因" , "措施不可行"];
 
@@ -46,14 +58,17 @@ class ZhentiAllYearTongji extends React.PureComponent {
             </tr>
           }
 
-
-          {/*chartData.map((one , key) =>
-            <tr key = {key}>
-              <td>{chartTitle[key]}</td>
-              <td>{one}</td>
-            </tr>)
-          */}
         </table>
+        <br/><div>根据您的做题情况，系统建议您需要重点关注的知识点如下(点击可查看)：</div>
+        {
+          tuijianZhishidian.map((oneZhishidian , key) =>
+          <li key = {key} onClick = {() => this.requestZhishidianContent(oneZhishidian)}>{oneZhishidian}</li>
+        )}
+        <br/><div>根据您的做题情况，系统建议您需要重点关注的文章如下(点击可查看)：</div>
+        {
+          TuijianArticle.map((oneArticle , key) =>
+          <li key = {key}>{oneArticle}</li>
+        )}
 
       </div>
     );
@@ -63,6 +78,8 @@ class ZhentiAllYearTongji extends React.PureComponent {
 export default connect(
   ({ ZhentiAllYearTongji: ownState }) => ({
     tongji: ownState.tongji,
+    tuijianZhishidian: ownState.tuijianZhishidian,
+    TuijianArticle: ownState.TuijianArticle
     //loadingData: ownState.loadingData,
   }),
   dispatch => bindActionCreators( actionCreators , dispatch )

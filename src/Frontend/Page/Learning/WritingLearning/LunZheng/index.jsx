@@ -238,7 +238,19 @@ class LunZheng extends React.PureComponent {
       body: {
         username: this.props.username
       }
-    })
+    });
+    this.props.loadTuijianZhishidianName({
+      url: "/api/lunZhengTuijianZhishidianName",
+      body: {
+        username: this.props.username
+      }
+    });
+    this.props.loadTuijianArticle({
+      url: "/api/lunZhengTuijianArticle",
+      body: {
+        username: this.props.username
+      }
+    });
 
   }
 
