@@ -228,7 +228,7 @@ class YueDu extends React.PureComponent {
       <React.Fragment>
         <Prompt
           when={processStep !== 0 && processStep !== this.actions.length - 1}
-          message="you need to do it again, are you sure to quit?"
+          message="你需要再做一遍，确定退出吗?"
         />
 
         <div className={style.HUD}>
