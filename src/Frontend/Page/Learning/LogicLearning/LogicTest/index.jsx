@@ -21,6 +21,10 @@ import {
   view as SingleSubjectTest,
   actions as SingleSubjectTestActions
 } from 'Connected/SingleSubjectTest';
+import {
+  view as LogicTestTongji,
+  actions as LogicTestTongjiActions
+} from 'Connected/LogicTestTongji';
 
 import changeAlpToNum from 'Algorithm/changeAlpToNum';
 import decideNextQuestion from 'Algorithm/decideNextQuestion';
@@ -41,6 +45,21 @@ class LogicTest extends React.PureComponent {
     this.props.loadQuestions({
       url: "/api/logicTest",
     })
+  }
+  loadTestResult = () => {
+    this.props.loadTestTongjiContent({
+      url: "/api/logicTestTongji",
+      body: {
+        username: this.props.username
+      }
+    });
+    this.props.loadTestMeanTongjiContent({
+      url: "/api/logicTestMeanTongji",
+      body: {
+        username: this.props.username
+      }
+    });
+
   }
 
   submitQuestions = () => {
@@ -106,6 +125,7 @@ class LogicTest extends React.PureComponent {
 
   componentDidMount(){
     this.loadQuestions();
+    this.loadTestResult();
   }
   componentWillReceiveProps( NextProps ){
     if(this.props.testend !== NextProps.testend){
@@ -139,13 +159,16 @@ class LogicTest extends React.PureComponent {
 
         <div className={style.wrapper}>
             {  testend ?
-               <div>
-                 <Info info = "您的各类题型正确率统计如下："/>
+
+               <div className = {style.tongji}>
+                 <LogicTestTongji/>
+                 <Button text = "再测一次"/><Button text = "进入学习"/>
+                 {/*<Info info = "您的各类题型正确率统计如下："/>
                  <div className = {style.chart}>
                    <LogicTestChart  chartTitle = {all_type}
                                     chartData = {logicTestRightRate( questions)}
                    />
-                 </div>
+                 </div>*/}
                </div>
                  :
                  <div>
@@ -194,6 +217,7 @@ export default applyHOCs([
     }),
     dispatch => ({
       ...bindActionCreators( SingleSubjectTestActions , dispatch ),
+      ...bindActionCreators( LogicTestTongjiActions , dispatch )
     })
   )],
   LogicTest

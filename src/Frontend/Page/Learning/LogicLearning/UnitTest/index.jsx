@@ -81,7 +81,8 @@ class UnitTest extends React.PureComponent {
         //console.log(all)
         return all.map(one => ({
            questionId: one.id,
-           options: [one.op_one , one.op_two , one.op_three , one.op_four , one.op_five],
+           options: one.xuanxiang,
+           //options: [one.op_one , one.op_two , one.op_three , one.op_four , one.op_five],
            rightKey: changeAlpToNum( one.answer ),
            question: one.question,
            analysis: one.analysis,
@@ -112,11 +113,11 @@ class UnitTest extends React.PureComponent {
     var RightOrWrong = "";
     for ( var i = 0 ; i < questions.length ; i++ ){
       question_id += `${questions[i].questionId}*`;
-      if( questions[i].choosed !== questions[i].rightKey ){
-        RightOrWrong += `${1}*`;
-      }
-      else if( questions[i].choosed == questions[i].rightKey ){
+      if( questions[i].choosed.toString() === questions[i].rightKey ){
         RightOrWrong += `${0}*`;
+      }
+      else {
+        RightOrWrong += `${1}*`;
       }
 
     }
