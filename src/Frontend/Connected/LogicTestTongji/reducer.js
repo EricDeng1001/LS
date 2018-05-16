@@ -4,7 +4,7 @@ import {
 } from 'actionTypes';
 
 export default ( state = {
-  flag: "",  // 是否做过
+  flag: "",  // 是否做过 , 0 未做过 1 做过
   count: "", // 做过几次
   this_rightRate: [],  // 本次正确率
   mean_rightRate: [],  // 平均正确率

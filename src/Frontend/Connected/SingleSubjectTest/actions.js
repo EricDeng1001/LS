@@ -7,11 +7,16 @@ import {
   __ASYNC_SUBMIT_QUESTIONS,
   __NEXT,
   __AUTO_NEXT,
-  __CLEAR_AUTO_NEXT
+  __CLEAR_AUTO_NEXT,
+  __FORCE_END
 } from 'actionTypes';
 
 //import jsonToUrlencoded from 'direct-core/Algorithm/jsonToUrlencoded';
-
+export const forceEnd = () => ({
+    type: __FORCE_END,
+    payload: {
+    }
+});
 export const forceNext = () => ( dispatch , getState ) => {
   const { SingleSubjectTest: { clear } } = getState();
   clearTimeout( clear );

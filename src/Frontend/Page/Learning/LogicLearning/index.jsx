@@ -6,11 +6,13 @@ import style from 'style';
 
 import LogicTest from 'Page/Learning/LogicLearning/LogicTest';
 import EnterLearning from 'Page/Learning/LogicLearning/EnterLearning';
-import Knowledge from 'Page/Learning/LogicLearning/Knowledge';
-import ZhongDian from 'Page/Learning/LogicLearning/ZhongDian';
-import QiangHua from 'Page/Learning/LogicLearning/QiangHua';
-import UnitTest from 'Page/Learning/LogicLearning/UnitTest';
+//import Knowledge from 'Page/Learning/LogicLearning/Knowledge';
+//import ZhongDian from 'Page/Learning/LogicLearning/ZhongDian';
+//import QiangHua from 'Page/Learning/LogicLearning/QiangHua';
+//import UnitTest from 'Page/Learning/LogicLearning/UnitTest';
 import LogicReview from 'Page/Learning/LogicLearning/LogicReview';
+import SimulationTest from 'Page/Learning/LogicLearning/SimulationTest';
+import LogicStatistics from 'Page/Learning/LogicLearning/LogicStatistics';
 import LogicHelp from 'UI/Help/LogicHelp';
 //import Button from 'UI/Button';
 import Info from 'UI/Info';
@@ -33,7 +35,7 @@ class LogicLearning extends React.PureComponent {
   constructor( props ){
     super( props );
 
-    this.type = ["入口测试" , "进入学习" , "开始复习" , "查看帮助"];
+    this.type = ["入口测试" , "进入学习" , "开始复习" , "模拟测试" , "数据统计" , "查看帮助"];
   }
 
   render(){
@@ -47,8 +49,23 @@ class LogicLearning extends React.PureComponent {
     //console.log(this.props);
     return (
       <React.Fragment>
-      { logined == false ?  <Login/> :<div><PageDesign subjectFunctions = {this.type}/>
+      { logined == false ?  <Login/> :
+        <div>
+          <PageDesign subjectFunctions = {this.type}/>
 
+          <div className = {style.mainContent}>
+            {
+             choice == 0 ? <LogicTest/> :
+             choice == 1 ? <EnterLearning learningType = ""/>:
+             choice == 2 ? <LogicReview/> :
+             choice == 3 ? <SimulationTest/> :
+             choice == 4 ? <LogicStatistics/> :
+             <LogicHelp/>
+            }
+          </div>
+
+
+        </div>}
         {/*<div className = {style.wholeLogicPage}>
 
           <div className = {style.logicPageTitle}>
@@ -60,22 +77,12 @@ class LogicLearning extends React.PureComponent {
             <br/><img className = {style.picture} src = "/static/images/admin.jpg"/>
             <br/><div className = {style.username}> {username} </div><br/>
             <SubjectSelect text = {this.type} normalStyle = {style.normalText} choosedStyle = {style.chosedText} />
-          </div></div>*/}
-
-          <div className = {style.mainContent}>
-            {choice == 0 ?
-              newTo[1] == 1 ?
-              <LogicTest/> : <Info info = {"您已经完成测试!"} /> :
-             choice == 1 ?
-               //learningType == "知识点精要" ? <Knowledge/>:learningType == "重点练习" ? <ZhongDian/>:learningType == "强化练习" ? <QiangHua/>:learningType == "单元测试" ?<UnitTest/>
+          </div></div>
+          {choice == 0 ?
+            newTo[1] == 1 ?
+            <LogicTest/> : <Info info = {"您已经完成测试!"} /   //learningType == "知识点精要" ? <Knowledge/>:learningType == "重点练习" ? <ZhongDian/>:learningType == "强化练习" ? <QiangHua/>:learningType == "单元测试" ?<UnitTest/>
             ///  :
-            <EnterLearning learningType = ""/>:
-             choice == 2 ? <LogicReview/> : <LogicHelp/>
-            }
-          </div>
-
-
-        </div>}
+          */}
       </React.Fragment>
     );
   }
