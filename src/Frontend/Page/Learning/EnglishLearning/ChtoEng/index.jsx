@@ -13,6 +13,15 @@ import SlideRL from 'Animation/SlideRL';
 import SlideDU from 'Animation/SlideDU';
 import SlideUD from 'Animation/SlideUD';
 
+import {
+  view as LearningTypeSelect,
+  actions as LearningTypeSelectActions
+} from 'Connected/LearningTypeSelect';
+import {
+  view as EnglishArticle,
+  actions as EnglishArticleActions
+} from 'Connected/EnglishArticle';
+
 import UserManagerWindow from "Windows/UserManager";
 
 import protect from 'direct-core/protect';
@@ -42,8 +51,8 @@ loadChtoEng = () => {
   this.props.loadPortContent({
     url: "/api/eng_getWriteTest",
     body: {
-      username: "lxq",
-      articleId: 1
+      username:  this.props.username,
+      articleId: this.props.articleId
     }
   })
 }
@@ -52,9 +61,12 @@ loadChtoEng = () => {
   render(){
 
     const {
-      content
+      content,
+      setLearningType,
+      learningType,
     } = this.props;
-    // console.log(content);
+
+    // console.log(this.props.articleId)
 
     return (
       <React.Fragment>
@@ -64,7 +76,7 @@ loadChtoEng = () => {
               <div className={style.pageTitle}> 汉译英 </div>
               <br/>
               {
-                // content[0] == undefined?null:<p>{content[0].chinese}</p>
+                content[0] == undefined?null:
                 content.map((chtoeng, key)=>
                 <div key = {key} className={style.chtoengall}>
                   { chtoeng.chinese }
@@ -80,7 +92,12 @@ loadChtoEng = () => {
                 )
               }
               {
-                <Button text="显示答案" className={style.buttonShowEng} onClick={() => this.setState({submit: true}) }/>
+                <div className={style.ShowEngAndReturn}>
+
+                <Button text="返回英语学习主页面" onClick={() => {setLearningType("英语主页面")}}/>
+                &nbsp;&nbsp;
+                <Button text="显示答案" onClick={() => this.setState({submit: true}) }/>
+                </div>
               }
             </div>
         }
@@ -98,10 +115,14 @@ export default applyHOCs([
     state => ({
       logined: state.UserManager.logined,
       username: state.UserManager.name,
+      articleId: state.EnglishArticle.articleId,
       content: state.PortTest.content,
+      learningType: state.LearningTypeSelect.learningType,
     }),
     dispatch => ({
+      ...bindActionCreators( EnglishArticleActions , dispatch ),
       ...bindActionCreators( PortTestActions , dispatch),
+      ...bindActionCreators( LearningTypeSelectActions , dispatch ),
     })
   )],
   ChtoEng

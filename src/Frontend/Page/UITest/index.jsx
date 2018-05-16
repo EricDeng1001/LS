@@ -1,62 +1,124 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Prompt } from 'react-router';
 import style from 'style';
 
+import Button from 'UI/Button';
+import WriteGraph from 'UI/WriteGraph';
+
+import Loading from 'Animation/Loading';
+import SlideLR from 'Animation/SlideLR';
+import SlideRL from 'Animation/SlideRL';
+import SlideDU from 'Animation/SlideDU';
+import SlideUD from 'Animation/SlideUD';
+
 import {
-  view as LearningTypeSelect,
-  actions as LearningTypeSelectActions
-} from 'Connected/LearningTypeSelect';
+  view as EnglishArticle,
+  actions as EnglishArticleActions
+} from 'Connected/EnglishArticle';
+
+import UserManagerWindow from "Windows/UserManager";
 
 import protect from 'direct-core/protect';
 import asyncProcessControl from 'direct-core/asyncProcessControl';
 import makePage from 'direct-core/makePage';
 import applyHOCs from 'direct-core/applyHOCs';
 
+import {
+  view as PortTest,
+  actions as PortTestActions
+} from 'Connected/PortTest';
 
-class UITest extends React.PureComponent {
+class UnitTest extends React.PureComponent {
+
   constructor( props ){
     super( props );
-    this.state = {
-      typeselect: true,
+  }
+
+  componentDidMount(){
+    this.function();
+    // this.loadArticleId();
+    // this.loadAllWordRate();
+  }
+
+// loadArticleId = () => {
+//   this.props.loadPortContent({
+//     url: "/api/eng_getArticleId",
+//     body: {
+//       username:  this.props.username,
+//     }
+//   })
+// }
+
+function = () => {
+  this.props.loadPortContent({
+    url: "/api/eng_getWordAndRecord",
+    body: {
+      username:  this.props.username,
+      article_id: this.props.articleId,
+      all_words: "{'hello','sunshine'}"
     }
-  }
-
-  render(){
-    const {
-      learningType,
-    } = this.props;
-
-    console.log(learningType);
-
-    var TextStyle = [];
-    this.state.changeColor1 ? TextStyle[0] = style.choosed_type : TextStyle[0] = style.normal_type ;
-    this.state.changeColor2 ? TextStyle[1] = style.choosed_type : TextStyle[1] = style.normal_type ;
-    this.state.changeColor3 ? TextStyle[2] = style.choosed_type : TextStyle[2] = style.normal_type ;
-
-    return(
-      <React.Fragment>
-        <div className = {style.whole}>
-        {learningType == "英语主页面" || this.stae.typeselect == true ?
-          <div>ok</div>
-          : null
-        }
-        </div>
-      </React.Fragment>
-    )
-  }
-
+  })
 }
 
+// loadAllWordRate = () => {
+//   this.props.loadPortContent({
+//     url: "/api/eng_getAllWordRate",
+//     body: {
+//       username:  this.props.username,
+//     }
+//   })
+// }
+
+
+  render(){
+
+    const {
+      content,
+    } = this.props;
+
+    console.log(content)
+
+    return (
+      <React.Fragment>
+
+        {
+            <div>
+              {
+                // content[0] == undefined?null:<p>{content[0].translate}</p>
+                content[0] == undefined?null
+                :
+                content.map((translate, key)=>
+                <div key = {key} >
+                  { translate.translate }
+                  <br/>
+                </div>
+                )
+              }
+             </div>
+        }
+
+      </React.Fragment>
+    );
+  }
+};
+
 export default applyHOCs([
+  asyncProcessControl({
+  }),
   makePage,
   connect(
     state => ({
-      learningType: state.LearningTypeSelect.learningType,
+      logined: state.UserManager.logined,
+      username: state.UserManager.name,
+      articleId: state.EnglishArticle.articleId,
+      content: state.PortTest.content,
     }),
     dispatch => ({
-      ...bindActionCreators( LearningTypeSelectActions , dispatch ),
+      ...bindActionCreators( EnglishArticleActions , dispatch ),
+      ...bindActionCreators( PortTestActions , dispatch),
     })
   )],
-  UITest
+  UnitTest
 );
