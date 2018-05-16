@@ -112,23 +112,23 @@ class YueDu extends React.PureComponent {
     this.props.history.goBack();
   }
 
-  doMore = () => {
-    const { unlockAndHide , loadContent , questions , hideAllTranslate } = this.props;
-    loadContent();
-    this.loadQuestions();
-    for( var i = 0; i < questions.length ; i++ ){
-      unlockAndHide( questions[i].questionId );
-    }
-    hideAllTranslate();
-    this.setState({
-      processStep: 0, // 0 ->
-      displayByWords: true
-    });
-  }
+//  doMore = () => {
+  //  const { unlockAndHide , loadContent , questions , hideAllTranslate } = this.props;
+    //loadContent();
+    //this.loadQuestions();
+  //  for( var i = 0; i < questions.length ; i++ ){
+    //  unlockAndHide( questions[i].questionId );
+    //}
+  //  hideAllTranslate();
+    //this.setState({
+    //  processStep: 0, // 0 ->
+    //  displayByWords: true
+  //  });
+//  }
 
-  // doMore = () => {
-  //   this.props.setLearningType("英语生词难句");
-  // }
+   doMore = () => {
+     this.props.setLearningType("英语生词难句");
+   }
 
   submitQuestions = () => {
     const {
