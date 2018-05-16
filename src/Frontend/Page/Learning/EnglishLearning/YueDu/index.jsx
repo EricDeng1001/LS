@@ -30,10 +30,7 @@ import {
 import {
   view as TranslatedWords
 } from 'Connected/TranslatedWords';
-import {
-  view as PortTest,
-  actions as PortTestActions
-} from 'Connected/PortTest';
+import {  actions as PortTestActions} from 'Connected/PortTest';
 import {
   view as LearningTypeSelect,
   actions as LearningTypeSelectActions
@@ -78,7 +75,7 @@ class YueDu extends React.PureComponent {
 
 
   loadQuestions = () => {
-    console.log(typeof(this.props.articleId))
+    // console.log(typeof(this.props.articleId))
     this.props.loadQuestions({
       url: "/api/eng_getQuestion",
       body: {
@@ -115,23 +112,23 @@ class YueDu extends React.PureComponent {
     this.props.history.goBack();
   }
 
-  // doMore = () => {
-  //   const { unlockAndHide , loadContent , questions , hideAllTranslate } = this.props;
-  //   loadContent();
-  //   this.loadQuestions();
-  //   for( var i = 0; i < questions.length ; i++ ){
-  //     unlockAndHide( questions[i].questionId );
-  //   }
-  //   hideAllTranslate();
-  //   this.setState({
-  //     processStep: 0, // 0 ->
-  //     displayByWords: true
-  //   });
-  // }
-
   doMore = () => {
-    this.props.setLearningType("英语生词难句");
+    const { unlockAndHide , loadContent , questions , hideAllTranslate } = this.props;
+    loadContent();
+    this.loadQuestions();
+    for( var i = 0; i < questions.length ; i++ ){
+      unlockAndHide( questions[i].questionId );
+    }
+    hideAllTranslate();
+    this.setState({
+      processStep: 0, // 0 ->
+      displayByWords: true
+    });
   }
+
+  // doMore = () => {
+  //   this.props.setLearningType("英语生词难句");
+  // }
 
   submitQuestions = () => {
     const {
@@ -172,7 +169,7 @@ class YueDu extends React.PureComponent {
     this.props.loadPortContent({
       url: "/api/eng_getUnit",
       body:{
-        username: "lxq"
+        username: this.props.username,
       }
     });
   }
@@ -182,7 +179,6 @@ class YueDu extends React.PureComponent {
     this.loadQuestions();
     this.function();
   }
-
 
   render(){
     const { processStep } = this.state;
@@ -224,11 +220,13 @@ class YueDu extends React.PureComponent {
       };
     }
 
+    // this.props.changeArticleId(this.props.getArticleId.artid);
+
     return (
       <React.Fragment>
         <Prompt
           when={processStep !== 0 && processStep !== this.actions.length - 1}
-          message="you need to do it again, are you sure to quit?"
+          message="你需要再做一遍，确定退出吗?"
         />
 
         <div className={style.HUD}>
@@ -381,8 +379,6 @@ export default applyHOCs([
     state => ({
       logined: state.UserManager.logined,
       username: state.UserManager.name,
-      // logined: true,
-      // username: "lxq",
       questions: state.SingleOptionQuestions.content,
       showSentencesTranslates: state.EnglishArticle.showSentencesTranslates,
       loadQuestionState: state.SingleOptionQuestions.loadState,
