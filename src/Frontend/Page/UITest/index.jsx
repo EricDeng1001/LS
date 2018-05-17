@@ -17,6 +17,10 @@ import {
   view as EnglishArticle,
   actions as EnglishArticleActions
 } from 'Connected/EnglishArticle';
+import {
+  view as EditText,
+  actions as EditTextActions
+} from 'Connected/EditText';
 
 import UserManagerWindow from "Windows/UserManager";
 
@@ -50,6 +54,21 @@ class UnitTest extends React.PureComponent {
 //     }
 //   })
 // }
+submitFile = () => {
+const{
+  username,
+  choice
+} = this.props;
+console.log(username,choice,this.text)
+//this.props.submitQuestions({
+  //url: "/api/lunZhengFileUpload",
+  //body: {
+//     username: username,
+//     choice: "管理类联考2010年真题",
+//     text: this.text
+//   }
+// })
+}
 
 function = () => {
   this.props.loadPortContent({
@@ -82,6 +101,7 @@ function = () => {
 
     return (
       <React.Fragment>
+        <EditText/>
 
         {
             <div>
