@@ -43,13 +43,10 @@ class LogicTestTongji extends React.PureComponent {
 
         <div style = {{"color":"blue"}} align = "center">根据您的测试情况，系统规划的学习路径如下:</div>
         <div style = {{"color":"red"}} align = "center">系统规划的路径依据开始学习之前的测试数据,选择进入学习之后，路径不会再发生改变</div>
-        <div style = {{"color":"orange"}}>形式逻辑</div>
-          {xingshi.map((oneChapter , key) => <li className = {style.onetype} key = {key}>{oneChapter}</li>)}
-        <div style = {{"color":"orange"}}>论证逻辑</div>
-          {lunzheng.map((oneChapter , key) => <li className = {style.onetype} key = {key}>{oneChapter}</li>)}
-
-
-
+        <br/><div style = {{"color":"orange"}}>形式逻辑</div>
+          {xingshi.map((oneChapter , key) => <li className = {style.onetype} key = {key}>{oneChapter}&nbsp;&nbsp;&nbsp;&nbsp;</li>)}
+        <br/><br/><div style = {{"color":"orange"}}>论证逻辑</div>
+          {lunzheng.map((oneChapter , key) => <li className = {style.onetype} key = {key}>{oneChapter}&nbsp;&nbsp;&nbsp;&nbsp;</li>)}
 
       </div>
     );

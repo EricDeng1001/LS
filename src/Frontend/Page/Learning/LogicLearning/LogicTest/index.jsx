@@ -209,7 +209,7 @@ class LogicTest extends React.PureComponent {
           this.state.enterTest && whetherDidTest || this.state.testAgain && testend ?
           <div className = {style.tongji}>
             <LogicTestTongji/>
-            <span>请选择再次测试还是开始章节内容的学习：</span>
+            <br/><br/><span style = {{"color":"blue"}}>&nbsp;&nbsp;&nbsp;&nbsp;请选择再次测试还是开始章节内容的学习：</span>
             <span><Button text = "再测一次" onClick = {() => {this.setState({enterTest: false , enterLearning: false , testAgain: true});this.props.forceEnd();this.loadQuestions()}}/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Button text = "开始学习" onClick = {() => {this.setState({enterTest: false , enterLearning: true , testAgain: false })}}/></span>
           </div>
