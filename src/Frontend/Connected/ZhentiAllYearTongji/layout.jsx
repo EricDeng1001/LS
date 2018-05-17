@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Button from 'UI/Button';
 import * as actionCreators from 'actions';
-import judgeIfImages from 'Algorithm/judgeIfImages';
 import style from 'style';
+import ZhentiTuijianZhishidian from  'UI/ZhentiTuijianZhishidian';
 
 class ZhentiAllYearTongji extends React.PureComponent {
 
@@ -21,6 +21,9 @@ class ZhentiAllYearTongji extends React.PureComponent {
     const {
       tongji,
       tuijianZhishidian,
+      chosed_zhishidianName,
+      tuijianZhishidianContent_fenxi,
+      tuijianZhishidianContent_liti,
       TuijianArticle
     } = this.props;
     console.log(this.props)
@@ -29,9 +32,8 @@ class ZhentiAllYearTongji extends React.PureComponent {
 
     return (
       <div className="container">
-        <strong><p style = {{"color" : "blue"}}>您的做题情况统计如下：</p></strong>
-        <p>您总共做过 <strong style = {{"color" : "red"}}>{tongji.year}</strong> 年真题</p>
-        <p>各选项的错选次数、漏选次数如下：</p>
+        {/* <strong><p style = {{"color" : "blue"}}>您的做题情况统计如下：</p></strong>
+        <p>您总共做过 <strong style = {{"color" : "red"}}>{tongji.year}</strong> 年真题&nbsp;,&nbsp;各选项的错选次数、漏选次数统计如下：</p>
         <table border="1" align = "center">
           <tr>
             <th>选项</th>
@@ -62,13 +64,72 @@ class ZhentiAllYearTongji extends React.PureComponent {
         <br/><div>根据您的做题情况，系统建议您需要重点关注的知识点如下(点击可查看)：</div>
         {
           tuijianZhishidian.map((oneZhishidian , key) =>
-          <li key = {key} onClick = {() => this.requestZhishidianContent(oneZhishidian)}>{oneZhishidian}</li>
-        )}
+          <li key = {key} className = {chosed_zhishidianName == oneZhishidian ? style.chosedStyle : style.normalStyle}
+              onClick = {() => {this.props.SetZhishidianName(oneZhishidian);this.requestZhishidianContent(oneZhishidian)}}>{oneZhishidian}
+          </li>)
+        }
         <br/><div>根据您的做题情况，系统建议您需要重点关注的文章如下(点击可查看)：</div>
         {
           TuijianArticle.map((oneArticle , key) =>
-          <li key = {key}>{oneArticle}</li>
-        )}
+          <li key = {key} className = {chosed_zhishidianName == oneArticle ? style.chosedStyle : style.normalStyle}
+              onClick = {() => {this.props.SetZhishidianName(oneArticle)}}>{oneArticle}</li>
+        )} */}
+        {
+          chosed_zhishidianName == "" ?
+          <div>
+          <strong><p style = {{"color" : "blue"}}>您的做题情况统计如下：</p></strong>
+          <p>您总共做过 <strong style = {{"color" : "red"}}>{tongji.year}</strong> 年真题&nbsp;,&nbsp;各选项的错选次数、漏选次数统计如下：</p>
+          <table border="1" align = "center">
+            <tr>
+              <th>选项</th>
+              {options.map((oneOption , key) =>
+                <th key = {key}> {oneOption} </th>)
+              }
+            </tr>
+
+            {tongji.cuoxuanlv == undefined ? null :
+              <tr>
+                <th>错选次数</th>
+                {tongji.cuoxuanlv.map((oneOption , key) =>
+                  <th key = {key}> {oneOption} </th>)
+                }
+              </tr>
+            }
+
+            {tongji.louxuanlv == undefined ? null :
+              <tr>
+                <th>漏选次数</th>
+                {tongji.louxuanlv.map((oneOption , key) =>
+                  <th key = {key}> {oneOption} </th>)
+                }
+              </tr>
+            }
+
+          </table>
+          <br/><div>根据您的做题情况，系统建议您需要重点关注的知识点如下(点击可查看)：</div><br/>
+          {
+            tuijianZhishidian.map((oneZhishidian , key) =>
+            <li key = {key} className = {chosed_zhishidianName == oneZhishidian ? style.chosedStyle : style.normalStyle}
+                onClick = {() => {this.props.SetZhishidianName(oneZhishidian);this.requestZhishidianContent(oneZhishidian)}}>{oneZhishidian}
+            </li>)
+          }
+          <br/><div>根据您的做题情况，系统建议您需要重点关注的文章如下(点击可查看)：</div><br/>
+          {
+            TuijianArticle.map((oneArticle , key) =>
+            <li key = {key} className = {chosed_zhishidianName == oneArticle ? style.chosedStyle : style.normalStyle}
+                onClick = {() => {this.props.SetZhishidianName(oneArticle)}}>{oneArticle}</li>
+          )}
+          </div>
+          :
+          <div>
+            <ZhentiTuijianZhishidian tuijianZhishidianName = {chosed_zhishidianName}
+                                     tuijianZhishidianContent_fenxi = {tuijianZhishidianContent_fenxi}
+                                     tuijianZhishidianContent_liti = {tuijianZhishidianContent_liti}
+            />
+            <Button text = "返回" onClick = {() => this.props.SetZhishidianName("")}/>
+         </div>
+        }
+
 
       </div>
     );
@@ -79,8 +140,10 @@ export default connect(
   ({ ZhentiAllYearTongji: ownState }) => ({
     tongji: ownState.tongji,
     tuijianZhishidian: ownState.tuijianZhishidian,
+    chosed_zhishidianName: ownState.chosed_zhishidianName,
+    tuijianZhishidianContent_fenxi: ownState.tuijianZhishidianContent_fenxi,
+    tuijianZhishidianContent_liti: ownState.tuijianZhishidianContent_liti,
     TuijianArticle: ownState.TuijianArticle
-    //loadingData: ownState.loadingData,
   }),
   dispatch => bindActionCreators( actionCreators , dispatch )
 )( ZhentiAllYearTongji );

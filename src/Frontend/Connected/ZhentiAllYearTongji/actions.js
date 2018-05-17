@@ -1,11 +1,12 @@
 import {
   __ASYNC_LOAD_ALL_ZHENTI_TONGJI,
   __ASYNC_LOAD_RECOMMAND_KNOWLEDGE_NAME,
+  __SET_KNOWLEDGE_NAME,
   __ASYNC_LOAD_RECOMMAND_KNOWLEDGE_CONTENT,
   __ASYNC_LOAD_RECOMMAND_ARTICLE
 } from 'actionTypes';
 
-
+ /*加载所有做过的真题的统计数据，包括错选次数，漏选次数*/
 let loadAllZhentiTongjiCounter = 0;
 const loadAllZhentiTongjiStart = () => ({
     type: __ASYNC_LOAD_ALL_ZHENTI_TONGJI.pending,
@@ -132,6 +133,15 @@ export const loadTuijianZhishidianName = ({ url , body , parser , headers  , ini
       dispatchLastest( loadTuijianZhishidianNameRejected( "network" , err ) );
  });
 };
+ /* 设置用户点击的知识点的名称 */
+let SetZhishidianNameCounter = 0;
+export const SetZhishidianName = ( choice ) => ({
+  type: __SET_KNOWLEDGE_NAME,
+  payload: {
+    choice
+  },
+  id: SetZhishidianNameCounter++
+});
 /* 加载推荐知识点的具体内容 */
 let loadTuijianZhishidianContentCounter = 0;
 const loadTuijianZhishidianContentStart = () => ({
@@ -195,7 +205,7 @@ export const loadTuijianZhishidianContent = ({ url , body , parser , headers  , 
       dispatchLastest( loadTuijianZhishidianContentRejected( "network" , err ) );
  });
 };
-/* 加载推荐的文章 */
+/* 加载推荐的文章名称 */
 let loadTuijianArticleCounter = 0;
 const loadTuijianArticleStart = () => ({
     type: __ASYNC_LOAD_RECOMMAND_ARTICLE.pending,

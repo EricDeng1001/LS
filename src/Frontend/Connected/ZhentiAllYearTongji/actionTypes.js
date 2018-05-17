@@ -10,6 +10,8 @@ export const __ASYNC_LOAD_RECOMMAND_KNOWLEDGE_NAME = {
   rejected: "TuijianZhishidian/__ASYNC_LOAD_RECOMMAND_KNOWLEDGE_NAME_REJECTED"
 };
 
+export const __SET_KNOWLEDGE_NAME = "SetZhishidianName/__SET_KNOWLEDGE_NAME";
+
 export const __ASYNC_LOAD_RECOMMAND_KNOWLEDGE_CONTENT = {
   pending: "TuijianZhishidianContent/__ASYNC_LOAD_RECOMMAND_KNOWLEDGE_CONTENT_PENDING",
   resolved: "TuijianZhishidianContent/__ASYNC_LOAD_RECOMMAND_KNOWLEDGE_CONTENT_RESOLVED",

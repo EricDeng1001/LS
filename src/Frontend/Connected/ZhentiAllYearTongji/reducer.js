@@ -1,6 +1,7 @@
 import {
   __ASYNC_LOAD_ALL_ZHENTI_TONGJI,
   __ASYNC_LOAD_RECOMMAND_KNOWLEDGE_NAME,
+  __SET_KNOWLEDGE_NAME,
   __ASYNC_LOAD_RECOMMAND_KNOWLEDGE_CONTENT,
   __ASYNC_LOAD_RECOMMAND_ARTICLE
 } from 'actionTypes';
@@ -8,6 +9,9 @@ import {
 export default ( state = {
     tongji: [],
     tuijianZhishidian: [],
+    chosed_zhishidianName: "",
+    tuijianZhishidianContent_fenxi: [],
+    tuijianZhishidianContent_liti: [],
     TuijianArticle: [],
 
     loadState: {
@@ -22,6 +26,7 @@ export default ( state = {
   const { tongji } = state;
   //console.log(content)
   switch( type ){
+    /* 加载统计数据 */
     case __ASYNC_LOAD_ALL_ZHENTI_TONGJI.pending: {
       let loadState = {...state.loadState };
       loadState.lastFailed = false;
@@ -61,6 +66,7 @@ export default ( state = {
       };
     }
 
+    /* 加载推荐的知识点名称 */
     case __ASYNC_LOAD_RECOMMAND_KNOWLEDGE_NAME.pending: {
       let loadState = {...state.loadState };
       loadState.lastFailed = false;
@@ -99,6 +105,13 @@ export default ( state = {
         loadState
       };
     }
+
+    /* 设置用户所选择的知识点名称 */
+    case __SET_KNOWLEDGE_NAME:
+      return{
+        ...state,
+        chosed_zhishidianName: payload.choice
+      }
     /* 加载知识点的具体内容 */
     case __ASYNC_LOAD_RECOMMAND_KNOWLEDGE_CONTENT.pending: {
       let loadState = {...state.loadState };
@@ -122,7 +135,8 @@ export default ( state = {
       return {
         ...state,
         loadState,
-        tuijianZhishidian: response.xuanxiang,
+        tuijianZhishidianContent_fenxi: response.fenxi,
+        tuijianZhishidianContent_liti: response.liti
       };
     }
     case __ASYNC_LOAD_RECOMMAND_KNOWLEDGE_CONTENT.rejected: {
