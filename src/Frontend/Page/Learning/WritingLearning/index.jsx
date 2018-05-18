@@ -5,7 +5,7 @@ import { Prompt } from 'react-router';
 import style from 'style';
 
 import WriteHelp from 'UI/Help/WriteHelp';
-import WriteGraph from "UI/WriteGraph";
+import { view as PageDesign } from 'Connected/PageDesign';
 
 import protect from 'direct-core/protect';
 import asyncProcessControl from 'direct-core/asyncProcessControl';
@@ -16,64 +16,32 @@ class WritingPage extends React.PureComponent {
 
   constructor( props ){
     super( props );
-
-    this.subject = ["入口测试" , "进入学习"  , "查看帮助"];
-    this.state = {
-      test : true,
-      learning : false,
-      help : false
-    }
-  }
-
-  showIntroduction = (num) => {
-    num == 0 ? this.setState({test: true , learning: false , help : false }) :
-    num == 1 ? this.setState({test: false , learning: true , help : false }) :
-    this.setState({test: false , learning: false , help : true})
+    this.type = ["入口测试" , "进入学习"  , "查看帮助"];
   }
 
   render(){
-    const {username} = this.props;
-
-    var TextStyle = [];
-    this.state.test ? TextStyle[0] = style.chosedText : TextStyle[0] = style.normalText;
-    this.state.learning ? TextStyle[1] = style.chosedText : TextStyle[1] = style.normalText;
-    this.state.help ? TextStyle[2] = style.chosedText : TextStyle[2] = style.normalText;
+    const {
+      username,
+      choice
+    } = this.props;
 
     return (
       <React.Fragment>
         <div className = {style.wholePage}>
 
-          <div className={style.HUD}>
-            <div className={style.title}> 学习系统 </div>
-            <div className = {style.goback} onClick = {() => history.back()}> 返回 </div>
-          </div>
-
-          <div className = {style.subjectText}>
-            <br/><img className = {style.picture} src = "/static/images/admin.jpg"/>
-            <br/><div className = {style.username}> {username } </div><br/>
-            <div>
-              {this.subject.map((sub , key) =>
-                <div key = {key} className = {TextStyle[key]}
-                    onMouseMove = { () => this.showIntroduction(key) }
-                    onClick = { () => this.showIntroduction(key) }
-                >{sub}</div>
-              )}
-            </div>
-          </div>
+          <PageDesign subjectFunctions = {this.type}/>
 
           <div className = {style.mainContent}>
-            {this.state.test ? <div>测试</div> :
-            this.state.learning ?
-              <div>
-                <a href = "/learning/writing/lunzheng"> 论证有效性分析 </a>
-                <a href = "/learning/writing/lunshuo"> 论说文 </a>
-              </div>
-            :
-            <WriteHelp />
+          {
+            choice == 0 ? <div>入口测试</div> :
+            choice == 1 ?
+            <div>
+              <a href = "/learning/writing/lunzheng"> 论证有效性分析 </a>
+              <a href = "/learning/writing/lunshuo"> 论说文 </a>
+            </div> :
+            <WriteHelp/>
           }
           </div>
-
-
 
         </div>
       </React.Fragment>
@@ -110,6 +78,7 @@ export default applyHOCs([
     state => ({
       logined: state.UserManager.logined,
       username: state.UserManager.name,
+      choice: state.SubjectSelect.choice,
     }),
     dispatch => ({
       //...bindActionCreators( ButtonExpandActions , dispatch),

@@ -7,6 +7,7 @@ import style from 'style';
 import Button from 'UI/Button';
 import Info from 'UI/Info';
 import ButtonControlPane from 'UI/ButtonControlPane';
+//import SingleQuestion from 'UI/SingleQuestion';
 
 import Loading from 'Animation/Loading';
 import SlideLR from 'Animation/SlideLR';
@@ -43,25 +44,12 @@ class SimulationTest extends React.PureComponent {
     this.questions = [];
     this.state = {
       end: false,
-    //  unitTongjiShow: false,
-      //thisOrNext: false
     };
   }
 
   loadQuestions = ( ) => {
-    this.props.loadPortContent({
-      url: "/api/logicSimulationTest",
-      //body: {
-      //  username: this.props.username,
-        //chapter_name: this.props.chapter_name
-      //},
-    });
     this.props.loadQuestions({
       url: "/api/logicSimulationTest",
-      //body: {
-        //username: this.props.username,
-      //  chapter_name: this.props.chapter_name
-    //  },
 
       parser: response => {
         var all = [];
@@ -76,7 +64,7 @@ class SimulationTest extends React.PureComponent {
         console.log(all_questions)
         return all_questions.map(one => ({
            questionId: one.id,
-           //options: one.xuanxiang,
+           type: one.type,
            options: [one.op_one , one.op_two , one.op_three , one.op_four , one.op_five],
            rightKey: changeAlpToNum( one.answer ),
            question: one.question,
@@ -108,7 +96,7 @@ class SimulationTest extends React.PureComponent {
     var RightOrWrong = "";
     for ( var i = 0 ; i < questions.length ; i++ ){
       question_id += `${questions[i].questionId}*`;
-      if( questions[i].choosed.toString() === questions[i].rightKey ){
+      if( questions[i].choosed !== undefined && questions[i].choosed.toString() === questions[i].rightKey ){
         RightOrWrong += `${0}*`;
       }
       else {
@@ -135,36 +123,6 @@ class SimulationTest extends React.PureComponent {
     //}
   }
 
-  loadChapterError = () => {
-    this.setState({unitTongjiShow: true , thisOrNext: false});
-    this.props.loadZhentiTongji({
-      url: "/api/logicCeshiResult",
-      body: {
-        username: this.props.username,
-        chapter_name: this.props.chapter_name
-      },
-    });
-    this.props.loadAllZhentiTongji({
-      url: "/api/logicResult",
-      body: {
-        username: this.props.username,
-        chapter_name: this.props.chapter_name
-      },
-    })
-  }
-
-  finishedChapter = (num) => {
-    this.setState({thisOrNext: true , unitTongjiShow: false});
-    this.props.getRecordWhetherNext({
-      url: "/api/logicFinishedChapter",
-      body: {
-        username: this.props.username,
-        chapter_name: this.props.chapter_name,
-        whetherEnterNextChapter: num
-      },
-    })
-  }
-
  componentDidMount(){
    this.loadQuestions();
  }
@@ -183,6 +141,9 @@ class SimulationTest extends React.PureComponent {
       setChoice,
     } = this.props;
     console.log(questions)
+    var chapter_name = ["逻辑语言" , "命题逻辑" , "词项逻辑" , "逻辑应用" , "演绎推理" , "归纳逻辑" ,
+                        "假设" , "支持" , "削弱" , "评价" , "解释" , "推论" , "比较" , "描述" , "综合"];
+    //for (var i = 0 ; i < )
 
     return (
       <React.Fragment>
@@ -190,42 +151,35 @@ class SimulationTest extends React.PureComponent {
           when={end==false}
           message="you need to do it again, are you sure to quit?"
         />
-        {/* this.state.unitTongjiShow ?
-          <LogicChapterError chapter_name = {this.props.chapter_name} ceshiData = {this.props.ceshiData} chapterData = {this.props.chapterData}
-                             stayThisChapter = {() => this.finishedChapter(0)} enterNextChapter = {() => this.finishedChapter(1)} // 1 进入下一章 ， 0 不进入
-          />
-          :
-          this.state.thisOrNext ? <EnterLearning/> :
-          content.flag == 1 ?*/}
 
-              <div className = {style.moniceshi}> 模拟测试 </div>
+        <div className = {style.moniceshi}> 模拟测试 </div>
 
-              <div className = {style.logic_knowledge}>
-                <Loading
-                  loading = {loadQuestionState.pending}
-                  wasLoaded = {loadQuestionState.resolved}
-                  lastFailed = {loadQuestionState.lastFailed}
+        <Loading  lastFailed = {loadQuestionState.lastFailed}
                   reloader = {this.loadQuestions}
                   center
-                >
-                  <SlideRL play={ined}>
-                    <div>
-                      <h4 className = {style.dalei}> {content.chapter_name} </h4>
-                      <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
-                      {/*<strong align = "center"><div style = {{"color":"red"}}>请先确认提交，再查看章节数据统计，否则，统计数据将会是上次测试的统计结果</div></strong>*/}
-                      <Button className = {style.submitButton} text = {"确认提交"} onClick = {this.submitQuestions}/>
-                   </div>
-                 </SlideRL>
-               </Loading>
-             </div>
+        >
+        <SlideRL play={ined}>
+          <div>
+            <h4 className = {style.dalei}> {content.chapter_name} </h4>
 
-          {/*} :
-           content.flag == 2 ? <Info info = "您还没有完成入口测试，请先完成入口测试！"/> :
-           content.flag == 3 ? <Info info = "您还没有完成重点习题，请先完成重点习题！"/> :
-           <Info info = "您还没有完成强化练习，请先完成强化练习！"/>
+           <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
+           <strong align = "center"><div style = {{"color":"red"}}>点击确认提交，查看正确答案</div></strong>
+           <Button className = {style.submitButton} text = {"确认提交"} onClick = {this.submitQuestions}/>
+        </div>
+             {/* {
+              // question
+              questions.map(onequestion =>
+              <div>{console.log(onequestion.type)}
+              <h5>{onequestion.type}</h5>
 
-      */  }
+              <SingleQuestion key = {onequestion.questionId} {...onequestion} subject = "logic_test" onSetChoice={( cid ) => setChoice( onequestion.questionId , cid )}/>
+              </div>
+            )
+            } */}
 
+
+        </SlideRL>
+        </Loading>
 
 
       </React.Fragment>

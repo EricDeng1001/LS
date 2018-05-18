@@ -38,6 +38,13 @@ import {
   view as ZhentiAllYearTongji,
   actions as ZhentiAllYearTongjiActions
 } from 'Connected/ZhentiAllYearTongji';
+import {
+  view as LearningTypeSelect,
+  actions as LearningTypeSelectActions
+} from 'Connected/LearningTypeSelect';
+
+import LunZhengZhenTi from 'Page/Learning/WritingLearning/LunZheng/LunZhengZhenTi';
+import LunZhengGongGu from 'Page/Learning/WritingLearning/LunZheng/LunZhengGonggu';
 
 import protect from 'direct-core/protect';
 import asyncProcessControl from 'direct-core/asyncProcessControl';
@@ -50,7 +57,6 @@ class LunZheng extends React.PureComponent {
     super( props );
 
     this.state = {
-      processStep: 0,
       jiqiaoDisplay: false,
       zhaocuoDisplay: false,
       mobanDisplay: false,
@@ -257,7 +263,6 @@ class LunZheng extends React.PureComponent {
 
   render(){
     const {
-      processStep,
       jiqiaoDisplay,
       zhaocuoDisplay,
       mobanDisplay,
@@ -269,6 +274,7 @@ class LunZheng extends React.PureComponent {
       egArticleContentDisplay,
       tongjiDisplay
      } = this.state;
+     console.log(this.state)
 
     const {
       loadButtonContentsState,
@@ -278,17 +284,16 @@ class LunZheng extends React.PureComponent {
       choice,
       name,
       example_article,
-      showContent
+      showContent,
+      learningType,
+      setLearningType
     } = this.props;
+    console.log(this.props)
     //console.log(optionContentDisplay)
 
 
     return (
       <React.Fragment>
-        <Prompt
-          when={processStep !== 0 && processStep !== this.actions.length - 1}
-          message="you need to do it again, are you sure to quit?"
-        />
 
         <div className={style.HUD}>
           <div className={style.HUDtitle}> 学习系统 </div>
@@ -298,23 +303,30 @@ class LunZheng extends React.PureComponent {
         <div className={style.wrapper}>
 
           <div className={style.leftPane}>
-            <Button className={style.button1} text={"写作技巧精讲"} onClick={this.jiqiao} /><br/>
-            <Button className={style.button2} text={"巩固强化练习"} onClick={this.loadButtonContents_gonggu}/><br/>
-            <Button className={style.button3} text={"近年真题演练"} onClick={this.loadButtonContents_zhenti} />
-            <Button className={style.button4} text={"数据统计"} onClick = {this.loadAllZhentiTongji} />
+            <Button className={style.button11} text={"写作技巧精讲"} onClick={()=>{this.jiqiao();setLearningType("写作技巧精讲")}} /><br/>
+            <Button className={style.button22} text={"巩固强化练习"} onClick={()=>{this.loadButtonContents_gonggu();setLearningType("巩固强化练习")}}/><br/>
+            <Button className={style.button33} text={"近年真题演练"} onClick={()=>{this.loadButtonContents_zhenti();setLearningType("近年真题演练")}} />
+            <Button className={style.button44} text={"数据统计"} onClick = {()=>{this.loadAllZhentiTongji();setLearningType("数据统计")}} />
           </div>
 
           <div className={style.rightPane}>
             {
                this.state.jiqiaoDisplay?
                  <div className={style.jiqiao}>
-                   <Button className={style.buttonjiqiao1} text={"找错析错"} onClick={this.loadButtonContents_zhaocuo}/><br/>
-                   <Button className={style.buttonjiqiao2} text={"写作模板"} onClick={this.loadButtonContents_moban}/>
+                   <Button className={style.buttonjiqiao11} text={"找错析错"} onClick={()=>{this.loadButtonContents_zhaocuo();setLearningType("找错析错")}}/><br/>
+                   <Button className={style.buttonjiqiao22} text={"写作模板"} onClick={()=>{this.loadButtonContents_moban();setLearningType("写作模板")}}/>
                  </div>
               :
               null
            }
-           {
+            {
+              learningType == "找错析错" || learningType == "写作模板"? <WriteKnowledge loader={this.loadWriteContents}/> :
+              learningType == "巩固强化练习" ? <LunZhengGongGu/> :
+              learningType == "近年真题演练" ? <LunZhengZhenTi/> :
+              learningType == "数据统计" ? <ZhentiAllYearTongji/> : null
+            }
+
+          {
               this.state.zhaocuoDisplay?
                 <div className={style.zhaocuo}>
                    <ButtonExpand
@@ -358,74 +370,7 @@ class LunZheng extends React.PureComponent {
                :
                null
            }
-            {
-              titleContentDisplay?
-                <div className={style.title}>
-                  <div className={style.biaoti}>{choice}</div>
-                  <WriteContent className={style.content}  loader={this.loadWriteContents}/>
-                </div>
-              :
-              null
-            }
 
-            {
-              egArticleContentDisplay?
-              <div className={style.option}>
-                <div className={style.juzhong}>
-                  <input type="file" accept =".doc,.pdf"/><br/><span style = {{"color":"red"}}>请选择一个word或pdf文件</span><br/>
-                  <label className = {style.egArticleText} onClick={() => this.setState({gongguEgArticle: false , yichuanwenjian: !this.state.yichuanwenjian})}> 已传文件 </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <label className = {style.egArticleText} onClick = {() => this.setState({yichuanwenjian: false , gongguEgArticle: !this.state.gongguEgArticle})}> 参考范文 </label>
-                </div>
-                {this.state.yichuanwenjian ?
-                  <div className = {style.egArticle}>
-                    此处应该显示用户上传的文件内容
-                  </div>
-                  :
-                  null
-                }
-                {this.state.gongguEgArticle ?
-                  <div className = {style.egArticle}>
-                    <p className = {style.article_title}>{name}</p>
-                    {example_article.map((onePara , key) =>
-                      <p key = {key}> &nbsp;&nbsp;&nbsp;&nbsp;{onePara} </p>
-                    )}
-                  </div>
-                  :
-                  null
-                }
-              </div>
-              :
-              null
-            }
-
-
-
-              {
-                optionContentDisplay?
-                <div className={style.option}>
-                  <MultOptionQuestons/>
-                </div>
-                :
-                null
-              }
-
-
-
-
-          {
-             acknowledgeDisplay?
-               <div>
-                 <div className={style.centerbiaoti}>{choice}</div>
-                 <WriteKnowledge className={style.rightPane}  loader={this.loadWriteContents}/>
-               </div>
-            :
-             null
-          }
-
-          {
-            tongjiDisplay ?
-            <ZhentiAllYearTongji/>:null
-          }
 
           </div>
 
@@ -474,6 +419,7 @@ export default applyHOCs([
       loadWriteContentsState: state.WriteContent.loadState,
       loadWriteKnowledgeState: state.WriteKnowledge.loadState,
       showContent: state.ButtonExpand.showContent,
+      learningType: state.LearningTypeSelect.learningType,
     }),
     dispatch => ({
       ...bindActionCreators( ButtonExpandActions , dispatch ),
@@ -481,6 +427,7 @@ export default applyHOCs([
       ...bindActionCreators( WriteKnowledgeActions , dispatch ),
       ...bindActionCreators( PortTestActions , dispatch ),
       ...bindActionCreators( ZhentiAllYearTongjiActions , dispatch ),
+      ...bindActionCreators( LearningTypeSelectActions , dispatch )
     })
 
   )],
