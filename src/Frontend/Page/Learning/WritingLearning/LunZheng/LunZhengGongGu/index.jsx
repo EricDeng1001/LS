@@ -59,22 +59,29 @@ class LunZhengGongGu extends React.PureComponent {
         </div>
 
         <div className={style.option}>
-          <span className = {style.egArticleText} onClick={() => this.setState({uploadText: true , viewText: false , viewEgArticle: false})}> 上传文章 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span className = {style.egArticleText} onClick={() => this.setState({uploadText: false , viewText: true , viewEgArticle: false})}> 已传文章 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span className = {style.egArticleText} onClick = {() => this.setState({uploadText: false , viewText: false , viewEgArticle: true})}> 参考范文 </span>
+          <div className = {style.egArticleText}>
+            <span onClick={() => this.setState({uploadText: true , viewText: false , viewEgArticle: false})}> 上传文章 </span>&nbsp;&nbsp;&nbsp;
+            <span onClick={() => this.setState({uploadText: false , viewText: true , viewEgArticle: false})}> 已传文章 </span>&nbsp;&nbsp;&nbsp;
+            <span onClick = {() => this.setState({uploadText: false , viewText: false , viewEgArticle: true})}> 参考范文 </span>
+          </div>
+
+          <div className = {style.egArticle}>
           {
             this.state.uploadText ? <EditText/> :
             this.state.viewText ? <div>已传内容</div> :
             this.state.viewEgArticle ?
-            <div className = {style.egArticle}>
+            <div>
+
               <p className = {style.article_title}>{name}</p>
                 {example_article.map((onePara , key) =>
                   <p key = {key}> &nbsp;&nbsp;&nbsp;&nbsp;{onePara} </p>
                 )}
-            </div>
+              </div>
+
             :
             null
           }
+          </div>
         </div>
       </React.Fragment>
     )
