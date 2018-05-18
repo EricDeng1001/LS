@@ -52,6 +52,8 @@ class Shengcinanju extends React.PureComponent {
       content,
     } = this.props;
 
+    // console.log(this.props.articleId);
+
     return(
       <React.Fragment>
         <div>
