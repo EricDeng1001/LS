@@ -44,6 +44,18 @@ class LunZhengGongGu extends React.PureComponent {
     });
   }
 
+  saveOrSubmitText = ( flag ) => {
+    this.props.saveOrSubmitText({
+      url: "/api/lunZhengSaveOrSubmitText",
+      body: {
+        username: this.props.username,
+        choice: this.props.choice,
+      //  text: ,
+        saveOrSubmit: flag  // flag=0 暂存  , flag=1 提交
+      }
+    })
+  }
+
 
   render(){
     const{
@@ -67,7 +79,14 @@ class LunZhengGongGu extends React.PureComponent {
 
           <div className = {style.egArticle}>
           {
-            this.state.uploadText ? <EditText/> :
+            this.state.uploadText ?
+            <div>
+              <EditText sizeStyle = {style.inputBox}/>
+              <div className = {style.saveOrSubmit}>
+              <button onClick = {() => this.saveOrSubmitText(0)}> 暂存文本 </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button onClick = {() => this.saveOrSubmitText(1)}> 确认提交 </button>
+            </div>
+            </div> :
             this.state.viewText ? <div>已传内容</div> :
             this.state.viewEgArticle ?
             <div>

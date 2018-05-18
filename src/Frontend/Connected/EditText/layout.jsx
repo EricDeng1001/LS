@@ -30,6 +30,7 @@ class EditText extends React.PureComponent {
 
   render(){
     const {
+      sizeStyle,
       saveOrSubmitText,
       loadLastSaveText,
       loadAllSubmitText,
@@ -42,9 +43,9 @@ class EditText extends React.PureComponent {
     return (
       <div className="container">
         {/* <input type = "txt" id = "eml"/> */}
-        <textarea id = "eml" onKeyUp = {()=>this.SwapTxt()} onChange = {() => this.SwapTxt()}></textarea><br/>
-        <button onClick = {saveOrSubmitText}> 暂存文本 </button>&nbsp;&nbsp;
-        <button onClick = {saveOrSubmitText}> 确认提交 </button>
+        <textarea id = "eml" className = {sizeStyle} onKeyUp = {()=>this.SwapTxt()} onChange = {() => this.SwapTxt()}></textarea><br/>
+        {/* <button onClick = {saveOrSubmitText}> 暂存文本 </button>&nbsp;&nbsp;
+        <button onClick = {saveOrSubmitText}> 确认提交 </button> */}
       </div>
     );
   }
