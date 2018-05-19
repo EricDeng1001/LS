@@ -9,6 +9,15 @@ import {
   view as LearningTypeSelect,
   actions as LearningTypeSelectActions
 } from 'Connected/LearningTypeSelect';
+import {
+  view as EnglishArticle,
+  actions as EnglishArticleActions
+} from 'Connected/EnglishArticle';
+import {
+  view as PortTest,
+  actions as PortTestActions
+} from 'Connected/PortTest';
+
 
 import protect from 'direct-core/protect';
 import asyncProcessControl from 'direct-core/asyncProcessControl';
@@ -20,11 +29,27 @@ class Shengcinanju extends React.PureComponent {
     super( props );
   }
 
+  componentDidMount(){
+    this.function();
+  }
+
+    function = () => {
+      this.props.loadPortContent({
+        url: "/api/eng_getUserWord",
+        body: {
+          username:  this.props.username,
+          ariticleId: this.props.articleId,
+        }
+      })
+    }
+
+
   render(){
 
     const {
       setLearningType,
       learningType,
+      content,
     } = this.props;
 
     return(
@@ -32,7 +57,18 @@ class Shengcinanju extends React.PureComponent {
         <div>
           <div className={style.pageTitle}>本课生词：</div>
           <br/>
-          暂无
+
+          {
+            content == undefined?null:
+            content.map((word, key)=>
+            <div key = {key} >
+              { word.word_l }
+              <br/>
+              { word.translate }
+            </div>
+            )
+          }
+
           <br/>
           <div className={style.pageTitle}>本课难句：</div>
           <br/>
@@ -53,9 +89,14 @@ export default applyHOCs([
   connect(
     state => ({
       learningType: state.LearningTypeSelect.learningType,
+      username: state.UserManager.name,
+      articleId: state.EnglishArticle.articleId,
+      content: state.PortTest.content,
     }),
     dispatch => ({
+      ...bindActionCreators( EnglishArticleActions , dispatch ),
       ...bindActionCreators( LearningTypeSelectActions , dispatch ),
+      ...bindActionCreators( PortTestActions , dispatch),
     })
   )],
   Shengcinanju
