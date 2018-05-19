@@ -15,6 +15,9 @@ import {
   actions as WriteContentActions
 } from 'Connected/WriteContent';
 import {
+  actions as PortTestActions
+} from 'Connected/PortTest';
+import {
   view as MultOptionQuestons,
   actions as MultOptionQuestionsActions
 } from 'Connected/MultOptionQuestions';
@@ -31,12 +34,25 @@ class LunZhengZhenTi extends React.PureComponent {
   }
 
   loadZhentiContent = ( choice ) => {
+    console.log(choice)
+    /*  加载左侧的题目部分 */
     this.props.loadWriteContents({
       url: "/api/lunZhengZhenTiContent",
       body: {
-        requestQuestion: choice
+        requestQuestion: this.props.choice
       }
     });
+    /* 加载正确答案等 */
+    this.props.loadPortContent({
+      url: "/api/lunZhengZhenTiError",
+      body: {
+        requestQuestion: this.props.choice
+      }
+    });
+  }
+
+  componentDidMount(){
+    this.loadZhentiContent()
   }
 
 
@@ -46,12 +62,14 @@ class LunZhengZhenTi extends React.PureComponent {
     } = this.props;
     return (
       <React.Fragment>
+        <div className = {style.whoZhentiPart}>
         <div className={style.title}>
           <div className={style.zhentiMingcheng}>{choice}</div>
           <WriteContent className={style.zhentiContent}  loader={this.loadWriteContents}/>
         </div>
         <div className={style.option}>
            <MultOptionQuestons/>
+        </div>
         </div>
       </React.Fragment>
     )
@@ -90,6 +108,7 @@ export default applyHOCs([
     }),
     dispatch => ({
       ...bindActionCreators( WriteContentActions , dispatch ),
+      ...bindActionCreators( PortTestActions , dispatch ),
     })
 
   )],

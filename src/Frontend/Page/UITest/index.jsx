@@ -12,6 +12,7 @@ import SlideLR from 'Animation/SlideLR';
 import SlideRL from 'Animation/SlideRL';
 import SlideDU from 'Animation/SlideDU';
 import SlideUD from 'Animation/SlideUD';
+import Highcharts from 'react-highcharts';
 
 import {
   view as EnglishArticle,
@@ -96,12 +97,59 @@ function = () => {
     const {
       content,
     } = this.props;
+    var config = {
+      chart: {
+   plotBackgroundColor: null,
+   plotBorderWidth: null,
+   plotShadow: false
+},
+title: {
+   text: '累计生词类型分析'
+},
+tooltip: {
+   headerFormat: '{series.name}<br>',
+   pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
+},
+plotOptions: {
+   pie: {
+       allowPointSelect: true,
+       cursor: 'pointer',
+       dataLabels: {
+           enabled: true,
+           format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+           style: {
+               color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+           }
+       }
+   }
+},
+series: [{
+   type: 'pie',
+   name: '生词类型占比',
+   data: [
+       ['中考',   45.0],
+       ['高考',       26.8],
+       {
+           name: '四级',
+           y: 12.8,
+           sliced: true,
+           selected: true
+       },
+       ['六级',    8.5],
+       ['考研',     6.2],
+       ['超纲',   0.7]
+   ]
+}]
+    }
 
     console.log(content)
 
     return (
       <React.Fragment>
         <EditText/>
+        <Highcharts config={config}></Highcharts>
+
+        {/* <WriteGraph/> */}
 
         {
             <div>

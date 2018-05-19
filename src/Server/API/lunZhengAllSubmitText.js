@@ -1,6 +1,6 @@
 const callPython = require("./callPython");
 
-const pythonFilename = "offer_lunzheng_tijiao.py";
+const pythonFilename = "offer_lunzheng_xiezuo_tijiao.py";
 
 module.exports = ( req, res ) => {
   const { username , choice } = req.body;

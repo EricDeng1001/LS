@@ -3,7 +3,8 @@ import {
   __ASYNC_LOAD_RECOMMAND_KNOWLEDGE_NAME,
   __SET_KNOWLEDGE_NAME,
   __ASYNC_LOAD_RECOMMAND_KNOWLEDGE_CONTENT,
-  __ASYNC_LOAD_RECOMMAND_ARTICLE
+  __ASYNC_LOAD_RECOMMAND_ARTICLE,
+  __SET_ARTICLE_NAME
 } from 'actionTypes';
 
 export default ( state = {
@@ -13,6 +14,7 @@ export default ( state = {
     tuijianZhishidianContent_fenxi: [],
     tuijianZhishidianContent_liti: [],
     TuijianArticle: [],
+    chosed_articleName: "",
 
     loadState: {
       pending: 0,
@@ -191,6 +193,13 @@ export default ( state = {
         loadState
       };
     }
+
+    /* 设置用户所选择的文章名称 */
+    case __SET_ARTICLE_NAME:
+      return{
+        ...state,
+        chosed_articleName: payload.choice
+      }
 
 
     default:

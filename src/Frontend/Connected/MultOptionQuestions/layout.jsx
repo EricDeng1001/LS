@@ -3,9 +3,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from 'actions';
 import Checkbox from 'react-bootstrap';
-import {
-  actions as SingleOptionQuestionsActions
-} from 'Connected/SingleOptionQuestions'
+// import {
+//   actions as SingleOptionQuestionsActions
+// } from 'Connected/SingleOptionQuestions'
 import {
   view as ButtonExpand,
   actions as ButtonExpandActions
@@ -14,6 +14,14 @@ import {
   view as ZhentiPerYearTongji,
   actions as ZhentiPerYearTongjiActions
 } from 'Connected/ZhentiPerYearTongji';
+import {
+  view as EditText,
+  actions as EditTextActions
+} from 'Connected/EditText';
+import {
+  view as ViewFinishedText,
+  actions as ViewFinishedTextActions
+} from 'Connected/ViewFinishedText';
 
 import judgeWhichOption from 'Algorithm/judgeWhichOption';
 import AppearUD from 'Animation/AppearUD';
@@ -86,8 +94,43 @@ class MultOptionQuestions extends React.PureComponent {
       }
     });
 
-
   }
+
+  loadLastSaveTextContent = () => {
+    console.log(this.props.username,this.props.choice)
+    this.props.loadLastSaveText({
+      url: "/api/lunZhengZanCunContent",
+      body: {
+        username: this.props.username,
+        choice: this.props.choice
+      }
+    })
+  }
+
+  saveOrSubmitTextContent = ( flag ) => {
+    this.props.saveOrSubmitText({
+      url: "/api/lunZhengSaveOrSubmitText",
+      body: {
+        username: this.props.username,
+        choice: this.props.choice,
+        //text: this.usertext,
+        text: this.props.userInputText,
+        saveOrSubmit: flag  // flag=0 暂存  , flag=1 提交
+      }
+    });
+  }
+
+  loadAllSubmitText = () => {
+    this.props.loadAllSubmitText({
+      url: "/api/lunZhengAllSubmitText",
+      body: {
+        username: this.props.username,
+        choice: this.props.choice
+      }
+    });
+  }
+
+
 
 
 
@@ -98,8 +141,8 @@ class MultOptionQuestions extends React.PureComponent {
       article_analysis,
       tongji
     } = this.props;
-    //console.log(this.props)
-    console.log(this.state.analysisShow)
+    console.log(this.props)
+    //console.log(this.state.analysisShow)
     var TextStyle1 = [];
     var TextStyle2 = [];
     if(this.state.lock){
@@ -166,8 +209,8 @@ class MultOptionQuestions extends React.PureComponent {
      </div>
      <div className = {style.uploadfile}>
 
-       <label onClick = { () => this.setState({analysisShow: false , uploadShow: !this.state.uploadShow, fileShow: false , exampleShow: false})}> 上传文件 </label>&nbsp;&nbsp;&nbsp;
-       <label onClick = { () => this.setState({analysisShow: false , uploadShow: false , fileShow: !this.state.fileShow , exampleShow: false}) }> 查看文件 </label>&nbsp;&nbsp;&nbsp;
+       <label onClick = { () => this.setState({analysisShow: false , uploadShow: !this.state.uploadShow, fileShow: false , exampleShow: false})}> 上传文章 </label>&nbsp;&nbsp;&nbsp;
+       <label onClick = { () => {this.setState({analysisShow: false , uploadShow: false , fileShow: !this.state.fileShow , exampleShow: false});this.loadAllSubmitText() }}> 已传文章 </label>&nbsp;&nbsp;&nbsp;
        <label onClick = { () => this.setState({analysisShow: false , uploadShow: false , fileShow: false , exampleShow: !this.state.exampleShow}) } > 参考范文 </label>
      </div>
      {
@@ -196,16 +239,23 @@ class MultOptionQuestions extends React.PureComponent {
 
      {
        this.state.uploadShow ?
-       <div className = {style.egArticle}>
+       <div>
+         <EditText inputSizeStyle = {style.inputBox} buttonStyle = {style.saveOrSubmit}
+                   loadLastSaveTextContent = {() => this.loadLastSaveTextContent()}
+                   saveText = {() => this.saveOrSubmitTextContent(0)} submitText = {() => this.saveOrSubmitTextContent(1)}
+         />
+       {/* <div className = {style.egArticle}>
          <br/><input type = "file" accept =".doc,.pdf"/><span style={{"color":"red"}}>请上传一个word或pdf文件</span>
-       </div>
+       </div> */}</div>
+
        :null
      }
 
      {
        this.state.fileShow ?
        <div className = {style.egArticle}>
-         此处应该显示用户上传的文件内容
+         <ViewFinishedText/>
+          {/* 此处应该显示用户上传的文件内容 */}
        </div>
        :null
      }
@@ -239,10 +289,17 @@ export default connect(
     article_analysis: state.PortTest.content,
     choice: state.ButtonExpand.choice,
     name: state.WriteContent.name,
+    userInputText: state.EditText.userInputText,
+    lastSaveText: state.EditText.lastSaveText,
+    allSubmitTextName: state.ViewFinishedText.allSubmitTextName,
+    allSubmitText: state.ViewFinishedText.allSubmitText,
+    whichTextToView: state.EditText.whichTextToView
     //tongji: state.ZhentiPerYearTongji.tongji
   }),
   dispatch =>({
-    ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
-    ...bindActionCreators( ZhentiPerYearTongjiActions , dispatch)
+    // ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
+    ...bindActionCreators( ZhentiPerYearTongjiActions , dispatch),
+    ...bindActionCreators( EditTextActions , dispatch ),
+    ...bindActionCreators( ViewFinishedTextActions , dispatch )
   })
 )( MultOptionQuestions );

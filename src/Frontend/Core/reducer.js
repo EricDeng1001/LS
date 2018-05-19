@@ -16,6 +16,7 @@ import { reducer as LearningTypeSelect } from 'Connected/LearningTypeSelect';
 import { reducer as LogicReviewModel } from 'Connected/LogicReviewModel';
 import { reducer as LogicTestTongji } from 'Connected/LogicTestTongji';
 import { reducer as EditText } from 'Connected/EditText';
+import { reducer as ViewFinishedText } from 'Connected/ViewFinishedText';
 //import { reducer as ... } from 'Connected/...';
 
 export default {
@@ -35,7 +36,8 @@ export default {
   LearningTypeSelect: LearningTypeSelect,
   LogicReviewModel: LogicReviewModel,
   LogicTestTongji: LogicTestTongji,
-  EditText: EditText
+  EditText: EditText,
+  ViewFinishedText: ViewFinishedText
 
   //others
 };

@@ -3,7 +3,8 @@ import {
   __ASYNC_LOAD_RECOMMAND_KNOWLEDGE_NAME,
   __SET_KNOWLEDGE_NAME,
   __ASYNC_LOAD_RECOMMAND_KNOWLEDGE_CONTENT,
-  __ASYNC_LOAD_RECOMMAND_ARTICLE
+  __ASYNC_LOAD_RECOMMAND_ARTICLE,
+  __SET_ARTICLE_NAME
 } from 'actionTypes';
 
  /*加载所有做过的真题的统计数据，包括错选次数，漏选次数*/
@@ -268,3 +269,13 @@ export const loadTuijianArticle = ({ url , body , parser , headers  , initState 
       dispatchLastest( loadTuijianArticleRejected( "network" , err ) );
  });
 };
+
+/* 设置用户点击的文章的名称 */
+let SetArticleNameCounter = 0;
+export const SetArticleName = ( choice ) => ({
+ type: __SET_ARTICLE_NAME,
+ payload: {
+   choice
+ },
+ id: SetArticleNameCounter++
+});
