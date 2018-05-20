@@ -36,8 +36,8 @@ class WritingPage extends React.PureComponent {
             choice == 0 ? <div>入口测试</div> :
             choice == 1 ?
             <div>
-              <a href = "/learning/writing/lunzheng"> 论证有效性分析 </a>
-              <a href = "/learning/writing/lunshuo"> 论说文 </a>
+              &nbsp;&nbsp;&nbsp;&nbsp;<a href = "/learning/writing/lunzheng"> 论证有效性分析 </a><br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;<a href = "/learning/writing/lunshuo"> 论说文 </a>
             </div> :
             <WriteHelp/>
           }

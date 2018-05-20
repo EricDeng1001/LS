@@ -27,6 +27,8 @@ import {
 import {
   actions as LearningTypeSelectActions
 } from 'Connected/LearningTypeSelect';
+import ZhongDian from 'Page/Learning/LogicLearning/ZhongDian';
+import EnterLearning from 'Page/Learning/LogicLearning/EnterLearning';
 
 import TextAndImag from 'UI/TextAndImag';
 import SingleQuestion from 'UI/SingleQuestion';
@@ -44,7 +46,8 @@ class QiangHua extends React.PureComponent {
 
     this.questions = [];
     this.state = {
-      end: false
+      end: false,
+    //  learning: false
     };
   }
 
@@ -128,6 +131,16 @@ class QiangHua extends React.PureComponent {
     //}
   }
 
+  FinishTestNote_qianghua = () =>{
+    alert("您还没有完成入口测试，请先完成入口测试!");
+    //this.setState({learning: true})
+  }
+  FinishZhongDianNote_qianghua = () =>{
+    alert("您还没有完成重点习题，请先完成重点习题!");
+    //this.props.setLearningType("重点习题")
+    //this.setState({learning: true})
+  }
+
  componentDidMount(){
    this.loadQuestions();
  }
@@ -155,7 +168,7 @@ class QiangHua extends React.PureComponent {
           when={end==false}
           message="you need to do it again, are you sure to quit?"
         />
-        {content.flag == 1 ?
+        {content.flag === 1 ?
         <div>
 
         <div className = {style.pageTitle}> 强化练习 </div>
@@ -180,8 +193,20 @@ class QiangHua extends React.PureComponent {
         </div>
       </div>
       :
-      content.flag == 2 ? <Info info = "您还没有完成入口测试，请先完成入口测试！"/> :
-      <Info info = "您还没有完成重点习题，请先完成重点习题！"/>
+      content.flag === 2 ?
+      <div>
+        {/* {this.FinishTestNote_qianghua()} */}
+        <Info info = "您还没有完成入口测试，请先完成入口测试！"/>
+
+      </div> :
+      content.flag === 3 ?
+      <div>
+        {/* {this.FinishZhongDianNote_qianghua()} */}
+        <Info info = "您还没有完成重点习题，请先完成重点习题！"/>
+        {/* <EnterLearning/> */}
+        {/* <ZhongDian/> */}
+        {/* <button onClick = {() => this.setLearningType}>返回学习页面</button> */}
+    </div>:null
     }
 
 

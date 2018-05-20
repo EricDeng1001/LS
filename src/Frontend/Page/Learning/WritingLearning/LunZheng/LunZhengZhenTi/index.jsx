@@ -15,6 +15,9 @@ import {
   actions as WriteContentActions
 } from 'Connected/WriteContent';
 import {
+  actions as PortTestActions
+} from 'Connected/PortTest';
+import {
   view as MultOptionQuestons,
   actions as MultOptionQuestionsActions
 } from 'Connected/MultOptionQuestions';
@@ -31,12 +34,31 @@ class LunZhengZhenTi extends React.PureComponent {
   }
 
   loadZhentiContent = ( choice ) => {
+    console.log(choice)
+    /*  加载左侧的题目部分 */
     this.props.loadWriteContents({
       url: "/api/lunZhengZhenTiContent",
       body: {
-        requestQuestion: choice
+        requestQuestion: this.props.choice
       }
     });
+    /* 加载正确答案等 */
+    this.props.loadPortContent({
+      url: "/api/lunZhengZhenTiError",
+      body: {
+        requestQuestion: this.props.choice
+      }
+    });
+  }
+
+  componentDidMount(){
+    this.loadZhentiContent()
+  }
+
+  componentWillReceiveNextProps(NextPorts){
+    if(this.props.choice!==NextProps.choice){
+      //this.loadZhentiContent()
+    }
   }
 
 
@@ -44,14 +66,21 @@ class LunZhengZhenTi extends React.PureComponent {
     const{
       choice
     } = this.props;
+    //console.log(this.props.title.length === 0)
     return (
       <React.Fragment>
+        <div className = {style.whoZhentiPart}>
         <div className={style.title}>
           <div className={style.zhentiMingcheng}>{choice}</div>
           <WriteContent className={style.zhentiContent}  loader={this.loadWriteContents}/>
         </div>
-        <div className={style.option}>
-           <MultOptionQuestons/>
+        {
+          this.props.title.length === 0 ? null :
+          <div className={style.option}>
+             <MultOptionQuestons/>
+          </div>
+        }
+
         </div>
       </React.Fragment>
     )
@@ -87,9 +116,11 @@ export default applyHOCs([
       logined: state.UserManager.logined,
       username: state.UserManager.name,
       choice: state.ButtonExpand.choice,
+      title: state.WriteContent.title
     }),
     dispatch => ({
       ...bindActionCreators( WriteContentActions , dispatch ),
+      ...bindActionCreators( PortTestActions , dispatch ),
     })
 
   )],

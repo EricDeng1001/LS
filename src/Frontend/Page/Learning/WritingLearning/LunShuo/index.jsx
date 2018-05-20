@@ -30,6 +30,14 @@ import {
   view as PortTest,
   actions as PortTestActions
 } from 'Connected/PortTest';
+import {
+  view as EditText,
+  actions as EditTextActions
+} from 'Connected/EditText';
+import {
+  view as ViewFinishedText,
+  actions as ViewFinishedTextActions
+} from 'Connected/ViewFinishedText';
 
 import protect from 'direct-core/protect';
 import asyncProcessControl from 'direct-core/asyncProcessControl';
@@ -58,8 +66,10 @@ class LunShuo extends React.PureComponent {
       //optionContentDisplay: false,
       acknowledgeDisplay: false,
       gongguEgArticle: false,
+      userUploadText: false,
       zhentiEgarticle: false,
       zhentiEgComment: false,
+      userFileEdit: false,
       userFileDisplay: false,
       userGongguFile: false
     };
@@ -241,7 +251,7 @@ class LunShuo extends React.PureComponent {
   }
 
   cankaoliyi = ( choice ) => {
-    this.setState({zhentiEgComment: !this.state.zhentiEgComment , userFileDisplay: false});
+    this.setState({zhentiEgComment: !this.state.zhentiEgComment , userFileEdit:false , userFileDisplay: false});
     this.props.loadPortContent({
       url: "/api/lunshuoLiyi",
       body: {
@@ -265,6 +275,41 @@ class LunShuo extends React.PureComponent {
       this.WrongLiyi.push(example_liyi.wrong_liyi[key]);
     }
     //console.log(this.RightLiyi)
+  }
+
+  loadLastSaveTextContent = () => {
+    console.log(this.props.username,this.props.choice)
+    this.props.loadLastSaveText({
+      url: "/api/lunShuoZanCunContent",
+      body: {
+        username: this.props.username,
+        choice: this.props.choice
+      }
+    })
+  }
+
+  saveOrSubmitTextContent = ( flag ) => {
+    console.log(this.props.username,this.props.choice,this.props.userInputText,flag)
+    this.props.saveOrSubmitText({
+      url: "/api/lunShuoSaveOrSubmitText",
+      body: {
+        username: this.props.username,
+        choice: this.props.choice,
+        //text: this.usertext,
+        text: this.props.userInputText,
+        saveOrSubmit: flag  // flag=0 暂存  , flag=1 提交
+      }
+    });
+  }
+
+  loadAllSubmitText = () => {
+    this.props.loadAllSubmitText({
+      url: "/api/lunShuoAllSubmitText",
+      body: {
+        username: this.props.username,
+        choice: this.props.choice
+      }
+    });
   }
 
 
@@ -376,35 +421,49 @@ class LunShuo extends React.PureComponent {
              gongguShow?
              <div className={style.option}>
                <div className={style.juzhong}>
-               <input type="file" accept =".doc,.pdf" style={{"right":"0"}}/><br/><span style={{"color":"red"}}>请上传一个word或pdf文件</span><br/>
-               <label className = {style.egArticleText} onClick = {() => this.setState({gongguEgArticle:false,userGongguFile: !this.state.userGongguFile})}>已传文件</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-               <label className = {style.egArticleText} onClick = {() => this.setState({gongguEgArticle: !this.state.gongguEgArticle})}> 参考范文 </label>
-             </div>
-               {this.state.userGongguFile ?
-                 <div className = {style.egArticle}>
-                   此处应该显示用户上传的文件内容
-                 </div>
-                 :
-                 null
-               }
-               {this.state.gongguEgArticle ?
-                 <div className = {style.egArticle}>
-                   <p className = {style.article_title}>{name}</p>
-                   {example_article.map((onePara , key) =>
-                     <p key = {key}> &nbsp;&nbsp;&nbsp;&nbsp;{onePara} </p>
-                   )}
-                 </div>
-                 :
-                 null
-               }
+               {/* <input type="file" accept =".doc,.pdf" style={{"right":"0"}}/><br/><span style={{"color":"red"}}>请上传一个word或pdf文件</span><br/> */}
+                 <label className = {style.egArticleText} onClick = {() => this.setState({gongguEgArticle:false,userGongguFile:false,userUploadText: !this.state.userUploadText})}>上传文章</label>&nbsp;&nbsp;&nbsp;
+                 <label className = {style.egArticleText} onClick = {() => {this.setState({gongguEgArticle:false,userGongguFile: !this.state.userGongguFile});this.loadAllSubmitText()}}>已传文章</label>&nbsp;&nbsp;&nbsp;
+                 <label className = {style.egArticleText} onClick = {() => this.setState({gongguEgArticle: !this.state.gongguEgArticle})}> 参考范文 </label>
+               </div>
+               <div className = {style.egArticle}>
+                 {this.state.userUploadText ?
+                   <div>
+                     <EditText inputSizeStyle = {style.inputBox} buttonStyle = {style.saveOrSubmit}
+                               loadLastSaveTextContent = {() => this.loadLastSaveTextContent()}
+                               saveText = {() => this.saveOrSubmitTextContent(0)} submitText = {() => this.saveOrSubmitTextContent(1)}
+                     />
+                   </div>
+                   :
+                   null
+                 }
+                 {this.state.userGongguFile ?
+                   <div className = {style.egArticle}>
+                     <ViewFinishedText/>
+                     {/* 此处应该显示用户上传的文件内容 */}
+                   </div>
+                   :
+                   null
+                 }
+                 {this.state.gongguEgArticle ?
+                   <div className = {style.egArticle}>
+                     <p className = {style.article_title}>{name}</p>
+                     {example_article.map((onePara , key) =>
+                       <p key = {key}> &nbsp;&nbsp;&nbsp;&nbsp;{onePara} </p>
+                     )}
+                   </div>
+                   :
+                   null
+                 }
+               </div>
+
              </div>
              :
              null
            }
 
-           {
+           {// <div className = {style.rightPane}></div>
              zhentiShow?
-             <div className = {style.rightPane}>
              <div className={style.title}>
                 <div className={style.biaoti}>{choice}</div>
                 <WriteContent className={style.content}  loader={this.loadWriteContents}/>
@@ -422,17 +481,22 @@ class LunShuo extends React.PureComponent {
                    onClick = {() => this.setState({zhentiEgarticle: !this.state.zhentiEgarticle})}
                   > 参考范文 </div>
               </div>
+              :null
+            }
 
+            {zhentiShow ?
               <div className={style.option}>
-                <div className={style.juzhong}>
-                <input type="file" accept =".doc,.pdf" style={{"right":"0"}}/><br/><span style={{"color":"red"}}>请上传一个word或pdf文件</span><br/>
-                <label className = {style.egArticleText} onClick = {() => this.setState({userFileDisplay: !this.state.userFileDisplay})}>已传文件</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <label className = {style.egArticleText}
-                  onClick = {() => this.cankaoliyi( choice )}
-                 > 参考立意 </label>
-               </div>
+                {/* <div> */}
+                {/* <div className={style.juzhong}> */}
+                {/* <input type="file" accept =".doc,.pdf" style={{"right":"0"}}/><br/><span style={{"color":"red"}}>请上传一个word或pdf文件</span><br/> */}
+                <label className = {style.egArticleText} onClick = {() => this.setState({userFileEdit: !this.state.userFileEdit,userFileDisplay: false,zhentiEgComment: false })}>上传文章</label>&nbsp;&nbsp;&nbsp;
+                <label className = {style.egArticleText} onClick = {() => {this.setState({userFileDisplay: !this.state.userFileDisplay,userFileEdit: false,zhentiEgComment: false});this.loadAllSubmitText()}}>已传文章</label>&nbsp;&nbsp;&nbsp;
+                <label className = {style.egArticleText} onClick = {() => this.cankaoliyi( choice )}> 参考立意 </label>
+               {/* </div> */}
+               <div className = {style.egArticle}>
                 {this.state.zhentiEgComment ?
-                  <div className = {style.egLiyiArticle}>
+                  <div>
+                   {/* <div className = {style.egLiyiArticle}> */}
                     <p className = {style.liyi}>正确立意</p>
                     {example_liyi.right_liyi == undefined ? null :
                       <div>
@@ -454,14 +518,27 @@ class LunShuo extends React.PureComponent {
                   :
                   null
                 }
+                {
+                  this.state.userFileEdit ?
+                  <EditText inputSizeStyle = {style.inputBox} buttonStyle = {style.saveOrSubmit}
+                            loadLastSaveTextContent = {() => this.loadLastSaveTextContent()}
+                            saveText = {() => this.saveOrSubmitTextContent(0)} submitText = {() => this.saveOrSubmitTextContent(1)}
+                  />
+                  : null
+                }
 
                 {
                   this.state.userFileDisplay ?
-                  <div className = {style.userFile}>已传文件</div>:null
+                  <div>
+                    <ViewFinishedText/>
+                  {/* <div className = {style.userFile}><div className = {style.userFile}>已传文件</div> </div>*/}
+                  </div>
+                  :null
                 }
 
               </div>
-            </div>:null}
+            </div>
+            :null}
 
 
 
@@ -526,12 +603,19 @@ export default applyHOCs([
       //mainContent: state.WriteContent.content,
       loadWriteContentsState: state.WriteContent.loadState,
       showContent: state.ButtonExpand.showContent,
+      userInputText: state.EditText.userInputText,
+      lastSaveText: state.EditText.lastSaveText,
+      allSubmitTextName: state.ViewFinishedText.allSubmitTextName,
+      allSubmitText: state.ViewFinishedText.allSubmitText,
+      whichTextToView: state.EditText.whichTextToView
     }),
     dispatch => ({
       ...bindActionCreators( ButtonExpandActions , dispatch ),
       ...bindActionCreators( WriteContentActions , dispatch ),
       ...bindActionCreators( WriteKnowledgeActions , dispatch),
-      ...bindActionCreators( PortTestActions , dispatch)
+      ...bindActionCreators( PortTestActions , dispatch),
+      ...bindActionCreators( EditTextActions , dispatch ),
+      ...bindActionCreators( ViewFinishedTextActions , dispatch )
     })
 
   )],

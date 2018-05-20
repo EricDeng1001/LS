@@ -23,3 +23,5 @@ export const __ASYNC_LOAD_RECOMMAND_ARTICLE = {
   resolved: "TuijianArticle/__ASYNC_LOAD_RECOMMAND_ARTICLE_RESOLVED",
   rejected: "TuijianArticle/__ASYNC_LOAD_RECOMMAND_ARTICLE_REJECTED"
 };
+
+export const __SET_ARTICLE_NAME = "SetArticleName/__SET_ARTICLE_NAME";
