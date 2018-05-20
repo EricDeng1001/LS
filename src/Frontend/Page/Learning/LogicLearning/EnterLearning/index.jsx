@@ -32,20 +32,21 @@ class EnterLearning extends React.PureComponent {
   }
 
   getLogicChapterName = ( num ) => {
-    var xingshi = "";
+    //var xingshi = "";
     this.type = num;
-    num == undefined ? xingshi == this.type : xingshi = num ;
+    //num == undefined ? xingshi == this.type : xingshi = num ;
     //if(num==1){this.props.recordXingshiOrLunzheng("形式逻辑")}
     //if(num==0) {this.props.recordXingshiOrLunzheng("论证逻辑")}
     //if (this.props.xingshiOrLunzheng == "形式逻辑") xingshi = 1;
     //else if (this.props.xingshiOrLunzheng == "论证逻辑") xingshi = 0;
     //else xingshi = num;
-    console.log(this.props.username,xingshi)
+    //console.log(this.props.username,xingshi)
+    console.log(this.props.username,num)
     this.props.getChapterName({
       url: "/api/logicGetChapterName",
       body: {
         username: this.props.username,
-        xingshi: xingshi
+        xingshi: num
       },
     })
   }
@@ -162,7 +163,7 @@ class EnterLearning extends React.PureComponent {
             learningType == "知识点精要" ? <Knowledge/> :
             learningType == "重点习题" ? <ZhongDian/> :
             learningType == "强化练习" ? <QiangHua/> :
-            learningType == "单元测试" ? <UnitTest/> : null
+            learningType == "单元测试" ? <UnitTest xingshiOrLunzheng = {this.type}/> : null
           }
 
         </div>

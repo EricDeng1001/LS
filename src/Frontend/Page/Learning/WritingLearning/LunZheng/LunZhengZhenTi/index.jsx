@@ -55,11 +55,18 @@ class LunZhengZhenTi extends React.PureComponent {
     this.loadZhentiContent()
   }
 
+  componentWillReceiveNextProps(NextPorts){
+    if(this.props.choice!==NextProps.choice){
+      //this.loadZhentiContent()
+    }
+  }
+
 
   render(){
     const{
       choice
     } = this.props;
+    //console.log(this.props.title.length === 0)
     return (
       <React.Fragment>
         <div className = {style.whoZhentiPart}>
@@ -67,9 +74,13 @@ class LunZhengZhenTi extends React.PureComponent {
           <div className={style.zhentiMingcheng}>{choice}</div>
           <WriteContent className={style.zhentiContent}  loader={this.loadWriteContents}/>
         </div>
-        <div className={style.option}>
-           <MultOptionQuestons/>
-        </div>
+        {
+          this.props.title.length === 0 ? null :
+          <div className={style.option}>
+             <MultOptionQuestons/>
+          </div>
+        }
+
         </div>
       </React.Fragment>
     )
@@ -105,6 +116,7 @@ export default applyHOCs([
       logined: state.UserManager.logined,
       username: state.UserManager.name,
       choice: state.ButtonExpand.choice,
+      title: state.WriteContent.title
     }),
     dispatch => ({
       ...bindActionCreators( WriteContentActions , dispatch ),

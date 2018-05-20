@@ -1,9 +1,13 @@
 const callPython = require("./callPython");
 
-const pythonFilename = "logic_test_new1.py";
+const pythonFilename = "offer_logic_moniceshi1.py";
 
 module.exports = ( req, res ) => {
-  const [ errCode, result ] = callPython( pythonFilename );
+  const { username } = req.body;
+  const [ errCode, result ] = callPython(
+    pythonFilename,
+    `${username}`
+  );
   if( errCode ){
     res.status(500).end();
   }

@@ -51,8 +51,17 @@ class SimulationTest extends React.PureComponent {
   }
 
   loadQuestions = ( ) => {
+    this.props.loadPortContent({
+      url: "/api/logicSimulationTest",
+      body: {
+        username: this.props.username
+      },
+    });
     this.props.loadQuestions({
       url: "/api/logicSimulationTest",
+      body: {
+        username: this.props.username
+      },
 
       parser: response => {
         var all = [];
@@ -174,43 +183,51 @@ class SimulationTest extends React.PureComponent {
           when={end==false}
           message="you need to do it again, are you sure to quit?"
         />
-
-        <div className = {style.moniceshi}> 模拟测试 </div>
-        {/* <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/> */}
-
-        <Loading
-          loading = {loadQuestionState.pending}
-          wasLoaded = {loadQuestionState.resolved}
-          lastFailed = {loadQuestionState.lastFailed}
-          reloader = {this.loadQuestions}
-          center
-        >
-        <SlideRL play={ined}>
+        {
+          content.flag === 1 ?
           <div>
-            {/* <h4 className = {style.dalei}> {content.chapter_name} </h4> */}
+            <div className = {style.moniceshi}> 模拟测试 </div>
+            {/* <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/> */}
 
-           <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
-           <strong align = "center"><div style = {{"color":"red"}}>点击确认提交，查看正确答案</div></strong>
-           <Button className = {style.submitButton} text = {"确认提交"} onClick = {this.submitQuestions}/>
-        </div>
-            {/* <div>
-            {questions.map((onequestion , key) =>
-              <div key = {key}>
-               {console.log(onequestion)}
-              <br/><h5 align = "center" style = {{"color":"blue"}}>{onequestion.type}</h5>
-              {/* <SingleQuestion key = {onequestion.questionId} {...onequestion} subject = "logic_test" onSetChoice={( cid ) => setChoice( onequestion.questionId , cid )}/> */}
+            <Loading
+              loading = {loadQuestionState.pending}
+              wasLoaded = {loadQuestionState.resolved}
+              lastFailed = {loadQuestionState.lastFailed}
+              reloader = {this.loadQuestions}
+              center
+            >
+            <SlideRL play={ined}>
+              <div>
+                {/* <h4 className = {style.dalei}> {content.chapter_name} </h4> */}
 
-              {/* <SingleQuestion {...onequestion} subject = "logic_test" onSetChoice={( cid ) => setChoice_( key ,onequestion.questionId, cid )}/> */}
-{/*
-              </div>
-            )
-          }
-          <strong align = "center"><div style = {{"color":"red"}}>点击确认提交，查看正确答案</div></strong>
-          <Button className = {style.submitButton} text = {"确认提交"} onClick = {this.submitQuestions}/>
-          </div> */}
+               <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
+               <strong align = "center"><div style = {{"color":"red"}}>点击确认提交，查看正确答案</div></strong>
+               <Button className = {style.submitButton} text = {"确认提交"} onClick = {this.submitQuestions}/>
+          </div>
+                {/* <div>
+                {questions.map((onequestion , key) =>
+                  <div key = {key}>
+                   {console.log(onequestion)}
+                  <br/><h5 align = "center" style = {{"color":"blue"}}>{onequestion.type}</h5>
+                  {/* <SingleQuestion key = {onequestion.questionId} {...onequestion} subject = "logic_test" onSetChoice={( cid ) => setChoice( onequestion.questionId , cid )}/> */}
 
-        </SlideRL>
-        </Loading>
+                  {/* <SingleQuestion {...onequestion} subject = "logic_test" onSetChoice={( cid ) => setChoice_( key ,onequestion.questionId, cid )}/> */}
+    {/*
+                  </div>
+                )
+              }
+              <strong align = "center"><div style = {{"color":"red"}}>点击确认提交，查看正确答案</div></strong>
+              <Button className = {style.submitButton} text = {"确认提交"} onClick = {this.submitQuestions}/>
+              </div> */}
+
+            </SlideRL>
+            </Loading>
+          </div>
+          :
+          <Info info = "您还没完成入口测试，请先完成入口测试!"/>
+
+        }
+
 
 
       </React.Fragment>

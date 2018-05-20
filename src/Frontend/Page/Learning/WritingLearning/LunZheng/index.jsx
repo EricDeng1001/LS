@@ -113,6 +113,7 @@ class LunZheng extends React.PureComponent {
       gongguDisplay: false,
       zhentiDisplay: !this.state.zhentiDisplay
     });
+    ///this.props.hideAllMulOptions();
     this.props.forceDisappearChoice();
     this.props.loadButtonContents({
       url: "/api/lunzhengZhenti"

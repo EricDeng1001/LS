@@ -17,7 +17,7 @@ class EditText extends React.PureComponent {
   }
 
   componentWillReceiveProps(NextProps){
-    console.log(this.props.lastSaveText , NextProps.lastSaveText)
+    //console.log(this.props.lastSaveText , NextProps.lastSaveText)
     if(this.props.lastSaveText!==NextProps.lastSaveText){
       var all_text = "";
       for (var onePara in NextProps.lastSaveText.content){

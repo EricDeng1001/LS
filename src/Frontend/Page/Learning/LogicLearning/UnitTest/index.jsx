@@ -165,6 +165,7 @@ class UnitTest extends React.PureComponent {
   }
 
   finishedChapter = (num) => {
+    console.log(this.props.xingshiOrLunzheng);
     this.setState({thisOrNext: true , unitTongjiShow: false});
     this.props.getRecordWhetherNext({
       url: "/api/logicFinishedChapter",
@@ -172,6 +173,13 @@ class UnitTest extends React.PureComponent {
         username: this.props.username,
         chapter_name: this.props.chapter_name,
         whetherEnterNextChapter: num
+      },
+    });
+    this.props.getChapterName({
+      url: "/api/logicGetChapterName",
+      body: {
+        username: this.props.username,
+        xingshi: this.props.xingshiOrLunzheng
       },
     })
   }

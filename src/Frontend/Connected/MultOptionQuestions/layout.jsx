@@ -67,12 +67,12 @@ class MultOptionQuestions extends React.PureComponent {
         xuanxiang.push(this.options[option.value])
       }
     }
-    console.log(xuanxiang)
+    //console.log(xuanxiang)
     var xuanxiang_jiaxing = [];
     for ( var i = 0 ; i < xuanxiang.length ; i++ ){
       xuanxiang_jiaxing += `${xuanxiang[i]}*`;
     }
-    console.log(xuanxiang_jiaxing)
+    //console.log(xuanxiang_jiaxing)
 
     this.props.submitQuestions({
       url: "/api/lunzhengRecordMultiOption",
@@ -130,6 +130,40 @@ class MultOptionQuestions extends React.PureComponent {
     });
   }
 
+   componentWillReceiveProps(NextProps){
+     //console.log(this.props.choice,NextProps.choice)
+     if(this.props.choice!==NextProps.choice){
+        this.setState({
+          lock: false,
+          exampleShow: false,
+          analysisShow: false,
+          answerShow: false,
+          uploadShow: false,
+          fileShow: false
+        });
+        var form1 = document.getElementById("form1");
+        var field1 = form1.elements["leftOptions"];
+        var option = null;
+        // var xuanxiang = [];
+        for(var i = 0 ; i < field1.length ; i++){
+          option = field1[i];
+          option.checked = false;
+          // if(option.checked){
+          //   xuanxiang.push(this.options[option.value])
+          // }
+        }
+        var form2 = document.getElementById("form2");
+        var field2 = form2.elements["rightOptions"];
+        for(var i = 0 ; i < field2.length ; i++){
+          option = field2[i];
+          option.checked = false;
+          // if(option.checked){
+          //   xuanxiang.push(this.options[option.value])
+          // }
+        }
+     }
+   }
+
 
 
 
@@ -141,7 +175,7 @@ class MultOptionQuestions extends React.PureComponent {
       article_analysis,
       tongji
     } = this.props;
-    console.log(this.props)
+    //console.log(this.props)
     //console.log(this.state.analysisShow)
     var TextStyle1 = [];
     var TextStyle2 = [];
@@ -174,7 +208,7 @@ class MultOptionQuestions extends React.PureComponent {
       <form id = "form1" className = {style.leftOption}>
         {this.left_options.map( (oneOption , key) =>
           <div key = {key}>
-            <input id = {key} className = {style.checkbox} name = "leftOptions" type="checkbox" readOnly = {this.state.lock ? 'readonly' : ''} value = {key}/>
+            <input id = {key} className = {style.checkbox} name = "leftOptions" type="checkbox" readOnly = {this.state.lock ? 'readonly' : ''} disabled = {this.state.lock ? "disabled" :null} value = {key}/>
             <label htmlFor = {key} className = {TextStyle1[key]}> {oneOption} </label><br/>
           </div>
         )}
@@ -184,7 +218,7 @@ class MultOptionQuestions extends React.PureComponent {
       <form id = "form2" className = {style.rightOption}>
       {this.right_options.map( (oneOption , key) =>
         <div key = {key}>
-          <input id = {key+7} className = {style.checkbox} name = "rightOptions" type="checkbox" readOnly = {this.state.lock ? 'readonly' : ''} value = {key+7}/>
+          <input id = {key+7} className = {style.checkbox} name = "rightOptions" type="checkbox" readOnly = {this.state.lock ? 'readonly' : ''} disabled = {this.state.lock ? "disabled" :null} value = {key+7}/>
           <label htmlFor = {key+7} className = {TextStyle2[key]}> {oneOption} </label><br/>
         </div>
       )}
@@ -297,7 +331,8 @@ export default connect(
     //tongji: state.ZhentiPerYearTongji.tongji
   }),
   dispatch =>({
-    // ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
+    //...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
+    ...bindActionCreators( actionCreators , dispatch ),
     ...bindActionCreators( ZhentiPerYearTongjiActions , dispatch),
     ...bindActionCreators( EditTextActions , dispatch ),
     ...bindActionCreators( ViewFinishedTextActions , dispatch )

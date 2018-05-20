@@ -16,9 +16,9 @@ import SlideUD from 'Animation/SlideUD';
 
 import UserManagerWindow from "Windows/UserManager";
 
-import {
-  view as EnglishLearningSummary
-} from 'Connected/EnglishLearningSummary';
+// import {
+//   view as EnglishLearningSummary
+// } from 'Connected/EnglishLearningSummary';
 import {
   view as SingleOptionQuestions,
   actions as SingleOptionQuestionsActions
@@ -52,6 +52,7 @@ class ZhongDian extends React.PureComponent {
   }
 
   loadQuestions = ( ) => {
+    console.log(this.props.username,this.props.chapter_name)
     this.props.loadPortContent({
       url: "/api/logicZhongdian",
       body: {
@@ -143,6 +144,7 @@ class ZhongDian extends React.PureComponent {
     //}
   }
 
+
  componentDidMount(){
    this.loadQuestions();
  }
@@ -194,7 +196,8 @@ class ZhongDian extends React.PureComponent {
             </SlideRL>
           </Loading>
         </div>
-      </div>:
+      </div>
+      :
       <Info info = "您还没有完成入口测试，请先完成入口测试！"/>
     }
 

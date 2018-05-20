@@ -44,7 +44,7 @@ class LogicTest extends React.PureComponent {
       enterTest: true,
       enterLearning: false,
       testAgain: false,
-      resetestend: false
+      //resetestend: false
     }
   }
 
@@ -177,7 +177,7 @@ class LogicTest extends React.PureComponent {
     return (
       <React.Fragment>
         <Prompt
-          when = {testend !== true}
+          when = {(this.state.enterTest && !whetherDidTest || this.state.testAgain && !testend) !== true}
           message = "you need to do it again, are you sure to quit?"
         />
 
@@ -206,7 +206,7 @@ class LogicTest extends React.PureComponent {
             />
           </div>
           :
-          this.state.enterTest && whetherDidTest || this.state.testAgain && testend ?
+          this.state.enterTest && whetherDidTest || this.state.enterTest && testend || this.state.testAgain && testend ?
           <div className = {style.tongji}>
             <LogicTestTongji/>
             <br/><br/><span style = {{"color":"blue"}}>&nbsp;&nbsp;&nbsp;&nbsp;请选择再次测试还是开始章节内容的学习：</span>
