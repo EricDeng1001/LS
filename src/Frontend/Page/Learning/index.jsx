@@ -28,8 +28,8 @@ class Learning extends React.PureComponent {
             <Route exact path={`${match.url}/english/yuedu`} component={YueDu} />
             <Route exact path={`${match.url}/english/chtoeng`} component={ChtoEng} />
             <Route exact path={`${match.url}/english/shengcinanju`} component={Shengcinanju} />
-            <Route exact path={`${match.url}/english/engreview`} component={Shengcinanju} />
-            <Route exact path={`${match.url}/english/engchart`} component={EngReview} />
+            <Route exact path={`${match.url}/english/engreview`} component={EngReview} />
+            <Route exact path={`${match.url}/english/engchart`} component={EngChart} />
             <Route exact path={`${match.url}/logic`} component={LogicLearning} />
             <Route exact path={`${match.url}/logic/knowledge`} component={Knowledge} />
             <Route exact path={`${match.url}/logic/zhongdian`} component={ZhongDian} />

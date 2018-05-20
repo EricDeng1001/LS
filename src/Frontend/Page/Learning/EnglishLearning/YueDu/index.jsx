@@ -221,6 +221,7 @@ class YueDu extends React.PureComponent {
     }
 
     // this.props.changeArticleId(this.props.getArticleId.artid);
+    console.log(this.props.articleId)
 
     return (
       <React.Fragment>

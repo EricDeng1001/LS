@@ -40,39 +40,14 @@ class UnitTest extends React.PureComponent {
   constructor( props ){
     super( props );
     this.state = {
-      // pieBasicInfo:[],
-      // data: [],
     }
   }
 
   componentDidMount(){
     this.function();
-    // this.loadAllWordRate();
-    // this.showPieBasic();
   }
 
-  // componentWillMount(){
-  //   this.showPieBasic();
-  //   this.loadAllWordRate();
-  // }
 
-  // componentWillReceiveProps(NextProps){
-  //   if(this.props.content != NextProps.content){
-  //     this.showPieBasic();
-  //     alert('pp');
-  //   }
-  // }
-
-// function = () => {
-//   this.props.loadPortContent({
-//     url: "/api/eng_getWordAndRecord",
-//     body: {
-//       username:  this.props.username,
-//       article_id: this.props.articleId,
-//       all_words: "{'hello','sunshine'}"
-//     }
-//   })
-// }
 
 // submitFile = () => {
 // const{
@@ -99,88 +74,12 @@ class UnitTest extends React.PureComponent {
 //   })
 // }
 
-// showPieBasic = () => {
-//   console.log(this.props.content);
-//   // const{
-//   //   content
-//   // }=this.props;
-//   this.setState(
-//     {
-//       pieBasicInfo: {
-//         chart: {
-//            plotBackgroundColor: null,
-//            plotBorderWidth: null,
-//            plotShadow: false
-//         },
-//         title: {
-//            text: '累计生词类型分析'
-//         },
-//         tooltip: {
-//            headerFormat: '{series.name}<br>',
-//            pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
-//         },
-//         plotOptions: {
-//            pie: {
-//                allowPointSelect: true,
-//                cursor: 'pointer',
-//                dataLabels: {
-//                    enabled: true,
-//                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-//                    style: {
-//                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-//                    }
-//                }
-//            }
-//         },
-//         series: [{
-//            type: 'pie',
-//            name: '生词类型占比',
-//            data: [
-//                ['中考',   45.0],
-//                ['高考',       26.8],
-//                {
-//                    name: '四级',
-//                    y: 12.8,
-//                    sliced: true,
-//                    selected: true
-//                },
-//                ['六级',    8.5],
-//                ['考研',     6.2],
-//                ['超纲',   0.7]
-//            ]
-//            // data: [
-//            //     ['中考',   this.props.content.zhongkao_rate],
-//            //     ['高考',       this.props.content.gaokao],
-//            //     {
-//            //         name: '四级',
-//            //         y: this.props.content.siji,
-//            //         sliced: true,
-//            //         selected: true
-//            //     },
-//            //     ['六级',    this.props.content.liuji],
-//            //     ['考研',     this.props.content.kaoyan],
-//            //     ['超纲',   this.props.content.chaogang]
-//            // ]
-//         }]
-//       }
-//     }
-//   )
-// }
-
-// function = () => {
-//   this.setState(
-//     {
-//       data:this.props.content.liuji
-//     }
-//   )
-// }
 
 function = () => {
   this.props.loadPortContent({
-    url: "/api/eng_getUserWord",
+    url: "/api/eng_getReviewList",
     body: {
       username:  this.props.username,
-      ariticleId: this.props.articleId,
     }
   })
 }
@@ -192,99 +91,30 @@ function = () => {
       // data
     } = this.props;
 
-    // var pieBasicInfo={};
-    // if(content != []){
-    //   pieBasicInfo= {
-    //           chart: {
-    //              plotBackgroundColor: null,
-    //              plotBorderWidth: null,
-    //              plotShadow: false
-    //           },
-    //           title: {
-    //              text: '累计生词类型分析'
-    //           },
-    //           tooltip: {
-    //              headerFormat: '{series.name}<br>',
-    //              pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
-    //           },
-    //           plotOptions: {
-    //              pie: {
-    //                  allowPointSelect: true,
-    //                  cursor: 'pointer',
-    //                  dataLabels: {
-    //                      enabled: true,
-    //                      format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-    //                      style: {
-    //                          color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-    //                      }
-    //                  }
-    //              }
-    //           },
-    //           series: [{
-    //              type: 'pie',
-    //              name: '生词类型占比',
-    //              // data: [
-    //              //     ['中考',   45.0],
-    //              //     ['高考',       26.8],
-    //              //     {
-    //              //         name: '四级',
-    //              //         y: 12.8,
-    //              //         sliced: true,
-    //              //         selected: true
-    //              //     },
-    //              //     ['六级',    8.5],
-    //              //     ['考研',     6.2],
-    //              //     ['超纲',   0.7]
-    //              // ]
-    //              data: [
-    //                  ['中考',   content.zhongkao_rate],
-    //                  ['高考',   content.gaokao],
-    //                  {
-    //                      name: '四级',
-    //                      y: content.siji,
-    //                      sliced: true,
-    //                      selected: true
-    //                  },
-    //                  ['六级',    content.liuji],
-    //                  ['考研',    content.kaoyan],
-    //                  ['超纲',    content.chaogang]
-    //              ]
-    //           }]
-    //         };
-    // }
-
-    // const{
-    //   pieBasicInfo,
-    // }=this.state;
-
-    console.log(content)
+    console.log(content);
 
     return (
       <React.Fragment>
-        {/* <EditText/> */}
 
-        {
-            <div>
-                <div>
-                    {/* content[0] == undefined?null:<p>{content[0].chaogang}</p> */}
-                    {/* <p>{content.chaogang}</p> */}
-                     {/* {content[0] == undefined?null
-                     :
-                     content.map((wordRate, key)=>
-                     <div key = {key} >
-                       { wordRate.chaogang }
-                       <br/>
-                     </div>
-                     )
-                   } */}
-                   <p>content</p>
+        <div>
+          <div className={style.pageTitle}>本课生词：</div>
+          <br/>
 
-                </div>
+          {
+            content == undefined?null:
+            content.map((list, key)=>
+            <div key = {key} >
+              {/* { list.course }
+              <br/>
+              { list.articleid }
+              <br/>
+              { list.unit } */}
+              Unit{list.unit} Course{list.course}
+            </div>
+            )
+          }
 
-           </div>
-
-
-        }
+        </div>
 
       </React.Fragment>
     );
