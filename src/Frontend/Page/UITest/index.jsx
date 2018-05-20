@@ -13,7 +13,7 @@ import SlideLR from 'Animation/SlideLR';
 import SlideRL from 'Animation/SlideRL';
 import SlideDU from 'Animation/SlideDU';
 import SlideUD from 'Animation/SlideUD';
-import Highcharts from 'react-highcharts';
+//import Highcharts from 'react-highcharts';
 
 import {
   view as EnglishArticle,
@@ -306,14 +306,14 @@ series: [{
 
     return (
       <React.Fragment>
-<<<<<<< HEAD
+
         <EditText/>
         <Highcharts config={config}></Highcharts>
 
         {/* <WriteGraph/> */}
-=======
+
         {/* <EditText/> */}
->>>>>>> ee3cdfe26fba6a3ad7801664e89e8c6704613705
+
 
         {
             <div>

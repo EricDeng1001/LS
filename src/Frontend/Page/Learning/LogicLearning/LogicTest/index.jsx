@@ -49,7 +49,7 @@ class LogicTest extends React.PureComponent {
   }
 
   loadQuestions = () => {
-    this.props.loadQuestions({
+    this.props.loadTestQuestions({
       url: "/api/logicTest",
     })
   }
