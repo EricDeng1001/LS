@@ -34,6 +34,9 @@ import {
 import {
   actions as LearningTypeSelectActions
 } from 'Connected/LearningTypeSelect';
+import {
+  actions as LogicStateActions
+} from 'Connected/LogicState';
 
 import TextAndImag from 'UI/TextAndImag';
 import SingleQuestion from 'UI/SingleQuestion';
@@ -232,7 +235,7 @@ class UnitTest extends React.PureComponent {
                       <h4 className = {style.dalei}> {content.chapter_name} </h4>
                       <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
                       <strong align = "center"><div style = {{"color":"red"}}>请先确认提交，再查看章节数据统计，否则，统计数据将会是上次测试的统计结果</div></strong>
-                      <Button className = {style.submitButton} text = {"确认提交"} onClick = {this.submitQuestions}/>
+                      <Button className = {style.submitButton} text = {"确认提交"} onClick = {() => {this.props.setSubmitUnitTest(true);this.submitQuestions()}}/>
                       <Button className = {style.viewStatistics} text = {"查看本章数据统计"} onClick = {() => this.loadChapterError()}/>
                    </div>
                  </SlideRL>
@@ -242,7 +245,9 @@ class UnitTest extends React.PureComponent {
            :
            content.flag == 2 ? <Info info = "您还没有完成入口测试，请先完成入口测试！"/> :
            content.flag == 3 ? <Info info = "您还没有完成重点习题，请先完成重点习题！"/> :
+
            <Info info = "您还没有完成强化练习，请先完成强化练习！"/>
+
 
         }
 
@@ -305,7 +310,8 @@ export default applyHOCs([
       ...bindActionCreators( PortTestActions , dispatch ),
       ...bindActionCreators( ZhentiPerYearTongjiActions , dispatch ),
       ...bindActionCreators( ZhentiAllYearTongjiActions , dispatch ),
-      ...bindActionCreators( LearningTypeSelectActions , dispatch )
+      ...bindActionCreators( LearningTypeSelectActions , dispatch ),
+      ...bindActionCreators( LogicStateActions , dispatch )
     })
   )],
   UnitTest

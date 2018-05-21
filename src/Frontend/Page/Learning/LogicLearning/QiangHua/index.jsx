@@ -27,6 +27,9 @@ import {
 import {
   actions as LearningTypeSelectActions
 } from 'Connected/LearningTypeSelect';
+import {
+  actions as LogicStateActions
+} from 'Connected/LogicState';
 import ZhongDian from 'Page/Learning/LogicLearning/ZhongDian';
 import EnterLearning from 'Page/Learning/LogicLearning/EnterLearning';
 
@@ -185,7 +188,8 @@ class QiangHua extends React.PureComponent {
               <div>
                 <h4 className = {style.dalei}> {content.chapter_name} </h4>
                 <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
-                <Button className = {style.submitButton} text = {"确认提交"} onClick={this.submitQuestions}/>
+                <strong align = "center"><div style = {{"color":"red"}}>请先确认提交，再做单元测试</div></strong>
+                <Button className = {style.submitButton} text = {"确认提交"} onClick={() => {this.props.setSubmitQianghua(true);this.submitQuestions()}}/>
                 <Button className = {style.enterNextButton} text = {"进入单元测试"} onClick = {() => setLearningType("单元测试")}/>
               </div>
             </SlideRL>
@@ -263,7 +267,8 @@ export default applyHOCs([
     dispatch => ({
       ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
       ...bindActionCreators( PortTestActions , dispatch ),
-      ...bindActionCreators( LearningTypeSelectActions , dispatch )
+      ...bindActionCreators( LearningTypeSelectActions , dispatch ),
+      ...bindActionCreators( LogicStateActions , dispatch )
     })
   )],
   QiangHua

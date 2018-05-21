@@ -17,7 +17,7 @@ class LogicTestChart extends React.PureComponent{
 
         {chartData == undefined ? null :
           <tr>
-            <th>错误率</th>
+            <th>正确率</th>
             {chartData.map((oneError , key) =>
               <th key = {key}> {oneError} </th>)
             }
@@ -25,7 +25,7 @@ class LogicTestChart extends React.PureComponent{
         }
 
       </table>
-    
+
     )
   }
 }

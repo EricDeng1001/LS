@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -22,7 +21,7 @@ class LogicTestTongji extends React.PureComponent {
       lunzheng,
       loader,
     } = this.props;
-    console.log(this.props);
+    //console.log(this.props);
     var all_type = ["逻辑语言" , "命题逻辑" , "词项逻辑" , "逻辑应用" , "演绎推理" , "归纳逻辑" ,
                     "假设" , "支持" , "削弱" , "评价" , "解释" , "推论" , "比较" , "描述" , "综合"];
 
@@ -42,7 +41,7 @@ class LogicTestTongji extends React.PureComponent {
         /><br/>
 
         <div style = {{"color":"blue"}} align = "center">根据您的测试情况，系统规划的学习路径如下:</div>
-        <div style = {{"color":"red"}} align = "center">系统规划的路径依据开始学习之前的测试数据,选择进入学习之后，路径不会再发生改变</div>
+        {/* <div style = {{"color":"red"}} align = "center">系统规划的路径依据开始学习之前的测试数据,选择进入学习之后，路径不会再发生改变</div> */}
         <br/><div style = {{"color":"orange"}}>形式逻辑</div>
           {xingshi.map((oneChapter , key) => <li className = {style.onetype} key = {key}>{oneChapter}&nbsp;&nbsp;&nbsp;&nbsp;</li>)}
         <br/><br/><div style = {{"color":"orange"}}>论证逻辑</div>
@@ -60,15 +59,7 @@ export default connect(
     this_rightRate: ownState.this_rightRate,
     mean_rightRate: ownState.mean_rightRate,
     xingshi: ownState.xingshi,
-    lunzheng: ownState.lunzheng,
-    //content: ownState.content,
-    //name2: ownState.name2,
-  //  name3: ownState.name3,
-    //title: ownState.title,
-    //title_article: ownState.title_article,
-    //name: ownState.name,
-    //example_article: ownState.example_article
-    //loadingData: ownState.loadingData,
+    lunzheng: ownState.lunzheng
   }),
   dispatch => bindActionCreators( actionCreators , dispatch )
 )( LogicTestTongji );

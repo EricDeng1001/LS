@@ -17,6 +17,7 @@ import { reducer as LogicReviewModel } from 'Connected/LogicReviewModel';
 import { reducer as LogicTestTongji } from 'Connected/LogicTestTongji';
 import { reducer as EditText } from 'Connected/EditText';
 import { reducer as ViewFinishedText } from 'Connected/ViewFinishedText';
+import { reducer as LogicState } from 'Connected/LogicState';
 //import { reducer as ... } from 'Connected/...';
 
 export default {
@@ -37,7 +38,8 @@ export default {
   LogicReviewModel: LogicReviewModel,
   LogicTestTongji: LogicTestTongji,
   EditText: EditText,
-  ViewFinishedText: ViewFinishedText
+  ViewFinishedText: ViewFinishedText,
+  LogicState: LogicState
 
   //others
 };

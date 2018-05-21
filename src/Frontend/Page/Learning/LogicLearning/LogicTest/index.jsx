@@ -167,13 +167,13 @@ class LogicTest extends React.PureComponent {
       username,
       whetherDidTest
     } = this.props;
-    //console.log(this.props)
+    console.log(this.props)
     //this.setState({enterTest: !whetherDidTest});
-    //console.log(this.state.enterTest);
-    //console.log(this.state.enterLearning)
-    //console.log(this.state.testAgain)
+    console.log(this.state.enterTest);
+    console.log(this.state.enterLearning)
+    console.log(this.state.testAgain)
     //console.log(this.state.resetestend)
-    console.log(testend)
+    //console.log(testend)
     return (
       <React.Fragment>
         <Prompt

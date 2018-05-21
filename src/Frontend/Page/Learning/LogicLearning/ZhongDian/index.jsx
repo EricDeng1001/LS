@@ -30,6 +30,9 @@ import {
 import {
   actions as LearningTypeSelectActions
 } from 'Connected/LearningTypeSelect';
+import {
+  actions as LogicStateActions
+} from 'Connected/LogicState';
 
 import TextAndImag from 'UI/TextAndImag';
 //import SingleQuestion from 'UI/SingleQuestion';
@@ -47,7 +50,8 @@ class ZhongDian extends React.PureComponent {
 
     this.questions = [];
     this.state = {
-      end: false
+      submit: false,
+      //end: false
     };
   }
 
@@ -149,9 +153,18 @@ class ZhongDian extends React.PureComponent {
    this.loadQuestions();
  }
 
+ // componentWillReceiveProps(NextProps){
+ //   console.log(this.state.submit == false)
+ //   console.log(this.props.choice !== NextProps.choice)
+ //   console.log(this.state.submit == false && this.props.choice !== NextProps.choice)
+ //   if(this.state.submit == false && this.props.choice !== NextProps.choice){
+ //     alert("您还没有提交答案，是否要退出当前学习?")
+ //   }
+ // }
+
 
   render(){
-    const { end } = this.state;
+    const { end , submit } = this.state;
     const {
       submitQuestionState,
       loadQuestionState,
@@ -163,13 +176,14 @@ class ZhongDian extends React.PureComponent {
       setChoice,
       setLearningType
     } = this.props;
-    console.log(this.props)
+    //console.log(this.props)
     //console.log(questions)
 
     return (
       <React.Fragment>
         <Prompt
-          when = {end==false}
+          //when = {end==false}
+          when = {submit == false}
           message = "you need to do it again, are you sure to quit?"
         />
         {content.flag == 1 ?
@@ -190,7 +204,8 @@ class ZhongDian extends React.PureComponent {
                 <h4 className = {style.dalei}> {content.chapter_name} </h4>
                 <p>{content.shuxu}</p>
                 <SingleOptionQuestions loader = {this.loadQuestions} subject = "logic_test"/>
-                <Button className = {style.submitButton} text = {"确认提交"} onClick={this.submitQuestions}/>
+                <strong align = "center"><div style = {{"color":"red"}}>请先确认提交，再做强化练习</div></strong>
+                <Button className = {style.submitButton} text = {"确认提交"} onClick={() => {this.props.setSubmitZhongdian(true);this.submitQuestions()}}/>
                 <Button className = {style.enterNextButton} text = {"进入强化练习"} onClick = {() => setLearningType("强化练习")}/>
               </div>
             </SlideRL>
@@ -249,12 +264,14 @@ export default applyHOCs([
       submitQuestionState: state.SingleOptionQuestions.submitState,
       content: state.PortTest.content,
       loadContentState: state.PortTest.loadState,
-      chapter_name: state.LearningTypeSelect.chapter_name
+      chapter_name: state.LearningTypeSelect.chapter_name,
+      choice: state.SubjectSelect.choice
     }),
     dispatch => ({
       ...bindActionCreators( SingleOptionQuestionsActions , dispatch ),
       ...bindActionCreators( PortTestActions , dispatch ),
-      ...bindActionCreators( LearningTypeSelectActions , dispatch )
+      ...bindActionCreators( LearningTypeSelectActions , dispatch ),
+      ...bindActionCreators( LogicStateActions , dispatch )
     })
   )],
   ZhongDian
