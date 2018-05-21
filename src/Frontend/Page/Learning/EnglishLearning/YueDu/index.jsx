@@ -104,13 +104,13 @@ class YueDu extends React.PureComponent {
     this.nextStep();
   }
 
-  quit = () => {
-    for( var i = 0; i < questions.length ; i++ ){
-      unlockAndHide( questions[i].questionId );
-    }
-    hideAllTranslate();
-    this.props.history.goBack();
-  }
+  // quit = () => {
+  //   for( var i = 0; i < questions.length ; i++ ){
+  //     unlockAndHide( questions[i].questionId );
+  //   }
+  //   hideAllTranslate();
+  //   this.props.history.goBack();
+  // }
 
 //  doMore = () => {
   //  const { unlockAndHide , loadContent , questions , hideAllTranslate } = this.props;
@@ -126,7 +126,25 @@ class YueDu extends React.PureComponent {
   //  });
 //  }
 
+quit = () => {
+  const { unlockAndHide  , questions , hideAllTranslate } = this.props;
+  for( var i = 0; i < questions.length ; i++ ){
+      unlockAndHide( questions[i].questionId );
+    }
+    hideAllTranslate();
+  this.props.setLearningType("英语主页面");
+}
+
    doMore = () => {
+      const { unlockAndHide  , questions , hideAllTranslate } = this.props;
+       for( var i = 0; i < questions.length ; i++ ){
+         unlockAndHide( questions[i].questionId );
+        }
+       hideAllTranslate();
+      this.setState({
+       processStep: 0, // 0 ->
+       displayByWords: true
+      });
      this.props.setLearningType("英语生词难句");
    }
 

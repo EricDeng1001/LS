@@ -76,7 +76,8 @@ loadChtoEng = () => {
               <div className={style.pageTitle}> 汉译英 </div>
               <br/>
               {
-                content[0] == undefined?null:
+                // content[0] == undefined?null:
+                content.length==0?null:
                 content.map((chtoeng, key)=>
                 <div key = {key} className={style.chtoengall}>
                   { chtoeng.chinese }
