@@ -13,11 +13,11 @@ class UserManager extends React.PureComponent {
     login: true
   }
 
-  //componentWillReceiveProps( nextProps ){
-    //if( nextProps.logined && !this.props.logined ){
-      //this.props.onSuccess();
-    //}
-  //}
+  componentWillReceiveProps( nextProps ){
+    if( nextProps.logined && !this.props.logined ){
+      this.props.onSuccess();
+    }
+  }
 
   signup = () => {
     this.setState({

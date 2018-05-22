@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Prompt } from 'react-router';
 import style from 'style';
 
+import { actions as UserManagerActions } from 'Connected/UserManager';
 import Login from 'Page/Login';
 import { view as PageDesign } from 'Connected/PageDesign';
 import { actions as SubjectSelectActions } from 'Connected/SubjectSelect';
@@ -29,30 +30,13 @@ class LogicLearning extends React.PureComponent {
   }
 
   componentWillReceiveProps(NextProps){
-    // console.log(this.props.choice)
-    // console.log(NextProps.choice)
-     // if( this.props.choice !== NextProps.choice ){
-    //   console.log(this.props.learningType)
-    //   console.log(this.props.submitZhongdian == false)
-    //   console.log(this.props.learningType === "重点习题" && this.props.submitZhongdian == false)
-    console.log(this.props.choice !== NextProps.choice && this.props.learningType === "重点习题" && this.props.submitZhongdian == false ||
-    this.props.choice !== NextProps.choice && this.props.learningType === "强化练习" && this.props.submitQianghua == false ||
-    this.props.choice !== NextProps.choice && this.props.learningType === "单元测试" && this.props.submitUnitTest == false )
+    // console.log(this.props.choice !== NextProps.choice && this.props.learningType === "重点习题" && this.props.submitZhongdian == false ||
+    // this.props.choice !== NextProps.choice && this.props.learningType === "强化练习" && this.props.submitQianghua == false ||
+    // this.props.choice !== NextProps.choice && this.props.learningType === "单元测试" && this.props.submitUnitTest == false )
       if(this.props.choice !== NextProps.choice && this.props.learningType === "重点习题" && this.props.submitZhongdian == false ||
       this.props.choice !== NextProps.choice && this.props.learningType === "强化练习" && this.props.submitQianghua == false ||
       this.props.choice !== NextProps.choice && this.props.learningType === "单元测试" && this.props.submitUnitTest == false )
       {
-
-        // <Prompt
-        //   // when={end==false}
-        //   message="you need to do it again, are you sure to quit?"
-        // />
-        // if (confirm("你确定提交吗？")) {
-        //     alert("点击了确定");
-        // }
-        // else {
-        //     alert("点击了取消");
-        // }
         //  if(window.confirm("您还没有提交答案，是否要退出当前学习?")) {this.props.setLearningType("")}
         // // else{}
         //  // else{NextProps.choice=this.props.choice}
@@ -73,9 +57,20 @@ class LogicLearning extends React.PureComponent {
       learningType
     } = this.props;
     //console.log(this.props);
+    console.log(sessionStorage.getItem("user"))
+    console.log(sessionStorage.getItem("user") == "")
+    console.log(sessionStorage.getItem("user") == "undefined")
+    var user = sessionStorage.getItem("user");
+    if(sessionStorage.getItem("user") == "undefined" || sessionStorage.getItem("user") == "" ){
+      <Login/>
+    }
+    else{
+      this.props.setUser(user)
+    }
     return (
       <React.Fragment>
-      { logined == false ?  <Login/> :
+        {/* {sessionStorage.getItem("user") == "undefined"?  <Login/> : */}
+       { logined !== true ?  <Login/> :
         <div>
           <PageDesign subjectFunctions = {this.type}/>
 
@@ -136,6 +131,7 @@ export default applyHOCs([
     }),
     dispatch => ({
       //...bindActionCreators( ButtonExpandActions , dispatch),
+      ...bindActionCreators( UserManagerActions , dispatch ),
       ...bindActionCreators( SubjectSelectActions , dispatch ),
       ...bindActionCreators( LearningTypeSelectActions , dispatch )
     })

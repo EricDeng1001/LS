@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { Prompt } from 'react-router';
 import style from 'style';
 
+import Login from 'Page/Login';
+import { actions as UserManagerActions } from 'Connected/UserManager';
 import WriteHelp from 'UI/Help/WriteHelp';
 import { view as PageDesign } from 'Connected/PageDesign';
 
@@ -22,12 +24,35 @@ class WritingPage extends React.PureComponent {
   render(){
     const {
       username,
+      logined,
       choice
     } = this.props;
+    console.log(this.props);
+    console.log(sessionStorage.getItem("user"))
+    console.log(sessionStorage.getItem("user") == "")
+    console.log(sessionStorage.getItem("user") == "undefined")
+    var user = sessionStorage.getItem("user");
+    if(sessionStorage.getItem("user") == "undefined" || sessionStorage.getItem("user") == "" ){
+      <Login/>
+    }
+    else{
+      this.props.setUser(user)
+    }
+    // var user = sessionStorage.getItem("user");
+    // if(sessionStorage.getItem("user") == "undefined" || sessionStorage.getItem("user") == "" ){
+    // // if(sessionStorage.getItem("user") == "" ){
+    //   <Login/>
+    // }
+    // else{
+    //   this.props.setUser(user)
+    // }
 
     return (
       <React.Fragment>
         <div className = {style.wholePage}>
+          {logined !== true ?  <Login/> :
+          // {sessionStorage.getItem("user") == "undefined" ?  <Login/> :
+          <div>
 
           <PageDesign subjectFunctions = {this.type}/>
 
@@ -42,6 +67,7 @@ class WritingPage extends React.PureComponent {
             <WriteHelp/>
           }
           </div>
+        </div>}
 
         </div>
       </React.Fragment>
@@ -52,27 +78,27 @@ class WritingPage extends React.PureComponent {
 export default applyHOCs([
   asyncProcessControl({
   }),
-  protect({
-    logined: {
-      satisfy: l => l === true,
-      block(){
-        const { openWindow , history, closeMask , openMask } = this.props;
-        openWindow( UserManagerWindow,
-          {
-            width: '380px',
-            height: '300px',
-            position: {
-              top: 'calc( 50% - 190px)',
-              left: 'calc( 50% - 150px)'
-            },
-            onCancel: () => history.goBack() || closeMask(),
-            onSuccess: closeMask,
-          }
-        );
-        openMask();
-      }
-    }
-  }),
+  // protect({
+  //   logined: {
+  //     satisfy: l => l === true,
+  //     block(){
+  //       const { openWindow , history, closeMask , openMask } = this.props;
+  //       openWindow( UserManagerWindow,
+  //         {
+  //           width: '380px',
+  //           height: '300px',
+  //           position: {
+  //             top: 'calc( 50% - 190px)',
+  //             left: 'calc( 50% - 150px)'
+  //           },
+  //           onCancel: () => history.goBack() || closeMask(),
+  //           onSuccess: closeMask,
+  //         }
+  //       );
+  //       openMask();
+  //     }
+  //   }
+  // }),
   makePage,
   connect(
     state => ({
@@ -81,6 +107,7 @@ export default applyHOCs([
       choice: state.SubjectSelect.choice,
     }),
     dispatch => ({
+      ...bindActionCreators( UserManagerActions , dispatch )
       //...bindActionCreators( ButtonExpandActions , dispatch),
     })
   )],

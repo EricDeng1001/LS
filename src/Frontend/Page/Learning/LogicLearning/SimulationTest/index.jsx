@@ -247,27 +247,27 @@ export default applyHOCs([
     },
 
   }),
-  protect({
-    logined: {
-      satisfy: l => l === true,
-      block(){
-        const { openWindow , history, closeMask , openMask } = this.props;
-        openWindow( UserManagerWindow,
-          {
-            width: '380px',
-            height: '300px',
-            position: {
-              top: 'calc( 50% - 190px)',
-              left: 'calc( 50% - 150px)'
-            },
-            onCancel: () => history.goBack() || closeMask(),
-            onSuccess: closeMask,
-          }
-        );
-        openMask();
-      }
-    }
-  }),
+  // protect({
+  //   logined: {
+  //     satisfy: l => l === true,
+  //     block(){
+  //       const { openWindow , history, closeMask , openMask } = this.props;
+  //       openWindow( UserManagerWindow,
+  //         {
+  //           width: '380px',
+  //           height: '300px',
+  //           position: {
+  //             top: 'calc( 50% - 190px)',
+  //             left: 'calc( 50% - 150px)'
+  //           },
+  //           onCancel: () => history.goBack() || closeMask(),
+  //           onSuccess: closeMask,
+  //         }
+  //       );
+  //       openMask();
+  //     }
+  //   }
+  // }),
   makePage,
   connect(
     state => ({

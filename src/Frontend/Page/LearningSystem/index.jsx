@@ -2,12 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import style from 'style';
 
-import {
-  view as UserManager
-} from 'Connected/UserManager';
-import  {
-  view as SubjectSelect
-} from 'Connected/SubjectSelect';
+import {view as UserManager} from 'Connected/UserManager';
+import  {view as SubjectSelect} from 'Connected/SubjectSelect';
 
 import protect from 'direct-core/protect';
 import asyncProcessControl from 'direct-core/asyncProcessControl';
@@ -38,12 +34,11 @@ class IndexPage extends React.PureComponent {
 
   sign = () => {
     this.setState({ signupShow: true , loginShow: false })
-    console.log(this.state.signupShow)
-    console.log(this.state.loginShow)
-  //  const { logined } = this.props;
-    //if( logined ){ alert("您已经登录!") ; this.setState({loginShow: false , signupShow: false}) }
-    //else { this.setState({ loginShow: false , signupShow: true}) }
   }
+
+  // componentWillMount(){
+  //   sessionStorage.setItem("user","");
+  // }
 
   render(){
     const {
@@ -51,14 +46,15 @@ class IndexPage extends React.PureComponent {
       choice,
       username
      } = this.props;
+     console.log(this.props);
 
     if(logined){this.setState({loginShow: false})}
-     //if(logined) { //var customerId = username.attr.customerInfo.id;
-       //sessionStorage.customerId = customerId;
-       //console.log(username)
-       //sessionStorage.setItem("user",username);  //保存 用户名
-       //this.setState({loginShow: false , signupShow: false}) }
-       //else {sessionStorage.setItem("user",undefined);}
+    if(logined) {
+      console.log(username)
+      sessionStorage.setItem("user",username);  //保存 用户名
+      this.setState({loginShow: false , signupShow: false})
+    }
+    //else {sessionStorage.setItem("user",undefined);}
 
     return (
       <React.Fragment>
@@ -80,7 +76,7 @@ class IndexPage extends React.PureComponent {
             <div className = {style.title}>{this.introduction[choice]}</div><br/>
             <div className = {style.brifIntroduction}>{this.useIntroduction[choice]}</div><br/>
             {choice == 0 ? <a href = "/learning/english"> 开始英语学习 </a> :
-            choice == 1 ? <a href = "/learning/logic"> 开始逻辑学习 </a> :
+             choice == 1 ? <a href = "/learning/logic"> 开始逻辑学习 </a> :
              choice == 2 ? <a href = "/learning/writing"> 开始写作学习 </a> :
              choice == 3 ? <a href = "/learning/math"> 开始数学学习 </a> : null
             }
@@ -89,7 +85,7 @@ class IndexPage extends React.PureComponent {
           {this.state.loginShow ?
           <div className = {style.login}>
             <UserManager loginOrSignup = "login"
-                         onSuccess = { () => this.setState({ loginShow: false})}
+                         onSuccess = { () => {this.setState({ loginShow: false}) ; alert("登录成功!")}}
                          signup = { () => this.setState({ signupShow: true , loginShow: false })}
                          onCancel = { () => this.setState({ loginShow: false , signupShow: false })}
             />

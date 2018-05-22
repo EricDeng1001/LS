@@ -59,8 +59,9 @@ class EnglishLearning extends React.PureComponent {
 
           <div className = {style.mainContent}>
             {choice == 0 ?
-              newTo[0] == 1 ?
-              <LogicTest/> : <Info info = {"您已经完成测试!"} /> :
+              // newTo[0] == 1 ?
+              <LogicTest/> :
+              // <Info info = {"您已经完成测试!"} /> :
              choice == 1 ? <EngLearningTypeSelect/> :
              choice == 2 ? <EngReview/> :
              choice == 3 ? <EngChart/>:
