@@ -43,8 +43,7 @@ class LogicTest extends React.PureComponent {
     this.state = {
       enterTest: true,
       enterLearning: false,
-      testAgain: false,
-      //resetestend: false
+      testAgain: false
     }
   }
 
@@ -149,9 +148,8 @@ class LogicTest extends React.PureComponent {
   componentWillReceiveProps( NextProps ){
     // if(this.props.testend !== NextProps.testend){
     if(this.props.testend == false && NextProps.testend == true){
-      alert("Submit")
+      //alert("Submit")
       this.submitQuestions();
-      //this.setState({resetestend: true})
     }
   }
 
@@ -187,7 +185,7 @@ class LogicTest extends React.PureComponent {
          {
            this.state.enterTest && whetherDidTest || this.state.enterTest && testend || this.state.testAgain && testend ?
            <div className = {style.tongji}>
-             <LogicTestTongji/>
+             <LogicTestTongji loadTestResult = {() => this.loadTestResult()}/>
              <br/><br/><span style = {{"color":"blue"}}>&nbsp;&nbsp;&nbsp;&nbsp;请选择再次测试还是开始章节内容的学习：</span>
              <span><Button text = "再测一次" onClick = {() => {this.setState({enterTest: false , enterLearning: false , testAgain: true});this.props.forceEnd();this.loadQuestions()}}/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
              <Button text = "开始学习" onClick = {() => {this.setState({enterTest: false , enterLearning: true , testAgain: false })}}/></span>

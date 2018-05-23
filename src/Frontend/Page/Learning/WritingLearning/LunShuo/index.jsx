@@ -61,9 +61,7 @@ class LunShuo extends React.PureComponent {
       zhentiDisplay: false,
       gongguShow: false,
       zhentiShow: false,
-      ///contentDisplay: false,
       titleContentDisplay: false,
-      //optionContentDisplay: false,
       acknowledgeDisplay: false,
       gongguEgArticle: false,
       userUploadText: false,
@@ -203,8 +201,6 @@ class LunShuo extends React.PureComponent {
       zhaocuoDisplay: false,
       gongguShow: false,
       zhentiShow: false,
-      //titleContentDisplay: false ,
-      //optionContentDisplay: false,
       acknowledgeDisplay: true
     });
     if ( this.jiqiao == 0 ) {
@@ -295,7 +291,6 @@ class LunShuo extends React.PureComponent {
       body: {
         username: this.props.username,
         choice: this.props.choice,
-        //text: this.usertext,
         text: this.props.userInputText,
         saveOrSubmit: flag  // flag=0 暂存  , flag=1 提交
       }
@@ -315,7 +310,6 @@ class LunShuo extends React.PureComponent {
 
   render(){
     const {
-      //processStep,
       jiqiaoDisplay,
       zhaocuoDisplay,
       gongguDisplay,
@@ -323,7 +317,6 @@ class LunShuo extends React.PureComponent {
       zhentiShow,
       gongguShow,
       titleContentDisplay,
-      //optionContentDisplay,
       acknowledgeDisplay,
       gongguEgArticle
      } = this.state;
@@ -337,7 +330,6 @@ class LunShuo extends React.PureComponent {
       example_article,
       example_comment,
       example_liyi,
-      //right_liyi,
       showContent
     } = this.props;
     // console.log(example_liyi.right_liyi)
@@ -365,8 +357,8 @@ class LunShuo extends React.PureComponent {
 
           <div className={style.leftPane}>
             <Button className={style.button1} text={"写作技巧精讲"} onClick={this.jiqiao_type} /><br/>
-            <Button className={style.button2} text={"巩固强化练习"} onClick={this.loadButtonContents_gonggu}/><br/>
-            <Button className={style.button3} text={"近年真题演练"} onClick={this.loadButtonContents_zhenti} />
+            <Button className={style.button2} text={"巩固强化练习"} onClick={()=>{this.loadButtonContents_gonggu();this.setState({gongguEgArticle: false,userGongguFile: false,userUploadText: false})}}/><br/>
+            <Button className={style.button3} text={"近年真题演练"} onClick={()=>{this.loadButtonContents_zhenti();this.setState({zhentiEgarticle: false,zhentiEgComment:false, userFileEdit:false , userFileDisplay: false})}} />
           </div>
 
           <div className={style.rightPane}>

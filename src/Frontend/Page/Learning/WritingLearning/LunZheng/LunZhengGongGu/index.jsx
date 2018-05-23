@@ -22,11 +22,6 @@ import {
   view as ViewFinishedText,
   actions as ViewFinishedTextActions
 } from 'Connected/ViewFinishedText';
-///import FinishedText from 'UI/FinishedText';
-// import {
-//   view as PortTest,
-//   actions as PortTestActions
-// } from 'Connected/PortTest';
 
 import protect from 'direct-core/protect';
 import asyncProcessControl from 'direct-core/asyncProcessControl';
@@ -71,7 +66,6 @@ class LunZhengGongGu extends React.PureComponent {
       body: {
         username: this.props.username,
         choice: this.props.choice,
-        //text: this.usertext,
         text: this.props.userInputText,
         saveOrSubmit: flag  // flag=0 暂存  , flag=1 提交
       }
@@ -86,6 +80,16 @@ class LunZhengGongGu extends React.PureComponent {
         choice: this.props.choice
       }
     });
+  }
+
+  componentWillReceiveProps(NextProps){
+    if(this.props.choice !== NextProps.choice){
+      this.setState({
+        uploadText: false,
+        viewText: false,
+        viewEgArticle: false
+      })
+    }
   }
 
   render(){
@@ -187,7 +191,6 @@ export default applyHOCs([
       ...bindActionCreators( WriteContentActions , dispatch ),
       ...bindActionCreators( EditTextActions , dispatch ),
       ...bindActionCreators( ViewFinishedTextActions , dispatch )
-      //...bindActionCreators( PortTestActions , dispatch )
     })
 
   )],

@@ -10,6 +10,9 @@ import LogicTestChart from 'UI/LogicTestChart';
 import style from 'style';
 
 class LogicTestTongji extends React.PureComponent {
+  componentWillMount(){
+    this.props.loadTestResult()
+  }
 
   render(){
     const {
@@ -20,6 +23,7 @@ class LogicTestTongji extends React.PureComponent {
       xingshi,
       lunzheng,
       loader,
+      loadTestResult
     } = this.props;
     //console.log(this.props);
     var all_type = ["逻辑语言" , "命题逻辑" , "词项逻辑" , "逻辑应用" , "演绎推理" , "归纳逻辑" ,
