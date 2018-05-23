@@ -32,6 +32,12 @@ import {
 class EngReview extends React.PureComponent {
   constructor( props ){
     super( props );
+    this.state = {
+      showButton:-1,
+      showReviewList: true,
+      showWordAndSentence: false,
+      showArticle: false,
+    };
   }
 
   componentDidMount(){
@@ -47,32 +53,93 @@ class EngReview extends React.PureComponent {
     })
   }
 
+  changeButtonId = (showButton, key) => {
+    if(showButton==-1) return key;
+    else return -1;
+  }
+
   render(){
 
     const {
       content,
     } = this.props;
 
-    console.log(content);
+    const{
+      showButton,
+      showReviewList,
+      showWordAndSentence,
+      showArticle,
+    } = this.state;
+
+    // console.log(content);
 
     return(
       <React.Fragment>
         <div>
-
-          <div className={style.pageTitle}>复习</div>
-          <br/>
-
           {
-            content == undefined?null:
-            content.map((list, key)=>
-            <div key = {key} >
-              <li>
-              Unit{list.unit} Course{list.course}
-              </li>
+            showReviewList == true ?
+            <div>
+
+              <div className={style.pageTitle}>复习</div>
               <br/>
+
+              {
+                content == undefined?null:
+                content.map((list, key)=>
+                <div key = {key} >
+                  <li
+                    // style = {list == choice ? {"color":"blue"} : null}
+                      onClick = {() => {this.setState({showButton: this.changeButtonId(showButton,key)})}}
+                    >
+                    Unit{list.unit} Course{list.course}
+                  </li>
+                  {
+                    showButton != key ? null :
+                    <div>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <Button text="查看重点词汇、长难句"
+                        onClick = {() => {this.setState({showReviewList: false , showWordAndSentence: true, showArticle: false})}} />
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <Button text="查看阅读文章"
+                      onClick = {() => {this.setState({showReviewList: false , showWordAndSentence: false, showArticle: true})}} />
+                    </div>
+                  }
+                  <br/>
+                </div>
+                )
+              }
+
             </div>
-            )
+
+            :
+            showWordAndSentence == true ?
+            <div>
+              <p>重点词汇、长难句</p>
+              <Button text="返回列表页面"
+              onClick = {() =>  {this.setState({showReviewList: true , showWordAndSentence: false, showArticle: false})}} />
+            </div>
+
+            :
+            showArticle == true ?
+            <div>
+              <p>英语文章</p>
+              <Button text="返回列表页面"
+              onClick = {() =>  {this.setState({showReviewList: true , showWordAndSentence: false, showArticle: false})}} />
+            </div>
+
+            :
+            null
+
+
+
+
+
+
+
+
+
           }
+
         </div>
 
       </React.Fragment>

@@ -32,6 +32,9 @@ import {
 class UITest extends React.PureComponent {
   constructor( props ){
     super( props );
+    this.state = {
+      showButton:-1,
+    };
   }
 
   componentDidMount(){
@@ -47,13 +50,22 @@ class UITest extends React.PureComponent {
     })
   }
 
+  changeButtonId = (showButton, key) => {
+    if(showButton==-1) return key;
+    else return -1;
+  }
+
   render(){
 
     const {
       content,
     } = this.props;
 
-    console.log(content);
+    const{
+      showButton,
+    } = this.state;
+
+    // console.log(content);
 
     return(
       <React.Fragment>
@@ -68,10 +80,19 @@ class UITest extends React.PureComponent {
             <div key = {key} >
               <li
                 // style = {list == choice ? {"color":"blue"} : null}
-                // onClick = {() => {this.setState({reviewContent: true , tongjiShow: false});setChapter(oneChapter)}}
+                  onClick = {() => {this.setState({showButton: this.changeButtonId(showButton,key)})}}
                 >
                 Unit{list.unit} Course{list.course}
               </li>
+              {
+                showButton != key ? null :
+                <div>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <Button text="查看重点词汇、长难句" />
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <Button text="查看阅读文章" />
+                </div>
+              }
               <br/>
             </div>
             )

@@ -19,7 +19,10 @@ import makePage from 'direct-core/makePage';
 import applyHOCs from 'direct-core/applyHOCs';
 
 //import UserManagerWindow from "Windows/UserManager";
-//import { view as UserManager } from 'Connected/UserManager';
+import {
+  // view as UserManager,
+  actions as UserManagerActions
+} from 'Connected/UserManager';
 import Login from 'Page/Login';
 import  {
   view as SubjectSelect
@@ -40,9 +43,24 @@ class EnglishLearning extends React.PureComponent {
       choice
     } = this.props;
     //console.log(this.props);
+
+    var user = sessionStorage.getItem("user");
+    if(sessionStorage.getItem("user") == "undefined" || sessionStorage.getItem("user") == "" ){
+      <Login/>
+    }
+    else{
+      this.props.setUser(user,true);
+      sessionStorage.setItem("user",user);
+    }
+
     return (
       <React.Fragment>
-      { logined == false ?  <Login/> :
+      {
+        logined !== true ?
+          <div>
+            <Info info = "您还没有登录，请先登录，再进行学习!"/>
+            {/* <Login/> */}
+          </div> :          
 
         <div className = {style.wholePage}>
 
@@ -111,6 +129,7 @@ export default applyHOCs([
     }),
     dispatch => ({
       //...bindActionCreators( ButtonExpandActions , dispatch),
+      ...bindActionCreators( UserManagerActions , dispatch ),
     })
   )],
   EnglishLearning
