@@ -3,10 +3,11 @@ import {
   __SET_USER
 } from 'actionTypes';
 
-export const setUser = ( username ) => ({
+export const setUser = ( username , logined ) => ({
   type: __SET_USER,
   payload: {
-    username
+    username,
+    logined
   }
 });
 

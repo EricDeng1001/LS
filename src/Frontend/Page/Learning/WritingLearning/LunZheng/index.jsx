@@ -23,6 +23,7 @@ import {
 } from 'Connected/ZhentiAllYearTongji';
 import { actions as LearningTypeSelectActions } from 'Connected/LearningTypeSelect';
 import { actions as PortTestActions } from 'Connected/PortTest';
+import { actions as UserManagerActions } from 'Connected/UserManager';
 
 import LunZhengZhenTi from 'Page/Learning/WritingLearning/LunZheng/LunZhengZhenTi';
 import LunZhengGongGu from 'Page/Learning/WritingLearning/LunZheng/LunZhengGonggu';
@@ -208,6 +209,15 @@ class LunZheng extends React.PureComponent {
       setLearningType
     } = this.props;
     //console.log(this.props)
+    var user = sessionStorage.getItem("user");
+    if(sessionStorage.getItem("user") == "undefined" || sessionStorage.getItem("user") == "" || sessionStorage.getItem("user") == null){
+      <Login/>
+    }
+    else{
+      this.props.setUser(user , true);
+      sessionStorage.setItem("user",user);
+      console.log(sessionStorage.getItem("user"))
+    }
 
     return (
       <React.Fragment>
@@ -336,6 +346,7 @@ export default applyHOCs([
       learningType: state.LearningTypeSelect.learningType,
     }),
     dispatch => ({
+      ...bindActionCreators( UserManagerActions , dispatch ),
       ...bindActionCreators( ButtonExpandActions , dispatch ),
       ...bindActionCreators( WriteContentActions , dispatch ),
       ...bindActionCreators( WriteKnowledgeActions , dispatch ),

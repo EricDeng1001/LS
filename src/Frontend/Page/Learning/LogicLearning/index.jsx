@@ -57,15 +57,16 @@ class LogicLearning extends React.PureComponent {
       learningType
     } = this.props;
     //console.log(this.props);
-    console.log(sessionStorage.getItem("user"))
-    console.log(sessionStorage.getItem("user") == "")
-    console.log(sessionStorage.getItem("user") == "undefined")
+    // console.log(sessionStorage.getItem("user"))
+    // console.log(sessionStorage.getItem("user") == "")
+    // console.log(sessionStorage.getItem("user") == "undefined")
     var user = sessionStorage.getItem("user");
     if(sessionStorage.getItem("user") == "undefined" || sessionStorage.getItem("user") == "" ){
       <Login/>
     }
     else{
-      this.props.setUser(user)
+      this.props.setUser(user,true);
+      sessionStorage.setItem("user",user);
     }
     return (
       <React.Fragment>

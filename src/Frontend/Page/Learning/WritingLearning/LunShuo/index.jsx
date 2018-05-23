@@ -13,7 +13,7 @@ import SlideDU from 'Animation/SlideDU';
 import SlideUD from 'Animation/SlideUD';
 
 import UserManagerWindow from "Windows/UserManager";
-
+import { actions as UserManagerActions } from 'Connected/UserManager';
 import {
   view as ButtonExpand,
   actions as ButtonExpandActions
@@ -340,7 +340,17 @@ class LunShuo extends React.PureComponent {
       //right_liyi,
       showContent
     } = this.props;
-    console.log(example_liyi.right_liyi)
+    // console.log(example_liyi.right_liyi)
+
+    var user = sessionStorage.getItem("user");
+    if(sessionStorage.getItem("user") == "undefined" || sessionStorage.getItem("user") == "" || sessionStorage.getItem("user") == null){
+      <Login/>
+    }
+    else{
+      this.props.setUser(user , true);
+      sessionStorage.setItem("user",user);
+      console.log(sessionStorage.getItem("user"))
+    }
 
 
     return (
@@ -610,6 +620,7 @@ export default applyHOCs([
       whichTextToView: state.EditText.whichTextToView
     }),
     dispatch => ({
+      ...bindActionCreators( UserManagerActions , dispatch ),
       ...bindActionCreators( ButtonExpandActions , dispatch ),
       ...bindActionCreators( WriteContentActions , dispatch ),
       ...bindActionCreators( WriteKnowledgeActions , dispatch),

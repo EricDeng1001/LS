@@ -27,7 +27,7 @@ class Login extends React.PureComponent {
 
   render(){
     const {username,logined} = this.props;
-    console.log(this.props);
+    //console.log(this.props);
     if(logined) {
       console.log(username)
       sessionStorage.setItem("user",username);  //保存 用户名
@@ -51,7 +51,7 @@ class Login extends React.PureComponent {
           {this.state.login_Show ?
           <div className = {style.login}>
             <UserManager loginOrSignup = "login"
-                         onSuccess = { () => {this.setState({ login_Show: false});alert("登录成功!");sessionStorage.setItem("user",username)}}
+                         onSuccess = { () => {this.setState({ login_Show: false});sessionStorage.setItem("user",username);alert("登录成功!")}}
                          signup = { () => this.setState({ signup_Show: true , login_Show: false })}
                          onCancel = { () => history.back()}
             />

@@ -20,11 +20,12 @@ export default ( state = {
   const { content } = state;
   switch( type ){
     case __SET_USER:{
-      let {username} = payload.username;
+      let {username,logined} = payload;
+      console.log(username,logined)
       return{
         ...state,
-        name: payload.username,
-        logined: true
+        name: username,
+        logined: logined
       }
     }
 
