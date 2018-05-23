@@ -71,7 +71,11 @@ class LogicLearning extends React.PureComponent {
     return (
       <React.Fragment>
         {/* {sessionStorage.getItem("user") == "undefined"?  <Login/> : */}
-       { logined !== true ?  <Login/> :
+       { logined !== true ?
+         <div>
+           <Info info = "您还没有登录，请先登录，再进行学习!"/>
+           {/* <Login/> */}
+         </div> :
         <div>
           <PageDesign subjectFunctions = {this.type}/>
 

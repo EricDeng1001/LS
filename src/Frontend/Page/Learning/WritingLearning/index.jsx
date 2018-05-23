@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Prompt } from 'react-router';
 import style from 'style';
 
+import Info from 'UI/Info';
 import Login from 'Page/Login';
 import { actions as UserManagerActions } from 'Connected/UserManager';
 import WriteHelp from 'UI/Help/WriteHelp';
@@ -52,7 +53,11 @@ class WritingPage extends React.PureComponent {
     return (
       <React.Fragment>
         <div className = {style.wholePage}>
-          {logined !== true ?  <Login/> :
+          {logined !== true ?
+            <div>
+              <Info info = "您还没有登录，请先登录，再进行学习!"/>
+              {/* <Login/> */}
+            </div> :
           // {sessionStorage.getItem("user") == "undefined" ?  <Login/> :
           <div>
 

@@ -106,7 +106,7 @@ class UnitTest extends React.PureComponent {
       submiting,
       lockAndShow
     } = this.props;
-    console.log(questions)
+    //console.log(questions)
     var submitTime = submitQuestionState.resolved;
     if( submiting ){
       return;
@@ -131,7 +131,7 @@ class UnitTest extends React.PureComponent {
 
     }
 
-    console.log(username,content.chapter_name,question_id,RightOrWrong)
+    //console.log(username,content.chapter_name,question_id,RightOrWrong)
     this.props.submitQuestions({
       url: "/api/logicCeShiTongJi",
       body: {

@@ -111,7 +111,7 @@ class IndexPage extends React.PureComponent {
           {this.state.loginShow ?
           <div className = {style.login}>
             <UserManager loginOrSignup = "login"
-                         onSuccess = { () => {this.setState({ loginShow: false}) ; alert("登录成功!")}}
+                         onSuccess = { () => {alert("登录成功!");this.setState({ loginShow: false})}}
                          signup = { () => this.setState({ signupShow: true , loginShow: false })}
                          onCancel = { () => this.setState({ loginShow: false , signupShow: false })}
             />

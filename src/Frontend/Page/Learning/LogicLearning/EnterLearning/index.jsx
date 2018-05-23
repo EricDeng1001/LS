@@ -42,6 +42,7 @@ class EnterLearning extends React.PureComponent {
     //else xingshi = num;
     //console.log(this.props.username,xingshi)
     console.log(this.props.username,num)
+    if(num !== undefined){
     this.props.getChapterName({
       url: "/api/logicGetChapterName",
       body: {
@@ -49,6 +50,7 @@ class EnterLearning extends React.PureComponent {
         xingshi: num
       },
     })
+  }
   }
 
   TypeSelectNote = () =>{
@@ -76,9 +78,6 @@ class EnterLearning extends React.PureComponent {
   componentDidMount(){
     this.getLogicChapterName();
   }
-  //componentWillMount(){
-    //this.getLogicChapterName();
-  //}
 
 
   render(){

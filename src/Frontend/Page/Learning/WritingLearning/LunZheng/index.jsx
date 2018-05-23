@@ -24,6 +24,7 @@ import {
 import { actions as LearningTypeSelectActions } from 'Connected/LearningTypeSelect';
 import { actions as PortTestActions } from 'Connected/PortTest';
 import { actions as UserManagerActions } from 'Connected/UserManager';
+import Login from 'Page/Login';
 
 import LunZhengZhenTi from 'Page/Learning/WritingLearning/LunZheng/LunZhengZhenTi';
 import LunZhengGongGu from 'Page/Learning/WritingLearning/LunZheng/LunZhengGonggu';
