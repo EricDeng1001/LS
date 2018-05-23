@@ -138,6 +138,7 @@ export const translateWords = () => ( dispatch , getState ) => {
       dispatchLastest( translateWordsRejected( "network" , err ) );
   });
 }
+
 let translateSentenceCounter = 0;
 export const translateSentence = () => ({
     type: __TRANSLATE_SENTENCES,

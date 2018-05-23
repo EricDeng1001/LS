@@ -12,10 +12,7 @@ import Info from 'UI/Info';
 //   view as EnglishArticle,
 //   actions as EnglishArticleActions
 // } from 'Connected/EnglishArticle';
-import {
-  // view as PortTest,
-  actions as PortTestActions
-} from 'Connected/PortTest';
+import { actions as PortTestActions } from 'Connected/PortTest';
 
 class EnglishArticleSummary extends React.PureComponent {
 

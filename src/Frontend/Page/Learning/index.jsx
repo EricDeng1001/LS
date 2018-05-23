@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import asyncLoad from 'direct-core/asyncLoad';
 
 const EnglishLearning = asyncLoad( () => import( 'EnglishLearning' ) );
+const EngTest = asyncLoad( () => import( 'EnglishLearning/EngTest' ) );
 const YueDu = asyncLoad( () => import( 'EnglishLearning/YueDu' ) );
 const ChtoEng = asyncLoad( () => import( 'EnglishLearning/ChtoEng' ) );
 const Shengcinanju = asyncLoad( () => import( 'EnglishLearning/Shengcinanju' ) );
@@ -25,6 +26,7 @@ class Learning extends React.PureComponent {
         <React.Fragment>
           <Switch>
             <Route exact path={`${match.url}/english`} component={EnglishLearning} />
+            <Route exact path={`${match.url}/english/engtest`} component={EngTest} />
             <Route exact path={`${match.url}/english/yuedu`} component={YueDu} />
             <Route exact path={`${match.url}/english/chtoeng`} component={ChtoEng} />
             <Route exact path={`${match.url}/english/shengcinanju`} component={Shengcinanju} />

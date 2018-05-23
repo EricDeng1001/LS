@@ -3,7 +3,7 @@ const callPython = require("./callPython");
 const pythonFilename = "review_hard_sentence.py";
 
 module.exports = ( req, res ) => {
-  const { username , ariticleId  } = req.body;
+  const { username , articleId  } = req.body;
   const [ errCode, result ] = callPython(
     pythonFilename,
     `${username} ${ariticleId}`

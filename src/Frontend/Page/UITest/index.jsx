@@ -34,39 +34,37 @@ class UITest extends React.PureComponent {
 
   constructor( props ){
     super( props );
-    this.state = {
-      getArticleId: false,
-    }
-  }
-
-  componentDidMount(){
-    // this.loadArticleId();
-    // this.loadShengCi();
-    this.loadNanJu();
   }
 
   componentWillMount(){
     this.loadArticleId();
   }
 
-  loadShengCi = () => {
+  componentWillReceiveProps(nextProps){
+    if(nextProps.articleId2 != undefined && nextProps.articleId2 != this.props.articleId2){
+      this.loadShengCi(nextProps.articleId2);
+      this.loadNanJu(nextProps.articleId2);
+    }
+  }
+
+  loadShengCi = ( articleId ) => {
     this.props.loadPortContent({
       url: "/api/eng_getUserWord",
       body: {
         username:  this.props.username,
-        ariticleId: 18,
-        // articleId: this.props.articleId2,
+        // ariticleId: 24,
+        articleId: articleId,
       }
     })
   }
 
-  loadNanJu = () => {
+  loadNanJu = ( articleId ) => {
     this.props.loadPortContent3({
-      url: "/api/eng_engToCh",
+      url: "/api/eng_getUserSentence",
       body: {
         username:  this.props.username,
-        articleId: 18,
-        // articleId: this.props.articleId2,
+        // articleId: 24,
+        articleId: articleId,
       }
     });
   }
@@ -78,7 +76,6 @@ class UITest extends React.PureComponent {
         username:  this.props.username,
       }
     });
-    this.setState({ getArticleId: true });
   }
 
   render(){
@@ -90,19 +87,13 @@ class UITest extends React.PureComponent {
       nanju,
     } = this.props;
 
-    console.log(articleId2);
+    // console.log(articleId2);
 
     return (
       <React.Fragment>
         <div>
           <div className={style.pageTitle}>本课生词：</div>
           <br/>
-          <div>
-            {
-              articleId2==undefined?null:
-              <Button text="test" onClick = {() => {this.loadShengCi()}} />
-            }
-          </div>
           <div className={style.chtoengall}>
             {
               shengci[0] == undefined?null:
@@ -128,9 +119,9 @@ class UITest extends React.PureComponent {
             nanju == undefined?null:
             nanju.map((sentence, key)=>
             <div key = {key} >
-              { sentence.english }
+              { sentence.sentence }
               <br/>
-              { sentence.chinese }
+              { sentence.translate }
             </div>
             )
           }

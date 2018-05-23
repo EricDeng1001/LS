@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Prompt } from 'react-router';
 import style from 'style';
 
-import LogicTest from 'Page/Learning/LogicLearning/LogicTest';
+import EngTest from 'Page/Learning/EnglishLearning/EngTest';
 import EngLearningTypeSelect from 'Page/Learning/EnglishLearning/EngLearningTypeSelect';
 import EngReview from 'Page/Learning/EnglishLearning/EngReview';
 import EngChart from 'Page/Learning/EnglishLearning/EngChart';
@@ -60,7 +60,7 @@ class EnglishLearning extends React.PureComponent {
           <div className = {style.mainContent}>
             {choice == 0 ?
               // newTo[0] == 1 ?
-              <LogicTest/> :
+              <EngTest/> :
               // <Info info = {"您已经完成测试!"} /> :
              choice == 1 ? <EngLearningTypeSelect/> :
              choice == 2 ? <EngReview/> :
