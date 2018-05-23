@@ -65,9 +65,12 @@ class EngReview extends React.PureComponent {
           {
             content == undefined?null:
             content.map((list, key)=>
-            <div key = {key} ><li>
+            <div key = {key} >
+              <li>
               Unit{list.unit} Course{list.course}
-            </li></div>
+              </li>
+              <br/>
+            </div>
             )
           }
         </div>

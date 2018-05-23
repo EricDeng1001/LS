@@ -5,14 +5,17 @@ import { Prompt } from 'react-router';
 import style from 'style';
 
 import Button from 'UI/Button';
-// import WriteGraph from 'UI/WriteGraph';
-// import Highcharts from 'react-highcharts';
 
 import Loading from 'Animation/Loading';
 import SlideLR from 'Animation/SlideLR';
 import SlideRL from 'Animation/SlideRL';
 import SlideDU from 'Animation/SlideDU';
 import SlideUD from 'Animation/SlideUD';
+
+import {
+  view as EnglishArticle,
+  actions as EnglishArticleActions
+} from 'Connected/EnglishArticle';
 
 import UserManagerWindow from "Windows/UserManager";
 
@@ -22,119 +25,70 @@ import makePage from 'direct-core/makePage';
 import applyHOCs from 'direct-core/applyHOCs';
 
 import {
-  view as EnglishArticle,
-  actions as EnglishArticleActions
-} from 'Connected/EnglishArticle';
-import {
   view as PortTest,
   actions as PortTestActions
 } from 'Connected/PortTest';
 
 class UITest extends React.PureComponent {
-
   constructor( props ){
     super( props );
   }
 
-  componentWillMount(){
-    this.loadArticleId();
+  componentDidMount(){
+    this.loadReviewList();
   }
 
-  componentWillReceiveProps(nextProps){
-    if(nextProps.articleId2 != undefined && nextProps.articleId2 != this.props.articleId2){
-      this.loadShengCi(nextProps.articleId2);
-      this.loadNanJu(nextProps.articleId2);
-    }
-  }
-
-  loadShengCi = ( articleId ) => {
+  loadReviewList = () => {
     this.props.loadPortContent({
-      url: "/api/eng_getUserWord",
+      url: "/api/eng_getReviewList",
       body: {
         username:  this.props.username,
-        // ariticleId: 24,
-        articleId: articleId,
       }
     })
-  }
-
-  loadNanJu = ( articleId ) => {
-    this.props.loadPortContent3({
-      url: "/api/eng_getUserSentence",
-      body: {
-        username:  this.props.username,
-        // articleId: 24,
-        articleId: articleId,
-      }
-    });
-  }
-
-  loadArticleId = () => {
-    this.props.loadPortContent2({
-      url: "/api/eng_getArticleId",
-      body: {
-        username:  this.props.username,
-      }
-    });
   }
 
   render(){
 
     const {
-      articleId,
-      articleId2,
-      shengci,
-      nanju,
+      content,
     } = this.props;
 
-    // console.log(articleId2);
+    console.log(content);
 
-    return (
+    return(
       <React.Fragment>
         <div>
-          <div className={style.pageTitle}>本课生词：</div>
-          <br/>
-          <div className={style.chtoengall}>
-            {
-              shengci[0] == undefined?null:
-              shengci.map((word, key)=>
-              <div key = {key} >
-                { word.word_l }
-                <br/>
-                { word.translate }
-              </div>
-              )
-            }
-          </div>
 
+          <div className={style.pageTitle}>复习</div>
           <br/>
 
-
-
-          <br/>
-          <div className={style.pageTitle}>本课难句：</div>
-          <br/>
-          <div className={style.chtoengall}>
           {
-            nanju == undefined?null:
-            nanju.map((sentence, key)=>
+            content == undefined?null:
+            content.map((list, key)=>
             <div key = {key} >
-              { sentence.sentence }
+              <li
+                // style = {list == choice ? {"color":"blue"} : null}
+                // onClick = {() => {this.setState({reviewContent: true , tongjiShow: false});setChapter(oneChapter)}}
+                >
+                Unit{list.unit} Course{list.course}
+              </li>
               <br/>
-              { sentence.translate }
             </div>
             )
           }
         </div>
-          <br/>
-
-        </div>
 
       </React.Fragment>
-    );
+    )
   }
-};
 
+
+
+
+}
+
+
+// export default EngReview
 export default applyHOCs([
   asyncProcessControl({
   }),
@@ -144,9 +98,7 @@ export default applyHOCs([
       logined: state.UserManager.logined,
       username: state.UserManager.name,
       articleId: state.EnglishArticle.articleId,
-      shengci: state.PortTest.content,
-      nanju: state.PortTest.content3,
-      articleId2: state.PortTest.content2.pre_artid,
+      content: state.PortTest.content,
     }),
     dispatch => ({
       ...bindActionCreators( EnglishArticleActions , dispatch ),
