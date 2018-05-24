@@ -37,6 +37,7 @@ class EngReview extends React.PureComponent {
       showReviewList: true,
       showWordAndSentence: false,
       showArticle: false,
+      courseSelect: -1,
     };
   }
 
@@ -89,6 +90,7 @@ class EngReview extends React.PureComponent {
       showReviewList,
       showWordAndSentence,
       showArticle,
+      courseSelect,
     } = this.state;
 
     console.log(hardsentence);
@@ -108,14 +110,14 @@ class EngReview extends React.PureComponent {
                 reviewlist.map((list, key)=>
                 <div key = {key} className={style.wordandsentence} >
                   <li
-                    // style = {list == choice ? {"color":"blue"} : null}
-                      onClick = {() => {this.setState({showButton: this.changeButtonId(showButton,key)})}}
+                    style = {courseSelect == key ? {"color":"orange"} : {"color":"blue"}}
+                      onClick = {() => {this.setState({showButton: this.changeButtonId(showButton,key),courseSelect:this.changeButtonId(courseSelect,key)})}}
                     >
-                    Unit{list.unit} Course{list.course}
+                    <u>Unit{list.unit} Course{list.course}</u>
                   </li>
                   {
                     showButton != key ? null :
-                    <div>
+                    <div className={style.buttons}>
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <Button text="查看核心词汇、重点句"
                         onClick = {() => {this.setState({showReviewList: false , showWordAndSentence: true, showArticle: false});

@@ -5,6 +5,12 @@ import { bindActionCreators } from 'redux';
 
 import Button from 'UI/Button';
 
+import Loading from 'Animation/Loading';
+import SlideLR from 'Animation/SlideLR';
+import SlideRL from 'Animation/SlideRL';
+import SlideDU from 'Animation/SlideDU';
+import SlideUD from 'Animation/SlideUD';
+
 import {
   view as LearningTypeSelect,
   actions as LearningTypeSelectActions
